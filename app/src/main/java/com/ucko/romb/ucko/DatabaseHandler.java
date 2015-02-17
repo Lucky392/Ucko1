@@ -15,6 +15,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "Ucko";
 
+    private static final String PODESAVANJA = "podesavanja";
 	private static final String KARTICE = "kartice";
 	private static final String PITANJA = "pitanja";
 	private static final String LEKCIJE = "lekcije";
@@ -28,6 +29,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String NETACNI_ODGOVORI = "netacni_odgovori";
 	private static final String LEKCIJA = "lekcija";
 
+    private static final String ZVUK_RADOVANJA = "zvuk_radovanja";
+    private static final String BOJA_POZADINE = "boja_pozadine";
+    private static final String BOJA_DUGMETA = "boja_dugmeta";
+    private static final String BOJA_SLOVA = "boja_slova";
+    private static final String PISMO = "pismo";
+
 	private static final String NAZIV_LEKCIJE = "naziv_lekcije";
 
 	private int tabelaKojaSeOtvara;
@@ -40,6 +47,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		this.tabelaKojaSeOtvara = tabelaKojaSeOtvara;
 	}
+
+    private void napraviTabeluPodesavanja(SQLiteDatabase db) {
+        String CREATE_TABLE = "CREATE TABLE " + PODESAVANJA + "(" + KEY_ID
+                + " INTEGER PRIMARY KEY AUTOINCREMENT," + ZVUK_RADOVANJA
+                + " TEXT," + BOJA_POZADINE + " TEXT," + BOJA_DUGMETA
+                + " TEXT," + BOJA_SLOVA + " TEXT," + PISMO + " TEXT)";
+        db.execSQL(CREATE_TABLE);
+    }
 
 	private void napraviTabeluKartica(SQLiteDatabase db) {
 		String CREATE_TABLE = "CREATE TABLE " + KARTICE + "(" + KEY_ID
@@ -69,18 +84,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		napraviTabeluLekcija(db);
 		napraviTabeluPitanja(db);
 		napraviTabeluKartica(db);
+        napraviTabeluPodesavanja(db);
 	}
 
-	private void azurirajTabeluKartica(SQLiteDatabase db) {
-		db.execSQL("DROP TABLE IF EXISTS " + KARTICE);
-	}
+    private void azurirajTabeluPodesavanja(SQLiteDatabase db) {
+            db.execSQL("DROP TABLE IF EXISTS " + KARTICE);
+        }
 
-	private void azurirajTabeluPitanja(SQLiteDatabase db) {
-		db.execSQL("DROP TABLE IF EXISTS " + PITANJA);
-	}
+    private void azurirajTabeluKartica(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS " + KARTICE);
+    }
 
-	private void azurirajTabeluLekcija(SQLiteDatabase db) {
-		db.execSQL("DROP TABLE IF EXISTS " + LEKCIJE);
+    private void azurirajTabeluPitanja(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS " + PITANJA);
+    }
+
+    private void azurirajTabeluLekcija(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS " + LEKCIJE);
 	}
 
 	@Override
@@ -88,8 +108,43 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		azurirajTabeluLekcija(db);
 		azurirajTabeluPitanja(db);
 		azurirajTabeluKartica(db);
+        azurirajTabeluPodesavanja(db);
 		onCreate(db);
 	}
+
+    public String[] vratiPodesavanja() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(PODESAVANJA, new String[] { KEY_ID, ZVUK_RADOVANJA, BOJA_POZADINE,
+                        BOJA_DUGMETA, BOJA_SLOVA, PISMO }, KEY_ID + "=?", new String[] { String.valueOf(1) },
+                null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        else
+            return null;
+        String [] s = new String []{cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)};
+        db.close();
+        cursor.close();
+        return s;
+    }
+
+    public void azurirajPodesavanja(String s1, String s2, String s3, String s4, String s5) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String [] s = vratiPodesavanja();
+        ContentValues values = new ContentValues();
+        values.put(ZVUK_RADOVANJA, s1);
+        values.put(BOJA_POZADINE, s2);
+        values.put(BOJA_DUGMETA, s3);
+        values.put(BOJA_SLOVA, s4);
+        values.put(PISMO, s5);
+        if (s == null){
+            db.insert(PODESAVANJA, null, values);
+        } else {
+            db.update(PODESAVANJA, values, KEY_ID + " = ?",
+                    new String[] { String.valueOf(1) });
+        }
+        db.close();
+    }
 
 	public void dodajKarticu(Kartica k) {
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -114,6 +169,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 		Kartica k = new Kartica(cursor.getInt(0), cursor.getString(1),
 				cursor.getString(2), cursor.getString(3));
+        db.close();
+        cursor.close();
 		return k;
 	}
 
@@ -132,6 +189,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				listaKartica.add(k);
 			} while (cursor.moveToNext());
 		}
+        db.close();
+        cursor.close();
 		return listaKartica;
 	}
 
@@ -142,9 +201,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put(NASLOV, k.getNaslov());
 		values.put(SLIKA, k.getSlika());
 		values.put(ZVUK, k.getZvuk());
-
-		return db.update(KARTICE, values, KEY_ID + " = ?",
-				new String[] { String.valueOf(k.getId()) });
+        int a = db.update(KARTICE, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(k.getId()) });
+        db.close();
+		return a;
 	}
 
 	public void obrisiKarticu(Kartica k) {
@@ -178,6 +238,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 		Lekcija k = new Lekcija(cursor.getInt(0), cursor.getString(1),
 				cursor.getString(2), cursor.getInt(3), cursor.getInt(4));
+        cursor.close();
+        db.close();
 		return k;
 	}
 
@@ -196,6 +258,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				listaLekcija.add(k);
 			} while (cursor.moveToNext());
 		}
+        db.close();
+        cursor.close();
 		return listaLekcija;
 	}
 
@@ -207,8 +271,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put(ZVUK, k.getZvuk());
 		values.put(TACAN_ODGOVOR, k.getTacanOdgovor());
 		values.put(NETACNI_ODGOVORI, k.toString());
-		return db.update(PITANJA, values, KEY_ID + " = ?",
-				new String[] { String.valueOf(k.getId()) });
+        int a = db.update(PITANJA, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(k.getId()) });
+        db.close();
+		return a;
 	}
 
 	public void obrisiLekciju(Lekcija k) {
@@ -240,6 +306,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 		SkupLekcija sk = new SkupLekcija(cursor.getInt(0), cursor.getString(1),
 				cursor.getString(2));
+        db.close();
+        cursor.close();
 		return sk;
 	}
 
@@ -258,6 +326,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				skupLekcija.add(k);
 			} while (cursor.moveToNext());
 		}
+        db.close();
+        cursor.close();
 		return skupLekcija;
 	}
 
@@ -267,8 +337,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put(NAZIV_LEKCIJE, k.getNaziv());
 		values.put(LEKCIJA, k.toString());
-		return db.update(LEKCIJE, values, KEY_ID + " = ?",
-				new String[] { String.valueOf(k.getId()) });
+        int a = db.update(LEKCIJE, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(k.getId()) });
+        db.close();
+		return a;
 	}
 
 	public void obrisiSkupLekcija(SkupLekcija k) {
