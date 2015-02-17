@@ -21,6 +21,7 @@ public class Pocetna extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pocetna);
+        //nemoj
 
         radiLekcije = (Button) findViewById(R.id.btnRadiLekcije);
         upravljanjeSadrzajem = (Button) findViewById(R.id.btnUpravljanjeSadrzajem);
