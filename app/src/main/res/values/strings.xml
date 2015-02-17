@@ -38,4 +38,39 @@
     <string name="boja_teksta">Promeni boju teksta</string>
     <string name="promena_slova">Promeni slova</string>
 
+    <string name="c_app_name">Учко</string>
+    <string name="c_title_activity_uredjivanje">Уређивање</string>
+    <string name="c_title_activity_napravi_novo">Направи ново</string>
+    <string name="c_title_activity_radi_lekciju">Ради Лекцију</string>
+    <string name="c_title_activity_izmena">Иѕмена</string>
+    <string name="c_title_activity_opcije">Подешавања</string>
+    <string name="c_radi_lekcije">Ради лекције</string>
+    <string name="c_upravljanje_sadrzajem">Upravljanje sadržajem</string>
+    <string name="c_opcije">Podešavanja</string>
+    <string name="c_izlaz">Izlaz</string>
+    <string name="c_uredi_lekciju">Uredi lekciju</string>
+    <string name="c_uredi_pitanje">Uredi pitanje</string>
+    <string name="c_uredi_karticu">Uredi karticu</string>
+    <string name="c_napravi_lekciju">Napravi lekciju</string>
+    <string name="c_napravi_pitanje">Napravi pitanje</string>
+    <string name="c_napravi_karticu">Napravi karticu</string>
+    <string name="c_title_activity_izlistavanje">Izlistavanje</string>
+    <string name="c_title_activity_upravljanje_lekcijama">Upravljanje lekcijama</string>
+    <string name="c_title_activity_upravljanje_pitanjima">Upravljanje pitanjima</string>
+    <string name="c_title_activity_upravljanje_karticama">Upravljanje karticama</string>
+    <string name="c_naslov_kartice">Naslov: </string>
+    <string name="c_snimi">Snimaj</string>
+    <string name="c_preslusaj">Slušaj</string>
+    <string name="c_zvuk">Zvuk: </string>
+    <string name="c_slika">Odaberite sliku</string>
+    <string name="c_pregled">Pogledaj</string>
+    <string name="c_izaberi">Izaberi</string>
+    <string name="c_sacuvaj_lekciju">Sačuvaj</string>
+    <string name="c_title_activity_podesavanja">Podešavanja</string>
+    <string name="c_zvuk_radovanja">Promeni zvuk radovanja</string>
+    <string name="c_boja_pozadina">Promeni boju pozadine</string>
+    <string name="c_boja_dugmeta">Promeni boju dugmeta</string>
+    <string name="c_boja_teksta">Promeni boju teksta</string>
+    <string name="c_promena_slova">Promeni slova</string>
+
 </resources>
