@@ -37,15 +37,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	private static final String NAZIV_LEKCIJE = "naziv_lekcije";
 
-	private int tabelaKojaSeOtvara;
-
-	public int getTabelaKojaSeOtvara() {
-		return tabelaKojaSeOtvara;
-	}
-
-	public DatabaseHandler(Context context, int tabelaKojaSeOtvara) {
+	public DatabaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		this.tabelaKojaSeOtvara = tabelaKojaSeOtvara;
 	}
 
     private void napraviTabeluPodesavanja(SQLiteDatabase db) {
@@ -120,9 +113,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
-        else
-            return null;
-        String [] s = new String []{cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)};
+        String[] s = null;
+        try {
+            s = new String[]{cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)};
+        } catch(Exception e){
+        }
         db.close();
         cursor.close();
         return s;
