@@ -4,6 +4,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class Podesavanja extends ActionBarActivity {
@@ -12,6 +14,48 @@ public class Podesavanja extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_podesavanja);
+
+        Button zvukRadovanja = (Button) findViewById(R.id.btnZvukRadovanja);
+        Button promeniSlova = (Button) findViewById(R.id.btnSlova);
+        Button bojaPozadine = (Button) findViewById(R.id.btnBojaPozadine);
+        Button bojaDugmeta = (Button) findViewById(R.id.btnBojaDugmeta);
+        Button bojaTeksta = (Button) findViewById(R.id.btnBojaTeksta);
+
+        zvukRadovanja.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        promeniSlova.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        bojaDugmeta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        bojaPozadine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        bojaTeksta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
 
