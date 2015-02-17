@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Ucko</string>
+    <string name="app_name">Učko</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_uredjivanje">Uredjivanje</string>
@@ -31,6 +31,11 @@
     <string name="pregled">Pogledaj</string>
     <string name="izaberi">Izaberi</string>
     <string name="sacuvaj_lekciju">Sačuvaj</string>
-    <string name="title_activity_podesavanja">Podesavanja</string>
+    <string name="title_activity_podesavanja">Podešavanja</string>
+    <string name="zvuk_radovanja">Promeni zvuk radovanja</string>
+    <string name="boja_pozadina">Promeni boju pozadine</string>
+    <string name="boja_dugmeta">Promeni boju dugmeta</string>
+    <string name="boja_teksta">Promeni boju teksta</string>
+    <string name="promena_slova">Promeni slova</string>
 
 </resources>
