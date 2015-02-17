@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Ucko</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_uredjivanje">Uredjivanje</string>
+    <string name="title_activity_napravi_novo">Napravi novo</string>
+    <string name="title_activity_radi_lekciju">Radi lekciju</string>
+    <string name="title_activity_izmena">Izmena</string>
+    <string name="title_activity_opcije">Opcije</string>
+    <string name="radi_lekcije">Radi lekcije</string>
+    <string name="upravljanje_sadrzajem">Upravljanje sadržajem</string>
+    <string name="opcije">Podešavanja</string>
+    <string name="izlaz">Izlaz</string>
+    <string name="uredi_lekciju">Uredi lekciju</string>
+    <string name="uredi_pitanje">Uredi pitanje</string>
+    <string name="uredi_karticu">Uredi karticu</string>
+    <string name="napravi_lekciju">Napravi lekciju</string>
+    <string name="napravi_pitanje">Napravi pitanje</string>
+    <string name="napravi_karticu">Napravi karticu</string>
+    <string name="title_activity_izlistavanje">Izlistavanje</string>
+    <string name="title_activity_upravljanje_lekcijama">Upravljanje lekcijama</string>
+    <string name="title_activity_upravljanje_pitanjima">Upravljanje pitanjima</string>
+    <string name="title_activity_upravljanje_karticama">Upravljanje karticama</string>
+    <string name="naslov_kartice">Naslov: </string>
+    <string name="snimi">Snimaj</string>
+    <string name="preslusaj">Slušaj</string>
+    <string name="zvuk">Zvuk: </string>
+    <string name="slika">Odaberite sliku</string>
+    <string name="pregled">Pogledaj</string>
+    <string name="izaberi">Izaberi</string>
+    <string name="sacuvaj_lekciju">Sačuvaj</string>
+    <string name="title_activity_podesavanja">Podesavanja</string>
+
+</resources>
