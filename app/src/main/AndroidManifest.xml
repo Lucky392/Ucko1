@@ -9,8 +9,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".Pocetna"
-            android:screenOrientation="landscape"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,8 +19,17 @@
         </activity>
         <activity
             android:name=".Podesavanja"
+            android:label="@string/title_activity_podesavanja"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".Lekcije"
+            android:label="@string/title_activity_lekcije"
             android:screenOrientation="landscape"
-            android:label="@string/title_activity_podesavanja" >
+            android:parentActivityName=".Pocetna" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ucko.romb.ucko.Pocetna" />
         </activity>
     </application>
 

@@ -33,10 +33,12 @@ tools:context=".Pocetna" >
         <Button
             android:id="@+id/btnRadiLekcije"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="@string/radi_lekcije"
             android:background="@drawable/oblik_dugmeta"
-            android:layout_margin= "8dp" />
+            android:layout_margin= "8dp"
+            android:textSize="30sp"
+            android:layout_height="match_parent"
+            />
 
     </TableRow>
 
@@ -72,10 +74,11 @@ tools:context=".Pocetna" >
         <Button
             android:id="@+id/btnUpravljanjeSadrzajem"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="@string/upravljanje_sadrzajem"
             android:background="@drawable/oblik_dugmeta"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:textSize="30sp"
+            android:layout_height="match_parent"/>
 
     </TableRow>
 
@@ -109,12 +112,13 @@ tools:context=".Pocetna" >
         android:gravity="center" >
 
         <Button
-            android:id="@+id/btnOpcije"
+            android:id="@+id/btnUrediPostojece"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/opcije"
+            android:text="@string/uredi_postojece"
             android:background="@drawable/oblik_dugmeta"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:textSize="30sp"
+            android:layout_height="match_parent"/>
 
     </TableRow>
 
@@ -148,12 +152,13 @@ tools:context=".Pocetna" >
         android:gravity="center" >
 
         <Button
-            android:id="@+id/btnIzlaz"
+            android:id="@+id/btnOpcije"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/izlaz"
+            android:text="@string/opcije"
             android:background="@drawable/oblik_dugmeta"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:textSize="30sp"
+            android:layout_height="match_parent"/>
 
     </TableRow>
 
@@ -165,6 +170,48 @@ tools:context=".Pocetna" >
     </TableRow>
 
 </TableRow>
+
+    <TableRow
+        android:id="@+id/tr5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+        <TableRow
+            android:id="@+id/tr51"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3" >
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tr52"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <Button
+                android:id="@+id/btnIzlaz"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/izlaz"
+                android:background="@drawable/oblik_dugmeta"
+                android:layout_margin= "8dp"
+                android:textSize="30sp"
+
+                />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tr53"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3" >
+        </TableRow>
+
+    </TableRow>
 
 </LinearLayout>
 

@@ -1,14 +1,18 @@
 package com.ucko.romb.ucko;
 
+import android.graphics.Paint;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 
-public class Podesavanja extends ActionBarActivity {
+public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.OnColorChangedListener {
+
+    private Paint mPaint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,18 +38,18 @@ public class Podesavanja extends ActionBarActivity {
 
             }
         });
-
+        mPaint = new Paint();
         bojaDugmeta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                new ColorPickerDialog(Podesavanja.this, Podesavanja.this, mPaint.getColor()).show();
             }
         });
 
         bojaPozadine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(Podesavanja.this, mPaint.getColor() + "", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -79,5 +83,8 @@ public class Podesavanja extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void colorChanged(int color) {
+        mPaint.setColor(color);
     }
 }

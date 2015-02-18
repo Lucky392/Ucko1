@@ -9,8 +9,11 @@
     <string name="title_activity_radi_lekciju">Radi lekciju</string>
     <string name="title_activity_izmena">Izmena</string>
     <string name="title_activity_opcije">Opcije</string>
-    <string name="radi_lekcije">Radi lekcije</string>
-    <string name="upravljanje_sadrzajem">Upravljanje sadržajem</string>
+    <string name="radi_lekcije">Postojeće lekcije</string>
+    <string name="upravljanje_sadrzajem">Napravi novu lekciju</string>
+    <string name="uredi_postojece">Uredi postojeće lekcije</string>
+    <string name="dodaj_pitanje">Dodaj pitanje</string>
+    <string name="sacuvaj">Sačuvaj</string>
     <string name="opcije">Podešavanja</string>
     <string name="izlaz">Izlaz</string>
     <string name="uredi_lekciju">Uredi lekciju</string>
@@ -37,15 +40,17 @@
     <string name="boja_dugmeta">Promeni boju dugmeta</string>
     <string name="boja_teksta">Promeni boju teksta</string>
     <string name="promena_slova">Promeni slova</string>
-
+    <string name="naziv_lekcije">Naziv lekcije: </string>
+    <string name="c_uredi_postojece">Уреди постојеће квизове</string>
+    <string name="c_naziv_lekcije">Назив лекције: </string>
     <string name="c_app_name">Учко</string>
     <string name="c_title_activity_uredjivanje">Уређивање</string>
     <string name="c_title_activity_napravi_novo">Направи ново</string>
     <string name="c_title_activity_radi_lekciju">Ради Лекцију</string>
     <string name="c_title_activity_izmena">Иѕмена</string>
     <string name="c_title_activity_opcije">Подешавања</string>
-    <string name="c_radi_lekcije">Ради лекције</string>
-    <string name="c_upravljanje_sadrzajem">Upravljanje sadržajem</string>
+    <string name="c_radi_lekcije">Постојећи квизови</string>
+    <string name="c_upravljanje_sadrzajem">Направи нови квиз</string>
     <string name="c_opcije">Podešavanja</string>
     <string name="c_izlaz">Izlaz</string>
     <string name="c_uredi_lekciju">Uredi lekciju</string>
@@ -72,5 +77,7 @@
     <string name="c_boja_dugmeta">Promeni boju dugmeta</string>
     <string name="c_boja_teksta">Promeni boju teksta</string>
     <string name="c_promena_slova">Promeni slova</string>
+    <string name="title_activity_kvizovi">Kvizovi</string>
+    <string name="title_activity_lekcije">Lekcije</string>
 
 </resources>

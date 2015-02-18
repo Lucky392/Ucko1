@@ -83,7 +83,7 @@ public class Pocetna extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Pocetna.this, null));
+                startActivity(new Intent(Pocetna.this, Podesavanja.class));
             }
         });
 
