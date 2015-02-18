@@ -36,16 +36,14 @@ public class ColorPickerDialog extends Dialog {
             mListener = l;
             mColors = new int[]{
 
-                    0xFFFF00, 0xFF0000, 0xFF00FF, 0x0033CC,
-
-                    0xFFFFFF, 0x000000
+                    0xFFFF0000,0xFFFF00FF,0xFF0000FF,0xFF00FFFF,0xFF00FF00,0xFFFFFF00,0xFFFFFFFF,0xFF808080,0xFF000000,0xFFFF0000
             };
             Shader s = new SweepGradient(0, 0, mColors, null);
 
             mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mPaint.setShader(s);
             mPaint.setStyle(Paint.Style.STROKE);
-            mPaint.setStrokeWidth(32);
+            mPaint.setStrokeWidth(CENTER_RADIUS);
 
             mCenterPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mCenterPaint.setColor(color);
@@ -87,9 +85,9 @@ public class ColorPickerDialog extends Dialog {
             setMeasuredDimension(CENTER_X * 2, CENTER_Y * 2);
         }
 
-        private static final int CENTER_X = 100;
-        private static final int CENTER_Y = 100;
-        private static final int CENTER_RADIUS = 32;
+        private final int CENTER_X = 200;
+        private final int CENTER_Y = 200;
+        private final int CENTER_RADIUS = 80;
 
         private int floatToByte(float x) {
             int n = java.lang.Math.round(x);
@@ -207,7 +205,7 @@ public class ColorPickerDialog extends Dialog {
     public ColorPickerDialog(Context context,
                              OnColorChangedListener listener,
                              int initialColor) {
-        super(context);
+        super(context, android.R.style.Theme_DeviceDefault_Dialog);
 
         mListener = listener;
         mInitialColor = initialColor;
@@ -224,6 +222,9 @@ public class ColorPickerDialog extends Dialog {
         };
 
         setContentView(new ColorPickerView(getContext(), l, mInitialColor));
-        setTitle("Pick a Color");
+        if (Pocetna.db.vratiPodesavanja()[4].equals("c"))
+            setTitle(R.string.c_odaberite_boju);
+        else
+            setTitle(R.string.odaberite_boju);
     }
 }

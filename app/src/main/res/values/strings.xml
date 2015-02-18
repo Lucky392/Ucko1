@@ -41,6 +41,9 @@
     <string name="boja_teksta">Promeni boju teksta</string>
     <string name="promena_slova">Promeni slova</string>
     <string name="naziv_lekcije">Naziv lekcije: </string>
+    <string name="odaberite_boju">Odaberite boju</string>
+
+    <string name="c_odaberite_boju">Одаберите боју</string>
     <string name="c_uredi_postojece">Уреди постојеће квизове</string>
     <string name="c_naziv_lekcije">Назив лекције: </string>
     <string name="c_app_name">Учко</string>

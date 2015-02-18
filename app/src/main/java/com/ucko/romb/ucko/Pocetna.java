@@ -16,12 +16,14 @@ public class Pocetna extends ActionBarActivity {
     Button upravljanjeSadrzajem;
     Button opcije;
     Button izlaz;
+    public static DatabaseHandler db = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pocetna);
-        //nemoj
+
+        db = new DatabaseHandler(this);
 
         radiLekcije = (Button) findViewById(R.id.btnRadiLekcije);
         upravljanjeSadrzajem = (Button) findViewById(R.id.btnUpravljanjeSadrzajem);
