@@ -79,5 +79,7 @@
     <string name="c_promena_slova">Promeni slova</string>
     <string name="title_activity_kvizovi">Kvizovi</string>
     <string name="title_activity_lekcije">Lekcije</string>
+    <string name="title_activity_pitanje">Pitanje</string>
+    <string name="title_activity_pitanja">Pitanja</string>
 
 </resources>

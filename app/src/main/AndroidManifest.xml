@@ -25,11 +25,19 @@
         <activity
             android:name=".Lekcije"
             android:label="@string/title_activity_lekcije"
-            android:screenOrientation="landscape"
-            android:parentActivityName=".Pocetna" >
+            android:parentActivityName=".Pocetna"
+            android:screenOrientation="landscape" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ucko.romb.ucko.Pocetna" />
+        </activity>
+        <activity
+            android:name=".Pitanje"
+            android:label="@string/title_activity_pitanje" >
+        </activity>
+        <activity
+            android:name=".Pitanja"
+            android:label="@string/title_activity_pitanja" >
         </activity>
     </application>
 
