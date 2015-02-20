@@ -16,15 +16,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "Ucko";
 
     private static final String PODESAVANJA = "podesavanja";
-	private static final String KARTICE = "kartice";
-	private static final String PITANJA = "pitanja";
-	private static final String LEKCIJE = "lekcije";
+	public static final String KARTICE = "odgovori";
+    private static final String OKVIRI = "okviri";
+	public static final String PITANJA = "pitanja";
+	public static final String LEKCIJE = "lekcije";
 
 	private static final String KEY_ID = "id";
-	private static final String NASLOV = "naslov";
+	private static final String NAZIV = "naziv";
 	private static final String SLIKA = "slika";
 	private static final String ZVUK = "zvuk";
-	private static final String PITANJE = "pitanje";
 	private static final String TACAN_ODGOVOR = "tacan_odgovor";
 	private static final String NETACNI_ODGOVORI = "netacni_odgovori";
 	private static final String LEKCIJA = "lekcija";
@@ -49,26 +49,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE);
     }
 
+    private void napraviTabeluOkvira(SQLiteDatabase db) {
+        String CREATE_TABLE = "CREATE TABLE " + OKVIRI + "(" + KEY_ID
+                + " INTEGER PRIMARY KEY AUTOINCREMENT," + NAZIV + " TEXT NOT NULL)";
+        db.execSQL(CREATE_TABLE);
+    }
+
 	private void napraviTabeluKartica(SQLiteDatabase db) {
 		String CREATE_TABLE = "CREATE TABLE " + KARTICE + "(" + KEY_ID
-				+ " INTEGER PRIMARY KEY AUTOINCREMENT," + NASLOV
-				+ " TEXT NOT NULL," + SLIKA + " TEXT NOT NULL," + ZVUK
+				+ " INTEGER PRIMARY KEY," + SLIKA + " TEXT NOT NULL," + ZVUK
 				+ " TEXT NOT NULL)";
 		db.execSQL(CREATE_TABLE);
 	}
 
 	private void napraviTabeluPitanja(SQLiteDatabase db) {
 		String CREATE_TABLE = "CREATE TABLE " + PITANJA + "(" + KEY_ID
-				+ " INTEGER PRIMARY KEY AUTOINCREMENT," + PITANJE
-				+ " TEXT NOT NULL," + ZVUK + " TEXT NOT NULL," + TACAN_ODGOVOR
+				+ " INTEGER PRIMARY KEY," + ZVUK + " TEXT NOT NULL," + TACAN_ODGOVOR
 				+ " INTEGER NOT NULL," + NETACNI_ODGOVORI + " TEXT NOT NULL)";
 		db.execSQL(CREATE_TABLE);
 	}
 
 	private void napraviTabeluLekcija(SQLiteDatabase db) {
 		String CREATE_TABLE = "CREATE TABLE " + LEKCIJE + "(" + KEY_ID
-				+ " INTEGER PRIMARY KEY AUTOINCREMENT," + NAZIV_LEKCIJE
-				+ " TEXT NOT NULL," + LEKCIJA + " TEXT NOT NULL)";
+				+ " INTEGER PRIMARY KEY," + LEKCIJA + " TEXT NOT NULL)";
 		db.execSQL(CREATE_TABLE);
 	}
 
@@ -77,12 +80,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		napraviTabeluLekcija(db);
 		napraviTabeluPitanja(db);
 		napraviTabeluKartica(db);
+        napraviTabeluOkvira(db);
         napraviTabeluPodesavanja(db);
 	}
 
     private void azurirajTabeluPodesavanja(SQLiteDatabase db) {
             db.execSQL("DROP TABLE IF EXISTS " + KARTICE);
-        }
+    }
+
+    private void azurirajTabeluOkviri(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS " + OKVIRI);
+    }
 
     private void azurirajTabeluKartica(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS " + KARTICE);
@@ -102,14 +110,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		azurirajTabeluPitanja(db);
 		azurirajTabeluKartica(db);
         azurirajTabeluPodesavanja(db);
+        azurirajTabeluOkviri(db);
 		onCreate(db);
 	}
 
     public String[] vratiPodesavanja() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(PODESAVANJA, new String[] { KEY_ID, ZVUK_RADOVANJA, BOJA_POZADINE,
-                        BOJA_DUGMETA, BOJA_SLOVA, PISMO }, KEY_ID + "=?", new String[] { String.valueOf(1) },
+        Cursor cursor = db.query(PODESAVANJA, new String[]{KEY_ID, ZVUK_RADOVANJA, BOJA_POZADINE,
+                        BOJA_DUGMETA, BOJA_SLOVA, PISMO}, KEY_ID + "=?", new String[]{String.valueOf(1)},
                 null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -142,201 +151,209 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-	public void dodajKarticu(OkvirOdgovor k) {
-		SQLiteDatabase db = this.getWritableDatabase();
+    public int vratiIdOkvira() {
+        String selectQuery = "SELECT " + KEY_ID +" FROM " + OKVIRI;
+        int a = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-		ContentValues values = new ContentValues();
-		values.put(NASLOV, k.getNaziv());
-		values.put(SLIKA, k.getSlika());
-		values.put(ZVUK, k.getZvuk());
-
-		db.insert(KARTICE, null, values);
-		db.close();
-	}
-
-	public OkvirOdgovor vratiKarticu(int id) {
-		SQLiteDatabase db = this.getReadableDatabase();
-
-		Cursor cursor = db.query(KARTICE, new String[] { KEY_ID, NASLOV, SLIKA,
-				ZVUK }, KEY_ID + "=?", new String[] { String.valueOf(id) },
-				null, null, null, null);
-		if (cursor != null)
-			cursor.moveToFirst();
-
-		OkvirOdgovor k = new OkvirOdgovor(cursor.getInt(0), cursor.getString(1),
-				cursor.getString(2), cursor.getString(3));
+        if (cursor.moveToLast()) {
+            a = cursor.getInt(0);
+        }
         db.close();
         cursor.close();
-		return k;
+        return a;
+    }
+
+    private Okvir vratiProsireniOkvir(Cursor cursor, String tabela){
+        if (cursor != null)
+            cursor.moveToFirst();
+        else
+            return null;
+        switch (tabela){
+            case KARTICE:
+                return new OkvirOdgovor(cursor.getInt(0), cursor.getString(1),cursor.getString(2), cursor.getString(3));
+            case PITANJA:
+                return new OkvirPitanje(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4));
+            case LEKCIJE:
+                return new OkvirLekcija(cursor.getInt(0), cursor.getString(1), cursor.getString(2));
+        }
+        return null;
+    }
+
+	public Okvir vratiProsireniOkvir(int id, String tabela) {
+		SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + OKVIRI + " AS o INNER JOIN "+ tabela +" AS t ON o.id=t.id WHERE o." + KEY_ID + "=" + id;
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		Okvir o = vratiProsireniOkvir(cursor, tabela);
+        db.close();
+        cursor.close();
+		return o;
 	}
 
-	public List<OkvirOdgovor> vratiSveKartice() {
-		List<OkvirOdgovor> listaOkvirOdgovor = new ArrayList<OkvirOdgovor>();
+    private List<Okvir> vratiProsireneOkvire(Cursor cursor, String tabela)
+    {
+        List<Okvir> o = new ArrayList<Okvir>();
+        if (cursor != null)
+            cursor.moveToFirst();
+        else
+            return null;
+        if (cursor.moveToFirst()) {
+            while (cursor.moveToNext()) {
+                switch (tabela){
+                    case KARTICE:
+                        o.add(new OkvirOdgovor(cursor.getInt(0), cursor.getString(1),cursor.getString(2), cursor.getString(3)));
+                    case PITANJA:
+                        o.add(new OkvirPitanje(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4)));
+                    case LEKCIJE:
+                        o.add(new OkvirLekcija(cursor.getInt(0), cursor.getString(1), cursor.getString(2)));
+                }
+            }
+            return o;
+        }
+        return null;
+    }
 
-		String selectQuery = "SELECT  * FROM " + KARTICE;
-
-		SQLiteDatabase db = this.getWritableDatabase();
+	public List<Okvir> vratiProsireneOkvire(String tabela) {
+		String selectQuery = "SELECT  * FROM " + OKVIRI + " AS o INNER JOIN "+ tabela +" AS t ON o.id=t.id";
+		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);
-
-		if (cursor.moveToFirst()) {
-			do {
-				OkvirOdgovor k = new OkvirOdgovor(cursor.getInt(0), cursor.getString(1),
-						cursor.getString(2), cursor.getString(3));
-				listaOkvirOdgovor.add(k);
-			} while (cursor.moveToNext());
-		}
+        List<Okvir> listaOkvirOdgovor = vratiProsireneOkvire(cursor, tabela);
         db.close();
         cursor.close();
 		return listaOkvirOdgovor;
 	}
 
-	public int azurirajKarticu(OkvirOdgovor k) {
-		SQLiteDatabase db = this.getWritableDatabase();
+    public List<Tuple> vratiOkvire(String tabela) {
+        String selectQuery = "SELECT  * FROM " + OKVIRI + " as o inner join " + tabela + " as t on o.id=t.id";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        List<Tuple> listaOkvira = new ArrayList<Tuple>();
+        if (cursor != null)
+            cursor.moveToFirst();
+        else
+            return null;
+        if (cursor.moveToFirst()) {
+            while (cursor.moveToNext()) {
+                listaOkvira.add(new Tuple(cursor.getInt(0),cursor.getString(1)));
+            }
+        }
+        db.close();
+        cursor.close();
+        return listaOkvira;
+    }
 
+    public void unesiOkvir(String naziv){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(NAZIV, naziv);
+        db.insert(OKVIRI, null, values);
+        db.close();
+    }
+
+    public void dodajOdgovor(OkvirOdgovor o) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        unesiOkvir(o.getNaziv());
+        values.put(KEY_ID, vratiIdOkvira());
+        values.put(SLIKA, o.getSlika());
+        values.put(ZVUK, o.getZvuk());
+        db.insert(KARTICE, null, values);
+        db.close();
+    }
+
+    public void dodajPitanje(OkvirPitanje p) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        unesiOkvir(p.getNaziv());
+        values.put(KEY_ID, vratiIdOkvira());
+        values.put(ZVUK, p.getZvuk());
+        values.put(TACAN_ODGOVOR, p.getTacanOdgovor());
+        values.put(NETACNI_ODGOVORI, p.toString());
+        db.insert(PITANJA, null, values);
+        db.close();
+    }
+
+    public void dodajLekciju(OkvirLekcija l) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        unesiOkvir(l.getNaziv());
+        values.put(KEY_ID, vratiIdOkvira());
+        values.put(LEKCIJA, l.toString());
+        db.insert(LEKCIJE, null, values);
+        db.close();
+    }
+
+    private int azurirajOkvir(int id, String naziv) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(NAZIV, naziv);
+        int a = db.update(OKVIRI, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(id) });
+        db.close();
+        return a;
+    }
+
+	public int azurirajOdgovor(OkvirOdgovor o) {
+		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
-		values.put(NASLOV, k.getNaziv());
-		values.put(SLIKA, k.getSlika());
-		values.put(ZVUK, k.getZvuk());
+        azurirajOkvir(o.getId(), o.getNaziv());
+		values.put(SLIKA, o.getSlika());
+		values.put(ZVUK, o.getZvuk());
         int a = db.update(KARTICE, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(k.getId()) });
+                new String[] { String.valueOf(o.getId()) });
         db.close();
 		return a;
 	}
 
-	public void obrisiKarticu(OkvirOdgovor k) {
-		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(KARTICE, KEY_ID + " = ?",
-				new String[] { String.valueOf(k.getId()) });
-		db.close();
-	}
-
-	public void dodajLekciju(OkvirPitanje k) {
-		SQLiteDatabase db = this.getWritableDatabase();
-
-		ContentValues values = new ContentValues();
-		values.put(PITANJE, k.getNaziv());
-		values.put(ZVUK, k.getZvuk());
-		values.put(TACAN_ODGOVOR, k.getTacanOdgovor());
-		values.put(NETACNI_ODGOVORI, k.toString());
-
-		db.insert(PITANJA, null, values);
-		db.close();
-	}
-
-	public OkvirPitanje vratiLekciju(int id) {
-		SQLiteDatabase db = this.getReadableDatabase();
-
-		Cursor cursor = db.query(PITANJA, new String[] { KEY_ID, PITANJE, ZVUK,
-				TACAN_ODGOVOR, NETACNI_ODGOVORI }, KEY_ID + "=?",
-				new String[] { String.valueOf(id) }, null, null, null, null);
-		if (cursor != null)
-			cursor.moveToFirst();
-
-		OkvirPitanje k = new OkvirPitanje(cursor.getInt(0), cursor.getString(1),
-				cursor.getString(2), cursor.getInt(3), cursor.getInt(4));
-        cursor.close();
-        db.close();
-		return k;
-	}
-
-	public List<OkvirPitanje> vratiSveLekcije() {
-		List<OkvirPitanje> listaOkvirPitanje = new ArrayList<OkvirPitanje>();
-
-		String selectQuery = "SELECT  * FROM " + PITANJA;
-
-		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor cursor = db.rawQuery(selectQuery, null);
-
-		if (cursor.moveToFirst()) {
-			do {
-				OkvirPitanje k = new OkvirPitanje(cursor.getInt(0), cursor.getString(1),
-						cursor.getString(2), cursor.getInt(3), cursor.getInt(4));
-				listaOkvirPitanje.add(k);
-			} while (cursor.moveToNext());
-		}
-        db.close();
-        cursor.close();
-		return listaOkvirPitanje;
-	}
-
-	public int azurirajLekciju(OkvirPitanje k) {
-		SQLiteDatabase db = this.getWritableDatabase();
-
-		ContentValues values = new ContentValues();
-		values.put(PITANJE, k.getNaziv());
-		values.put(ZVUK, k.getZvuk());
-		values.put(TACAN_ODGOVOR, k.getTacanOdgovor());
-		values.put(NETACNI_ODGOVORI, k.toString());
+    public int azurirajPitanje(OkvirPitanje o) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        azurirajOkvir(o.getId(), o.getNaziv());
+        values.put(ZVUK, o.getZvuk());
+        values.put(TACAN_ODGOVOR, o.getTacanOdgovor());
+        values.put(NETACNI_ODGOVORI, o.toString());
         int a = db.update(PITANJA, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(k.getId()) });
+                new String[] { String.valueOf(o.getId()) });
         db.close();
-		return a;
-	}
+        return a;
+    }
 
-	public void obrisiLekciju(OkvirPitanje k) {
-		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(PITANJA, KEY_ID + " = ?",
-				new String[] { String.valueOf(k.getId()) });
-		db.close();
-	}
-
-	public void dodajSkupLekcija(OkvirLekcija sk) {
-		SQLiteDatabase db = this.getWritableDatabase();
-
-		ContentValues values = new ContentValues();
-		values.put(NAZIV_LEKCIJE, sk.getNaziv());
-		values.put(LEKCIJA, sk.toString());
-
-		db.insert(LEKCIJE, null, values);
-		db.close();
-	}
-
-	public OkvirLekcija vratiSkupLekcija(int id) {
-		SQLiteDatabase db = this.getReadableDatabase();
-
-		Cursor cursor = db.query(LEKCIJE, new String[] { KEY_ID, NAZIV_LEKCIJE,
-				LEKCIJA }, KEY_ID + "=?", new String[] { String.valueOf(id) },
-				null, null, null, null);
-		if (cursor != null)
-			cursor.moveToFirst();
-
-		OkvirLekcija sk = new OkvirLekcija(cursor.getInt(0), cursor.getString(1),
-				cursor.getString(2));
-        db.close();
-        cursor.close();
-		return sk;
-	}
-
-	public List<OkvirLekcija> vratiSveSkupoveLekcija() {
-		List<OkvirLekcija> okvirLekcija = new ArrayList<OkvirLekcija>();
-
-		String selectQuery = "SELECT  * FROM " + LEKCIJE;
-
-		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor cursor = db.rawQuery(selectQuery, null);
-
-		if (cursor.moveToFirst()) {
-			do {
-				OkvirLekcija k = new OkvirLekcija(cursor.getInt(0),
-						cursor.getString(1), cursor.getString(2));
-				okvirLekcija.add(k);
-			} while (cursor.moveToNext());
-		}
-        db.close();
-        cursor.close();
-		return okvirLekcija;
-	}
-
-	public int azurirajSkupLekcija(OkvirLekcija k) {
-		SQLiteDatabase db = this.getWritableDatabase();
-
-		ContentValues values = new ContentValues();
-		values.put(NAZIV_LEKCIJE, k.getNaziv());
-		values.put(LEKCIJA, k.toString());
+    public int azurirajLekciju(OkvirLekcija o) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        azurirajOkvir(o.getId(), o.getNaziv());
+        values.put(LEKCIJA, o.toString());
         int a = db.update(LEKCIJE, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(k.getId()) });
+                new String[] { String.valueOf(o.getId()) });
         db.close();
-		return a;
+        return a;
+    }
+
+	public void obrisiKarticu(OkvirOdgovor o) throws Exception{
+		SQLiteDatabase db = this.getWritableDatabase();
+        for (Okvir ok : vratiProsireneOkvire(PITANJA)) {
+            for (Integer i : ((OkvirPitanje)ok).getNetacniOdgovori()){
+                if (i.intValue() == o.getId())
+                    throw new RuntimeException("Odgovor se nalazi u nekom od pitanja");
+            }
+        }
+        db.delete(KARTICE, KEY_ID + " = ?",
+				new String[] { String.valueOf(o.getId()) });
+		db.close();
+	}
+
+	public void obrisiLekciju(OkvirPitanje o) {
+		SQLiteDatabase db = this.getWritableDatabase();
+        for (Okvir ok : vratiProsireneOkvire(LEKCIJE)) {
+            for (Integer i : ((OkvirPitanje)ok).getNetacniOdgovori()){
+                if (i.intValue() == o.getId())
+                    throw new RuntimeException("Pitanje se nalazi u nekoj od lekcija");
+            }
+        }
+		db.delete(PITANJA, KEY_ID + " = ?",
+				new String[] { String.valueOf(o.getId()) });
+		db.close();
 	}
 
 	public void obrisiSkupLekcija(OkvirLekcija k) {

@@ -9,26 +9,26 @@ public class OkvirPitanje extends Okvir {
 	private LinkedList<Integer> netacniOdgovori;
 
 	public OkvirPitanje(int id, String pitanje, String zvuk, int tacanOdgovor,
-                        int... netacniOdgovori) {
+                        String netacniOdgovori) {
 		this.id = id;
 		this.naziv = pitanje;
 		this.tacanOdgovor = tacanOdgovor;
 		this.zvuk = zvuk;
 		this.netacniOdgovori = new LinkedList<Integer>();
-		for (int in : netacniOdgovori) {
-			this.netacniOdgovori.add(in);
+		for (String in : netacniOdgovori.split("##")) {
+			this.netacniOdgovori.add(Integer.parseInt(in));
 		}
 	}
 
 	public OkvirPitanje(String pitanje, String zvuk, int tacanOdgovor,
-                        int... netacniOdgovori) {
+                        String netacniOdgovori) {
 		this.naziv = pitanje;
 		this.tacanOdgovor = tacanOdgovor;
 		this.zvuk = zvuk;
 		this.netacniOdgovori = new LinkedList<Integer>();
-		for (int in : netacniOdgovori) {
-			this.netacniOdgovori.add(in);
-		}
+        for (String in : netacniOdgovori.split("##")) {
+            this.netacniOdgovori.add(Integer.parseInt(in));
+        }
 	}
 
 	public String getZvuk() {
