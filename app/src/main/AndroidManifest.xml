@@ -39,6 +39,10 @@
             android:name=".Pitanja"
             android:label="@string/title_activity_pitanja" >
         </activity>
+        <activity
+            android:name=".Lekcija"
+            android:label="@string/title_activity_lekcija" >
+        </activity>
     </application>
 
 </manifest>

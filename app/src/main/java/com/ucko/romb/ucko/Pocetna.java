@@ -3,6 +3,7 @@ package com.ucko.romb.ucko;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -13,30 +14,30 @@ import android.view.View;
 public class Pocetna extends ActionBarActivity {
 
     Button radiLekcije;
-    Button upravljanjeSadrzajem;
+    Button novaLekcija;
+    Button urediPostojece;
     Button opcije;
     Button izlaz;
-    public static DatabaseHandler db = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pocetna);
 
-        db = new DatabaseHandler(this);
-
         radiLekcije = (Button) findViewById(R.id.btnRadiLekcije);
-        upravljanjeSadrzajem = (Button) findViewById(R.id.btnUpravljanjeSadrzajem);
+        novaLekcija = (Button) findViewById(R.id.btnNapraviNovuLekciju);
+        urediPostojece = (Button) findViewById(R.id.btnUrediPostojece);
         opcije = (Button) findViewById(R.id.btnOpcije);
         izlaz = (Button) findViewById(R.id.btnIzlaz);
 
 
         DatabaseHandler db = new DatabaseHandler(this);
-        String [] s = db.vratiPodesavanja();
-        if(s!= null && s[4].equals("c")){
+        String[] s = db.vratiPodesavanja();
+        if (s != null && s[4].equals("c")) {
             setTitle(R.string.c_app_name);
             radiLekcije.setText(R.string.c_radi_lekcije);
-            upravljanjeSadrzajem.setText(R.string.c_upravljanje_sadrzajem);
+            novaLekcija.setText(R.string.c_upravljanje_sadrzajem);
+            urediPostojece.setText(R.string.c_uredi_postojece);
             opcije.setText(R.string.c_opcije);
             izlaz.setText(R.string.c_izlaz);
         }
@@ -45,55 +46,10 @@ public class Pocetna extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Pocetna.this, null);
-                i.putExtra("koji", 1);
+                Intent i = new Intent(Pocetna.this, Lekcija.class);
                 i.putExtra("radjenje", true);
+                i.putExtra("tabela", DatabaseHandler.LEKCIJE);
                 startActivity(i);
-            }
-        });
-
-        upravljanjeSadrzajem.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(Pocetna.this)
-                        .setMessage("Šta želite da uradite sa sadržajem?")
-                        .setCancelable(true)
-                        .setPositiveButton("Uredjivanje",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                        Intent i = new Intent(Pocetna.this, null);
-                                        startActivity(i);
-                                    }
-                                })
-                        .setNeutralButton("Napravi novo",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int which) {
-
-                                        Intent i = new Intent(Pocetna.this, null);
-                                        startActivity(i);
-                                    }
-                                })
-                        .show();
-
-            }
-        });
-
-        opcije.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Pocetna.this, Podesavanja.class));
-            }
-        });
-
-        izlaz.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
     }

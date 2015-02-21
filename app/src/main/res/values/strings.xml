@@ -42,7 +42,6 @@
     <string name="promena_slova">Promeni slova</string>
     <string name="naziv_lekcije">Naziv lekcije: </string>
     <string name="odaberite_boju">Odaberite boju</string>
-
     <string name="c_odaberite_boju">Одаберите боју</string>
     <string name="c_uredi_postojece">Уреди постојеће квизове</string>
     <string name="c_naziv_lekcije">Назив лекције: </string>
@@ -84,5 +83,7 @@
     <string name="title_activity_lekcije">Lekcije</string>
     <string name="title_activity_pitanje">Pitanje</string>
     <string name="title_activity_pitanja">Pitanja</string>
+    <string name="title_activity_nova_lekcija">Nova lekcija</string>
+    <string name="title_activity_lekcija">Lekcija</string>
 
 </resources>

@@ -72,7 +72,7 @@ tools:context=".Pocetna" >
         android:gravity="center" >
 
         <Button
-            android:id="@+id/btnUpravljanjeSadrzajem"
+            android:id="@+id/btnNapraviNovuLekciju"
             android:layout_width="match_parent"
             android:text="@string/upravljanje_sadrzajem"
             android:background="@drawable/oblik_dugmeta"
