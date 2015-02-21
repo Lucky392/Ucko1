@@ -18,6 +18,7 @@ public class Pocetna extends ActionBarActivity {
     Button urediPostojece;
     Button opcije;
     Button izlaz;
+    public static DatabaseHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class Pocetna extends ActionBarActivity {
         urediPostojece = (Button) findViewById(R.id.btnUrediPostojece);
         opcije = (Button) findViewById(R.id.btnOpcije);
         izlaz = (Button) findViewById(R.id.btnIzlaz);
+        db = new DatabaseHandler(this);
 
         radiLekcije.setOnClickListener(new OnClickListener() {
 

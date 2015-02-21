@@ -13,9 +13,6 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**
- * Created by Ognjen on 2/17/2015.
- */
 public class ColorPickerDialog extends Dialog {
 
     public interface OnColorChangedListener {
@@ -222,8 +219,7 @@ public class ColorPickerDialog extends Dialog {
         };
 
         setContentView(new ColorPickerView(getContext(), l, mInitialColor));
-        DatabaseHandler db = new DatabaseHandler(getOwnerActivity());
-        if (db.vratiPodesavanja()[4].equals("c"))
+        if (Pocetna.db.vratiPodesavanja()[4].equals("c"))
             setTitle(R.string.c_odaberite_boju);
         else
             setTitle(R.string.odaberite_boju);
