@@ -13,6 +13,7 @@ import android.widget.Toast;
 public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.OnColorChangedListener {
 
     private Paint mPaint;
+    private String [] podesavanja;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +26,14 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
         Button bojaDugmeta = (Button) findViewById(R.id.btnBojaDugmeta);
         Button bojaTeksta = (Button) findViewById(R.id.btnBojaTeksta);
 
+
+
+        podesavanja = Pocetna.db.vratiPodesavanja();
+
         zvukRadovanja.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //TREBA SMISLITI KAKO DA SE DODAJE ZVUK ZA RADOVANJE!!!
             }
         });
 

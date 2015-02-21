@@ -43,6 +43,10 @@
             android:name=".Lekcija"
             android:label="@string/title_activity_lekcija" >
         </activity>
+        <activity
+            android:name=".PostojeceLekcije"
+            android:label="@string/title_activity_postojece_lekcije" >
+        </activity>
     </application>
 
 </manifest>

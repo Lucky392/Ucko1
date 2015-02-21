@@ -36,7 +36,7 @@ public class Pocetna extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Pocetna.this, Lekcija.class);
+                Intent i = new Intent(Pocetna.this, PostojeceLekcije.class);
                 i.putExtra("radjenje", true);
                 i.putExtra("tabela", DatabaseHandler.LEKCIJE);
                 startActivity(i);
@@ -48,7 +48,7 @@ public class Pocetna extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Pocetna.this, Lekcija.class);
-                i.putExtra("tabela", "nista");
+                i.putExtra("nova", true);
                 startActivity(i);
             }
         });
@@ -58,7 +58,7 @@ public class Pocetna extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Pocetna.this, Lekcija.class);
-                i.putExtra("radjenje", false);
+                i.putExtra("nova", false);
                 i.putExtra("tabela", DatabaseHandler.LEKCIJE);
                 startActivity(i);
             }

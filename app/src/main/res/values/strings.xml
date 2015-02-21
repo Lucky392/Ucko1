@@ -85,5 +85,6 @@
     <string name="title_activity_pitanja">Pitanja</string>
     <string name="title_activity_nova_lekcija">Nova lekcija</string>
     <string name="title_activity_lekcija">Lekcija</string>
+    <string name="title_activity_postojece_lekcije">Postojece lekcije</string>
 
 </resources>
