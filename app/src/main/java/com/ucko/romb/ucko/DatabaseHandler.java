@@ -225,7 +225,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	}
 
     public List<Tuple> vratiOkvire(String tabela) {
-        String selectQuery = "SELECT * FROM " + OKVIRI + " as o inner join " + tabela + " as t on o.id=t.id";
+        String selectQuery = "SELECT * FROM " + KARTICE;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         List<Tuple> listaOkvira = new ArrayList<Tuple>();

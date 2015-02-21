@@ -222,7 +222,8 @@ public class ColorPickerDialog extends Dialog {
         };
 
         setContentView(new ColorPickerView(getContext(), l, mInitialColor));
-        if (Pocetna.db.vratiPodesavanja()[4].equals("c"))
+        DatabaseHandler db = new DatabaseHandler(getOwnerActivity());
+        if (db.vratiPodesavanja()[4].equals("c"))
             setTitle(R.string.c_odaberite_boju);
         else
             setTitle(R.string.odaberite_boju);
