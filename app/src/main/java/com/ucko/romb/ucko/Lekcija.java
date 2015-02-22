@@ -8,12 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Lekcija extends ActionBarActivity {
 
     Button dodajPitanje, sacuvaj;
     EditText nazivLekcije;
-    String lekcija;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,10 @@ public class Lekcija extends ActionBarActivity {
         sacuvaj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Pocetna.db.dodajLekciju(new OkvirLekcija(lekcija, Pocetna.okviri));
+                if (Pocetna.okviri.size() > 0)
+                    Pocetna.db.dodajLekciju(new OkvirLekcija(nazivLekcije.getText().toString(), Pocetna.okviri));
+                else
+                    Toast.makeText(null, "Niste uneli ni jedno pitanje!", Toast.LENGTH_SHORT).show();
             }
         });
     }
