@@ -2,7 +2,6 @@ package com.ucko.romb.ucko;
 
 import java.io.File;
 import java.util.Date;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
