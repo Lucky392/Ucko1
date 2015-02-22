@@ -29,10 +29,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:id="@+id/edt1"
+            android:id="@+id/etPitanje"
             android:layout_weight="3"
-            android:background="#F6FF7A" />
-
+            android:background="#F6FF7A" >
+            <requestFocus/>
+        </EditText>
     </TableRow>
 
     <TableRow
@@ -56,7 +57,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/sacuvaj_lekciju"
+            android:text="@string/snimi"
             android:textSize="30sp"
             android:layout_marginRight="15dp"
             android:background="@drawable/oblik_dugmeta"
@@ -65,7 +66,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/sacuvaj_lekciju"
+            android:text="@string/preslusaj"
             android:textSize="30sp"
             android:layout_marginRight="15dp"
             android:background="@drawable/oblik_dugmeta"
@@ -122,10 +123,10 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/dodaj_pitanje"
+                android:text="@string/dodaj_odgovor"
                 android:textSize="30sp"
                 android:background="@drawable/oblik_dugmeta"
-                android:id="@+id/btnDodajPitanje"
+                android:id="@+id/btnDodajOdgovor"
                 android:gravity="center"/>
         </TableRow>
 
@@ -143,7 +144,7 @@
                 android:text="@string/sacuvaj_lekciju"
                 android:textSize="30sp"
                 android:background="@drawable/oblik_dugmeta"
-                android:id="@+id/btnSacuvaj"/>
+                android:id="@+id/btnSacuvajPitanje"/>
         </TableRow>
     </TableRow>
 

@@ -195,8 +195,8 @@
                 android:layout_height="match_parent"
                 android:id="@+id/tr21"
                 android:layout_weight=".1"
-                android:marginTop="10dp"
-                android:marginBottom="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
 
                 <ImageView
                     android:layout_width="wrap_content"

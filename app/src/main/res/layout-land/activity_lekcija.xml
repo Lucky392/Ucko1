@@ -43,7 +43,10 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:id="@+id/editText1"
-                android:background="#F6FF7A" />
+                android:background="#F6FF7A" >
+                <requestFocus/>
+            </EditText>
+
         </TableRow>
     </TableRow>
 

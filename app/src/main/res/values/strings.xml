@@ -5,6 +5,7 @@
     <string name="hello_world">njah</string>
     <string name="pitanje">Pitanje: </string>
     <string name="dodaj_zvuk">Dodaj zvuk</string>
+    <string name="dodaj_odgovor">Dodaj odgovor</string>
     <string name="odaberi_tacan">Tačan odgovor:</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_uredjivanje">Uredjivanje</string>

@@ -5,17 +5,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 
 public class Lekcija extends ActionBarActivity {
 
     Button dodajPitanje, sacuvaj;
     EditText nazivLekcije;
+    String lekcija;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +28,16 @@ public class Lekcija extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(Lekcija.this)
-                        .setMessage("Da li želite da dodate novo ili postojeće?")
+                        .setMessage("Dodaj lekciju")
                         .setCancelable(true)
-                        .setPositiveButton("Novo", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Nova", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent i = new Intent(Lekcija.this, Pitanje.class);
+                                startActivity(i);
                             }
                         })
-                        .setNeutralButton("Postojeće", new DialogInterface.OnClickListener() {
+                        .setNeutralButton("Postojeća", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent i = new Intent(Lekcija.this, Pitanja.class);
@@ -52,10 +51,8 @@ public class Lekcija extends ActionBarActivity {
         sacuvaj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Pocetna.db.dodajLekciju(new OkvirLekcija(lekcija, Pocetna.okviri));
             }
         });
-
     }
-
 }

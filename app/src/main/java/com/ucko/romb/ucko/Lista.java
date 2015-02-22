@@ -17,6 +17,7 @@ import android.widget.Toast;
 public class Lista extends Fragment {
 
     List<String> lista = new ArrayList<String>();
+    public static boolean readFromDatabase;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,13 +28,22 @@ public class Lista extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        DatabaseHandler db = new DatabaseHandler(getActivity());
-        List<Tuple> tl = db.vratiOkvire(getActivity().getIntent().getStringExtra("tabela"));
-        for (Tuple t : tl){
-            lista.add(t.getS());
+        if (!readFromDatabase){
+            for (Okvir o : Pocetna.okviri){
+                lista.add(o.getNaziv());
+            }
+        } else {
+            DatabaseHandler db = new DatabaseHandler(getActivity());
+            List<Tuple> tl = db.vratiOkvire(getActivity().getIntent().getStringExtra("tabela"));
+            for (Tuple t : tl){
+                lista.add(t.getS());
+            }
         }
-        if (lista.size() == 0)
+        if (lista.size() == 0) {
+            if (readFromDatabase)
+                Toast.makeText(getActivity(), "Lista je prazna", Toast.LENGTH_SHORT).show();
             return;
+        }
         MojAdapter adapter = new MojAdapter(getActivity(), android.R.layout.simple_list_item_1, lista);
         GridView gv = (GridView) getView().findViewById(R.id.gridViewOkviri);
         gv.setAdapter(adapter);
