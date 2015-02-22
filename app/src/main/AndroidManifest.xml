@@ -23,15 +23,6 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".Lekcije"
-            android:label="@string/title_activity_lekcije"
-            android:parentActivityName=".Pocetna"
-            android:screenOrientation="landscape" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ucko.romb.ucko.Pocetna" />
-        </activity>
-        <activity
             android:name=".Pitanje"
             android:label="@string/title_activity_pitanje" >
         </activity>
