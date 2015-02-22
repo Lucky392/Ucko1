@@ -47,6 +47,10 @@
             android:name=".PostojeceLekcije"
             android:label="@string/title_activity_postojece_lekcije" >
         </activity>
+        <activity
+            android:name=".Odgovor"
+            android:label="@string/title_activity_odgovor" >
+        </activity>
     </application>
 
 </manifest>

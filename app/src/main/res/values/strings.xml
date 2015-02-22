@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Učko</string>
+    <string name="hello_world">njah</string>
     <string name="pitanje">Pitanje: </string>
     <string name="dodaj_zvuk">Dodaj zvuk:</string>
     <string name="odaberi_tacan">Tačan odgovor:</string>
@@ -88,5 +89,6 @@
     <string name="title_activity_nova_lekcija">Nova lekcija</string>
     <string name="title_activity_lekcija">Lekcija</string>
     <string name="title_activity_postojece_lekcije">Postojece lekcije</string>
+    <string name="title_activity_odgovor">Odgovor</string>
 
 </resources>

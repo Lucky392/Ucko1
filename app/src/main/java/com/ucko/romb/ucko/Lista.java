@@ -3,6 +3,7 @@ package com.ucko.romb.ucko;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Fragment;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,9 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
 import android.widget.Toast;
 
-public class Lista extends ListFragment implements OnItemClickListener {
+public class Lista extends Fragment {
 
     List<String> lista = new ArrayList<String>();
 
@@ -21,6 +23,7 @@ public class Lista extends ListFragment implements OnItemClickListener {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.list_fragment, container, false);
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -29,15 +32,17 @@ public class Lista extends ListFragment implements OnItemClickListener {
         for (Tuple t : tl){
             lista.add(t.getS());
         }
-
+        if (lista.size() == 0)
+            return;
         MojAdapter adapter = new MojAdapter(getActivity(), android.R.layout.simple_list_item_1, lista);
-        setListAdapter(adapter);
-        getListView().setOnItemClickListener(this);
-    }
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position,
-                            long id) {
-        Toast.makeText(getActivity(), "Item " + position, Toast.LENGTH_SHORT).show();
+        GridView gv = (GridView) getView().findViewById(R.id.gridViewOkviri);
+        gv.setAdapter(adapter);
+        gv.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(), "Item " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
 
