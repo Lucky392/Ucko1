@@ -83,7 +83,7 @@
             android:id="@+id/tv4" />
 
         <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/tacan_odgovor"
             android:background="#F6FF7A"/>

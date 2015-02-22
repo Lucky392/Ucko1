@@ -43,26 +43,26 @@ public class Lekcija extends ActionBarActivity {
                                 Intent i = new Intent(Lekcija.this, Pitanja.class);
                                 startActivity(i);
                             }
-                        })
-                        .show();
-            }
-        });
+    })
+            .show();
+}
+});
 
         sacuvaj.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Pocetna.okviri.size() > 0)
-                    Pocetna.db.dodajLekciju(new OkvirLekcija(nazivLekcije.getText().toString(), Pocetna.okviri));
-                else
-                    Toast.makeText(null, "Niste uneli ni jedno pitanje!", Toast.LENGTH_SHORT).show();
-            }
+@Override
+public void onClick(View v) {
+        if (Pocetna.okviri.size() > 0)
+        Pocetna.db.dodajLekciju(new OkvirLekcija(nazivLekcije.getText().toString(), Pocetna.okviri));
+        else
+        Toast.makeText(null, "Niste uneli ni jedno pitanje!", Toast.LENGTH_SHORT).show();
+        }
         });
-    }
+        }
 
-    @Override
-    protected void onResume() {
+@Override
+protected void onResume() {
         super.onResume();
         if (Lista.adapter != null)
-            Lista.adapter.notifyDataSetChanged();
+        Lista.adapter.notifyDataSetChanged();
     }
 }
