@@ -4,7 +4,7 @@
     <string name="app_name">Učko</string>
     <string name="hello_world">njah</string>
     <string name="pitanje">Pitanje: </string>
-    <string name="dodaj_zvuk">Dodaj zvuk:</string>
+    <string name="dodaj_zvuk">Dodaj zvuk</string>
     <string name="odaberi_tacan">Tačan odgovor:</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_uredjivanje">Uredjivanje</string>
@@ -29,10 +29,9 @@
     <string name="title_activity_upravljanje_lekcijama">Upravljanje lekcijama</string>
     <string name="title_activity_upravljanje_pitanjima">Upravljanje pitanjima</string>
     <string name="title_activity_upravljanje_karticama">Upravljanje karticama</string>
-    <string name="naslov_kartice">Naslov: </string>
+    <string name="naslov_kartice">Tekst:</string>
     <string name="snimi">Snimaj</string>
     <string name="preslusaj">Slušaj</string>
-    <string name="zvuk">Zvuk: </string>
     <string name="slika">Odaberite sliku</string>
     <string name="pregled">Pogledaj</string>
     <string name="izaberi">Izaberi</string>
