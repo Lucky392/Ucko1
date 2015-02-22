@@ -39,34 +39,62 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:id="@+id/tr4"
-        android:layout_weight=".2"
+        android:layout_weight=".09"
+        android:layout_marginTop="15dp"
         android:paddingTop="10dp">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/dodaj_zvuk"
             android:textColor="#FFF"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:textSize="40sp"
-            android:layout_weight="8"
+            android:paddingRight="15dp"
             android:id="@+id/tv1" />
 
-        <EditText
-            android:layout_width="match_parent"
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:id="@+id/et1"
-            android:layout_weight="3"
-            android:background="#F6FF7A" />
+            android:text="@string/sacuvaj_lekciju"
+            android:textSize="30sp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/oblik_dugmeta"
+            android:id="@+id/btnSnimiPitanje"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/sacuvaj_lekciju"
+            android:textSize="30sp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/oblik_dugmeta"
+            android:id="@+id/btnSlusajPitanje"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/odaberi_tacan"
+            android:textColor="#FFF"
+            android:textSize="40sp"
+            android:gravity="center"
+            android:paddingRight="15dp"
+            android:id="@+id/tv4" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/tacan_odgovor"
+            android:background="#F6FF7A"/>
+
     </TableRow>
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/tr2"
-        android:layout_weight=".6"
-        android:layout_marginTop="10dp">
+        android:layout_weight=".61"
+        android:layout_marginTop="15dp">
 
         <fragment
             android:layout_width="match_parent"
