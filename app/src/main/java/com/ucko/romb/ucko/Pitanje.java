@@ -57,6 +57,7 @@ public class Pitanje extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Pitanje.this, Odgovor.class);
+                i.putExtra("nov", "da");
                 startActivity(i);
             }
         });
