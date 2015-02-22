@@ -26,9 +26,8 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
         Button bojaDugmeta = (Button) findViewById(R.id.btnBojaDugmeta);
         Button bojaTeksta = (Button) findViewById(R.id.btnBojaTeksta);
 
-
-
         podesavanja = Pocetna.db.vratiPodesavanja();
+        mPaint = new Paint();
 
         zvukRadovanja.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +42,7 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
 
             }
         });
-        mPaint = new Paint();
+
         bojaDugmeta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

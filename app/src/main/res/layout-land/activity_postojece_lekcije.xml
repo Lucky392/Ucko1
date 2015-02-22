@@ -14,7 +14,6 @@
         android:name="com.ucko.romb.ucko.Lista"
         android:id="@+id/fragment"
         android:layout_gravity="center_vertical"
-        tools:layout="@layout/list_fragment"
-        android:layout_weight=".5"/>
+        tools:layout="@layout/list_fragment"/>
 
 </LinearLayout>

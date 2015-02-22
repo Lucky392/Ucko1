@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">Učko</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="pitanje">Pitanje: </string>
+    <string name="dodaj_zvuk">Dodaj zvuk</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_uredjivanje">Uredjivanje</string>
     <string name="title_activity_napravi_novo">Napravi novo</string>
