@@ -55,4 +55,11 @@ public class Lekcija extends ActionBarActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Lista.adapter != null)
+            Lista.adapter.notifyDataSetChanged();
+    }
 }

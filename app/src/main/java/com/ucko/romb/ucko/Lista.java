@@ -18,6 +18,7 @@ public class Lista extends Fragment {
 
     List<String> lista = new ArrayList<String>();
     public static boolean readFromDatabase;
+    public static MojAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,12 +40,13 @@ public class Lista extends Fragment {
                 lista.add(t.getS());
             }
         }
+
+        adapter = new MojAdapter(getActivity(), android.R.layout.simple_list_item_1, lista);
         if (lista.size() == 0) {
             if (readFromDatabase)
                 Toast.makeText(getActivity(), "Lista je prazna", Toast.LENGTH_SHORT).show();
             return;
         }
-        MojAdapter adapter = new MojAdapter(getActivity(), android.R.layout.simple_list_item_1, lista);
         GridView gv = (GridView) getView().findViewById(R.id.gridViewOkviri);
         gv.setAdapter(adapter);
         gv.setOnItemClickListener(new OnItemClickListener() {
