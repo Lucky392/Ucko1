@@ -191,9 +191,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return o;
 	}
 
-    private List<Okvir> vratiProsireneOkvire(Cursor cursor, String tabela)
+    private ArrayList<Okvir> vratiProsireneOkvire(Cursor cursor, String tabela)
     {
-        List<Okvir> o = new ArrayList<Okvir>();
+        ArrayList<Okvir> o = new ArrayList<Okvir>();
         if (cursor != null)
             cursor.moveToFirst();
         else
@@ -214,21 +214,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return null;
     }
 
-	public List<Okvir> vratiProsireneOkvire(String tabela) {
+	public ArrayList<Okvir> vratiProsireneOkvire(String tabela) {
 		String selectQuery = "SELECT  * FROM " + OKVIRI + " AS o INNER JOIN "+ tabela +" AS t ON o.id=t.id";
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);
-        List<Okvir> listaOkvirOdgovor = vratiProsireneOkvire(cursor, tabela);
+        ArrayList<Okvir> listaOkvirOdgovor = vratiProsireneOkvire(cursor, tabela);
         db.close();
         cursor.close();
 		return listaOkvirOdgovor;
 	}
 
-    public List<Tuple> vratiOkvire(String tabela) {
+    public ArrayList<Tuple> vratiOkvire(String tabela) {
         String selectQuery = "SELECT * FROM " + KARTICE;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-        List<Tuple> listaOkvira = new ArrayList<Tuple>();
+        ArrayList<Tuple> listaOkvira = new ArrayList<Tuple>();
         if (cursor != null)
             cursor.moveToFirst();
         else
