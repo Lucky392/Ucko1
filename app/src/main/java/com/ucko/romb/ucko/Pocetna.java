@@ -23,6 +23,7 @@ public class Pocetna extends ActionBarActivity {
     Button izlaz;
     public static DatabaseHandler db;
     public static ArrayList<Okvir> okviri = new ArrayList<Okvir>();
+    public static ArrayList<Okvir> pitanja = new ArrayList<Okvir>();
     public static ArrayList<Okvir> odgovori = new ArrayList<Okvir>();
 
     private static char[] removeElements(char[] input, int deleteMe) {

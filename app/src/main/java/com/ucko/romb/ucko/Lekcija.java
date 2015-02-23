@@ -51,8 +51,8 @@ public class Lekcija extends ActionBarActivity {
         sacuvaj.setOnClickListener(new View.OnClickListener() {
 @Override
 public void onClick(View v) {
-        if (Pocetna.okviri.size() > 0)
-        Pocetna.db.dodajLekciju(new OkvirLekcija(nazivLekcije.getText().toString(), Pocetna.okviri));
+        if (Pocetna.pitanja.size() > 0)
+        Pocetna.db.dodajLekciju(new OkvirLekcija(nazivLekcije.getText().toString(), Pocetna.pitanja));
         else
         Toast.makeText(null, "Niste uneli ni jedno pitanje!", Toast.LENGTH_SHORT).show();
         }

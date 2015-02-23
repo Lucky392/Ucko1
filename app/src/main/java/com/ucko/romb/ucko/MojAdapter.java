@@ -1,5 +1,6 @@
 package com.ucko.romb.ucko;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -12,7 +13,7 @@ import android.widget.TextView;
 
 public class MojAdapter extends ArrayAdapter<String>{
 
-    public MojAdapter(Context context, int resource, List<String> objects) {
+    public MojAdapter(Context context, int resource, ArrayList<String> objects) {
         super(context, resource, objects);
     }
 

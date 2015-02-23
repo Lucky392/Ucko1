@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 public class Lista extends Fragment {
 
-    List<String> lista = new ArrayList<String>();
+    ArrayList<String> lista = new ArrayList<String>();
     public static boolean readFromDatabase;
     public static MojAdapter adapter;
 

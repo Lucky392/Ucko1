@@ -43,7 +43,10 @@ public class Pitanje extends ActionBarActivity {
     boolean flagZvuk;
     String ekstra;
 
+    ArrayList<String> odgovori;
+    ArrayList<Tuple> tuple;
     SpinAdapter adapter;
+    MojAdapter mojAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +62,17 @@ public class Pitanje extends ActionBarActivity {
         tacanOdgovor = (Spinner) findViewById(R.id.tacan_odgovor);
         pitanje = (EditText) findViewById(R.id.etPitanje);
 
-        ArrayList<Tuple> t = new ArrayList<Tuple>();
+        odgovori = new ArrayList<String>();
         for (Okvir o : Pocetna.odgovori){
-            t.add(new Tuple(o.getId(),o.getNaziv()));
+            odgovori.add(o.getNaziv());
         }
-        adapter = new SpinAdapter(Pitanje.this, android.R.layout.simple_spinner_item, t);
+        mojAdapter = new MojAdapter(this, android.R.layout.simple_list_item_1, odgovori);
+
+        tuple = new ArrayList<Tuple>();
+        for (Okvir o : Pocetna.odgovori){
+            tuple.add(new Tuple(o.getId(),o.getNaziv()));
+        }
+        adapter = new SpinAdapter(Pitanje.this, android.R.layout.simple_spinner_item, tuple);
         tacanOdgovor.setAdapter(adapter);
 
         NapraviNovoPitanje();
@@ -124,7 +133,39 @@ public class Pitanje extends ActionBarActivity {
         zapamti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ekstra.equals("ne")) {
+                    if (true) {
 
+                    }
+                    finish();
+                } else {
+                    if (!mFileName.equals("") &&!pitanje.getText().toString().trim().equals("") && Pocetna.odgovori.size() >= 2  && Pocetna.odgovori.size() <= 6 && tacanOdgovor.isSelected()) {
+                        String netacniOdgovori = "";
+                        ArrayList<Integer> s = new ArrayList<Integer>();
+                        for (int i = 0; i < Pocetna.odgovori.size(); i++) {
+                            if (Pocetna.odgovori.get(i).getId() == tacanOdgovor.getSelectedItemId())
+                                continue;
+                            s.add(Pocetna.odgovori.get(i).getId());
+                        }
+                        netacniOdgovori += s.get(0);
+                        for (int i = 1; i < s.size(); i++) {
+                            netacniOdgovori += "##" + s.get(i);
+                        }
+                        OkvirPitanje o = new OkvirPitanje(pitanje.getText().toString(), mFileName, (int)tacanOdgovor.getSelectedItemId(), netacniOdgovori);
+
+                        Pocetna.db.dodajPitanje(o);
+
+                        Pocetna.pitanja.add(o);
+
+                        Toast.makeText(Pitanje.this, "Uspešno ste dodali pitanje", Toast.LENGTH_SHORT).show();
+
+                        finish();
+                    } else {
+                        Toast.makeText(Pitanje.this,
+                                "Niste uneli sve podatke", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                }
             }
         });
 
@@ -193,11 +234,13 @@ public class Pitanje extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ArrayList<Tuple> t = new ArrayList<Tuple>();
-        for (Okvir o : Pocetna.odgovori){
-            t.add(new Tuple(o.getId(),o.getNaziv()));
-        }
-        if (adapter != null)
+        if (mojAdapter != null && adapter != null) {
+            mojAdapter.notifyDataSetChanged();
+            tuple = new ArrayList<Tuple>();
+            for (Okvir o : Pocetna.odgovori){
+                tuple.add(new Tuple(o.getId(),o.getNaziv()));
+            }
             adapter.notifyDataSetChanged();
+        }
     }
 }

@@ -79,10 +79,12 @@ public class SkidanjeSlika extends AsyncTask<Void, Integer, Void>{
                 Odgovor.putanjaZaBazu = folder + File.separator + najnoviji;
             iv.setImageBitmap(BitmapFactory.decodeFile(Odgovor.putanjaZaBazu));
             Toast.makeText(cont, "Slika je dodata", Toast.LENGTH_LONG).show();
+/*
 
             ActivityManager am = (ActivityManager) cont.getSystemService(Context.ACTIVITY_SERVICE);
             List<ActivityManager.RunningAppProcessInfo> taskInfo = am.getRunningAppProcesses();
             am.restartPackage(taskInfo.get(0).processName);
+*/
 
             /*ComponentName componentInfo = taskInfo.get(0).topActivity;
             componentInfo.getPackageName();*/
