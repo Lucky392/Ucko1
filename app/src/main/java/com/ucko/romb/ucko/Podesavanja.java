@@ -46,7 +46,9 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
         bojaDugmeta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ColorPickerDialog(Podesavanja.this, Podesavanja.this, mPaint.getColor()).show();
+                ColorPickerDialog c = new ColorPickerDialog(Podesavanja.this, Podesavanja.this, mPaint.getColor());
+                c.setCancelable(true);
+                c.show();
             }
         });
 

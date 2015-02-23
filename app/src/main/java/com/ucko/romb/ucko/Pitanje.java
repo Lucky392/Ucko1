@@ -48,9 +48,9 @@ public class Pitanje extends ActionBarActivity {
 
         ekstra = getIntent().getStringExtra("nov");
 
-        snimi = (Button) findViewById(R.id.btnSacuvajPitanje);
+        snimi = (Button) findViewById(R.id.btnSnimiPitanje);
         slusaj = (Button) findViewById(R.id.btnSlusajPitanje);
-        zapamti = (Button) findViewById(R.id.btnSnimiPitanje);
+        zapamti = (Button) findViewById(R.id.btnSacuvajPitanje);
         dodajOdgovor = (Button) findViewById(R.id.btnDodajOdgovor);
         tacanOdgovor = (Spinner) findViewById(R.id.tacan_odgovor);
         pitanje = (EditText) findViewById(R.id.etPitanje);
