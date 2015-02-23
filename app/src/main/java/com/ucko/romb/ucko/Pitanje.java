@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -17,8 +18,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class Pitanje extends ActionBarActivity {
@@ -61,6 +65,8 @@ public class Pitanje extends ActionBarActivity {
         }
         adapter = new SpinAdapter(Pitanje.this, android.R.layout.simple_spinner_item, t);
         tacanOdgovor.setAdapter(adapter);
+
+        NapraviNovoPitanje();
 
         tacanOdgovor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -130,6 +136,17 @@ public class Pitanje extends ActionBarActivity {
                 startActivity(i);
             }
         });
+    }
+
+    public void NapraviNovoPitanje() {
+        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath()
+                + File.separator + "App" + File.separator + "Zvuci";
+        if (!(new File(mFileName).exists())) {
+            new File(mFileName).mkdirs();
+        }
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                .format(new Date());
+        mFileName += File.separator + "PITANJE_" + timeStamp + ".3gp";
     }
 
     private void startPlaying() {

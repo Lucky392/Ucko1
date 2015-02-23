@@ -128,7 +128,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         } catch(Exception e){
             s = new String[]{"","","","",""};
         }
-        db.close();
         cursor.close();
         return s;
     }
@@ -148,7 +147,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             db.update(PODESAVANJA, values, KEY_ID + " = ?",
                     new String[] { String.valueOf(1) });
         }
-        db.close();
     }
 
     public int vratiIdOkvira() {
@@ -160,7 +158,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToLast()) {
             a = cursor.getInt(0);
         }
-        db.close();
         cursor.close();
         return a;
     }
@@ -186,7 +183,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String selectQuery = "SELECT * FROM " + OKVIRI + " AS o INNER JOIN "+ tabela +" AS t ON o.id=t.id WHERE o." + KEY_ID + "=" + id;
 		Cursor cursor = db.rawQuery(selectQuery, null);
 		Okvir o = vratiProsireniOkvir(cursor, tabela);
-        db.close();
         cursor.close();
 		return o;
 	}
@@ -219,7 +215,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);
         ArrayList<Okvir> listaOkvirOdgovor = vratiProsireneOkvire(cursor, tabela);
-        db.close();
         cursor.close();
 		return listaOkvirOdgovor;
 	}
@@ -238,7 +233,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 listaOkvira.add(new Tuple(cursor.getInt(0),cursor.getString(1)));
             }
         }
-        db.close();
         cursor.close();
         return listaOkvira;
     }
@@ -248,7 +242,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(NAZIV, naziv);
         db.insert(OKVIRI, null, values);
-        db.close();
     }
 
     public void dodajOdgovor(OkvirOdgovor o) {
@@ -259,7 +252,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(SLIKA, o.getSlika());
         values.put(ZVUK, o.getZvuk());
         db.insert(KARTICE, null, values);
-        db.close();
     }
 
     public void dodajPitanje(OkvirPitanje p) {
@@ -271,7 +263,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(TACAN_ODGOVOR, p.getTacanOdgovor());
         values.put(NETACNI_ODGOVORI, p.toString());
         db.insert(PITANJA, null, values);
-        db.close();
     }
 
     public void dodajLekciju(OkvirLekcija l) {
@@ -281,7 +272,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_ID, vratiIdOkvira());
         values.put(LEKCIJA, l.toString());
         db.insert(LEKCIJE, null, values);
-        db.close();
     }
 
     private int azurirajOkvir(int id, String naziv) {
@@ -290,7 +280,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(NAZIV, naziv);
         int a = db.update(OKVIRI, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(id) });
-        db.close();
         return a;
     }
 
@@ -302,7 +291,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put(ZVUK, o.getZvuk());
         int a = db.update(KARTICE, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(o.getId()) });
-        db.close();
 		return a;
 	}
 
@@ -315,7 +303,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(NETACNI_ODGOVORI, o.toString());
         int a = db.update(PITANJA, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(o.getId()) });
-        db.close();
         return a;
     }
 
@@ -326,7 +313,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(LEKCIJA, o.toString());
         int a = db.update(LEKCIJE, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(o.getId()) });
-        db.close();
         return a;
     }
 
@@ -340,7 +326,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         db.delete(KARTICE, KEY_ID + " = ?",
 				new String[] { String.valueOf(o.getId()) });
-		db.close();
 	}
 
 	public void obrisiLekciju(OkvirPitanje o) {
@@ -353,14 +338,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
 		db.delete(PITANJA, KEY_ID + " = ?",
 				new String[] { String.valueOf(o.getId()) });
-		db.close();
 	}
 
 	public void obrisiSkupLekcija(OkvirLekcija k) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(LEKCIJE, KEY_ID + " = ?",
 				new String[] { String.valueOf(k.getId()) });
-		db.close();
 	}
 
 }

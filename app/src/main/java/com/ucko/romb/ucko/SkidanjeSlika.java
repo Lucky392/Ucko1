@@ -16,9 +16,11 @@ public class SkidanjeSlika extends AsyncTask<Void, Integer, Void>{
     String najnoviji = "";
     Context cont;
     long check;
+    ImageView iv;
 
     public SkidanjeSlika(Context c, ImageView iv){
         cont = c;
+        this.iv = iv;
     }
     @Override
     protected void onPreExecute() {
