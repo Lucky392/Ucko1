@@ -269,6 +269,7 @@ public class Odgovor extends Activity {
     }
 
     private void galleryAddPic() {
+
         Intent mediaScanIntent = new Intent(
                 Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(trenutnaPutanja);
