@@ -44,7 +44,6 @@
                 android:layout_gravity="center"
                 android:id="@+id/editText1"
                 android:background="#F6FF7A" >
-                <requestFocus/>
             </EditText>
 
         </TableRow>
