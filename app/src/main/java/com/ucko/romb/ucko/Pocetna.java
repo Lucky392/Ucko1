@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class Pocetna extends ActionBarActivity {
 
+    //komentar
     Button radiLekcije;
     Button novaLekcija;
     Button urediPostojece;
