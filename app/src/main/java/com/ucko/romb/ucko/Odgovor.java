@@ -104,6 +104,8 @@ public class Odgovor extends Activity {
         tv = (TextView) findViewById(R.id.textView);
         iv = (ImageView) findViewById(R.id.imageView);
 
+        NapraviNoviOdgovor();
+
         naslov.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -298,11 +300,11 @@ public class Odgovor extends Activity {
 
         try {
             mRecorder.prepare();
+            mRecorder.start();
         } catch (IOException e) {
             Log.e(LOG_TAG, "prepare() failed");
+            Toast.makeText(null,e.getMessage(),Toast.LENGTH_SHORT).show();
         }
-
-        mRecorder.start();
     }
 
     private void stopRecording() {
@@ -355,8 +357,7 @@ public class Odgovor extends Activity {
                                         Intent.ACTION_VIEW,
                                         Uri.parse("http://www.google.rs/imghp?hl=en&tab=wi&ei=CAniU-OeDK-GyAPnjYGIBg&ved=0CAQQqi4oAg"));
                                 startActivity(i);
-                                skidanjeSlika = new SkidanjeSlika(
-                                        Odgovor.this);
+                                skidanjeSlika = new SkidanjeSlika(Odgovor.this, iv);
                                 skidanjeSlika.execute();
                             }
                         }).show();
