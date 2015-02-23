@@ -32,7 +32,6 @@
             android:id="@+id/etPitanje"
             android:layout_weight="3"
             android:background="#F6FF7A" >
-            <requestFocus/>
         </EditText>
     </TableRow>
 
