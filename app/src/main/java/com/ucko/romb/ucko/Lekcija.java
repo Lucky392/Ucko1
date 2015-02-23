@@ -34,6 +34,7 @@ public class Lekcija extends ActionBarActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent i = new Intent(Lekcija.this, Pitanje.class);
+                                finish();
                                 startActivity(i);
                             }
                         })
@@ -59,10 +60,5 @@ public void onClick(View v) {
         });
         }
 
-@Override
-protected void onResume() {
-        super.onResume();
-        if (Lista.adapter != null)
-        Lista.adapter.notifyDataSetChanged();
-    }
+
 }

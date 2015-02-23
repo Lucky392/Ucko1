@@ -62,12 +62,6 @@ public class Pitanje extends ActionBarActivity {
         tacanOdgovor = (Spinner) findViewById(R.id.tacan_odgovor);
         pitanje = (EditText) findViewById(R.id.etPitanje);
 
-        odgovori = new ArrayList<String>();
-        for (Okvir o : Pocetna.odgovori){
-            odgovori.add(o.getNaziv());
-        }
-        mojAdapter = new MojAdapter(this, android.R.layout.simple_list_item_1, odgovori);
-
         tuple = new ArrayList<Tuple>();
         for (Okvir o : Pocetna.odgovori){
             tuple.add(new Tuple(o.getId(),o.getNaziv()));
@@ -174,6 +168,7 @@ public class Pitanje extends ActionBarActivity {
             public void onClick(View v) {
                 Intent i = new Intent(Pitanje.this, Odgovor.class);
                 i.putExtra("nov", "da");
+                finish();
                 startActivity(i);
             }
         });
@@ -231,16 +226,4 @@ public class Pitanje extends ActionBarActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mojAdapter != null && adapter != null) {
-            mojAdapter.notifyDataSetChanged();
-            tuple = new ArrayList<Tuple>();
-            for (Okvir o : Pocetna.odgovori){
-                tuple.add(new Tuple(o.getId(),o.getNaziv()));
-            }
-            adapter.notifyDataSetChanged();
-        }
-    }
 }

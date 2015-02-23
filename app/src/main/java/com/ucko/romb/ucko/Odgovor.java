@@ -208,6 +208,16 @@ public class Odgovor extends Activity {
 
                         Toast.makeText(Odgovor.this, "Uspešno ste dodali odgovor", Toast.LENGTH_SHORT).show();
 
+                        ArrayList<String> s = new ArrayList<String>();
+                        for (Okvir o : Pocetna.odgovori){
+                            s.add(o.getNaziv());
+                        }
+                        Lista.lista = s;
+
+                        Lista.adapter.notifyDataSetChanged();
+
+                        startActivity(new Intent(Odgovor.this, Pitanje.class));
+
                         finish();
                     } else {
                         Toast.makeText(Odgovor.this,
