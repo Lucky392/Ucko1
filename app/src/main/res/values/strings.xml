@@ -90,5 +90,6 @@
     <string name="title_activity_lekcija">Lekcija</string>
     <string name="title_activity_postojece_lekcije">Postojece lekcije</string>
     <string name="title_activity_odgovor">Odgovor</string>
+    <string name="title_activity_pitanja_rad">PitanjaRad</string>
 
 </resources>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/fragment_2">
 
 
     <TableRow
@@ -10,7 +11,8 @@
         android:layout_weight="1"
         android:layout_marginRight="5dp"
         android:padding="15dp"
-        android:background="#000">
+        android:background="#000"
+        android:id="@+id/odg21">
 
         <LinearLayout android:orientation="vertical"
             android:layout_width="match_parent"
@@ -24,7 +26,7 @@
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/imageButton" />
+                    android:id="@+id/imageButton21" />
             </TableRow>
 
             <TableRow
@@ -40,7 +42,7 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Large Text"
                     android:layout_gravity="center"
-                    android:id="@+id/textView" />
+                    android:id="@+id/textView21" />
             </TableRow>
         </LinearLayout>
     </TableRow>
@@ -51,7 +53,8 @@
         android:layout_marginLeft="5dp"
         android:layout_weight="1"
         android:padding="15dp"
-        android:background="#000">
+        android:background="#000"
+        android:id="@+id/odg22">
 
         <LinearLayout android:orientation="vertical"
             android:layout_width="match_parent"
@@ -65,7 +68,7 @@
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/imageButton1" />
+                    android:id="@+id/imageButton22" />
             </TableRow>
 
             <TableRow
@@ -81,7 +84,7 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Large Text"
                     android:layout_gravity="center"
-                    android:id="@+id/textView1" />
+                    android:id="@+id/textView22" />
             </TableRow>
         </LinearLayout>
     </TableRow>

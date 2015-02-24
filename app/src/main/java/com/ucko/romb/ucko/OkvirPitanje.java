@@ -16,7 +16,7 @@ public class OkvirPitanje extends Okvir {
 		this.zvuk = zvuk;
 		this.netacniOdgovori = new LinkedList<Integer>();
 		for (String in : netacniOdgovori.split("##")) {
-			this.netacniOdgovori.add(Integer.parseInt(in));
+			this.getNetacniOdgovori().add(Integer.parseInt(in));
 		}
 	}
 
@@ -27,7 +27,7 @@ public class OkvirPitanje extends Okvir {
 		this.zvuk = zvuk;
 		this.netacniOdgovori = new LinkedList<Integer>();
         for (String in : netacniOdgovori.split("##")) {
-            this.netacniOdgovori.add(Integer.parseInt(in));
+            this.getNetacniOdgovori().add(Integer.parseInt(in));
         }
 	}
 
@@ -46,10 +46,10 @@ public class OkvirPitanje extends Okvir {
 	@Override
 	public String toString() {
 		String s = "";
-		for (int i = 0; i < netacniOdgovori.size() - 1; i++) {
-			s += netacniOdgovori.get(i) + "##";
+		for (int i = 0; i < getNetacniOdgovori().size() - 1; i++) {
+			s += getNetacniOdgovori().get(i) + "##";
 		}
-		s += netacniOdgovori.getLast();
+		s += getNetacniOdgovori().getLast();
 		return s;
 	}
 }

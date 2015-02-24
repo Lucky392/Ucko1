@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/fragment_6">
 
     <TableRow
         android:layout_width="match_parent"
@@ -13,7 +14,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:padding="15dp"
-            android:background="#000">
+            android:background="#000"
+            android:id="@+id/odg61">
 
             <LinearLayout android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -53,7 +55,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:padding="15dp"
-            android:background="#000">
+            android:background="#000"
+            android:id="@+id/odg62">
 
             <LinearLayout android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -93,7 +96,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:padding="15dp"
-            android:background="#000">
+            android:background="#000"
+            android:id="@+id/odg63">
 
             <LinearLayout android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -142,7 +146,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:padding="15dp"
-            android:background="#000">
+            android:background="#000"
+            android:id="@+id/odg64">
 
             <LinearLayout android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -182,7 +187,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:padding="15dp"
-            android:background="#000">
+            android:background="#000"
+            android:id="@+id/odg65">
 
             <LinearLayout android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -222,7 +228,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:padding="15dp"
-            android:background="#000">
+            android:background="#000"
+            android:id="@+id/odg66">
 
             <LinearLayout android:orientation="vertical"
                 android:layout_width="match_parent"
