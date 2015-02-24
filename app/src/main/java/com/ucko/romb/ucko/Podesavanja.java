@@ -20,19 +20,27 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_podesavanja);
 
-        Button zvukRadovanja = (Button) findViewById(R.id.btnZvukRadovanja);
-        Button promeniSlova = (Button) findViewById(R.id.btnSlova);
-        Button bojaPozadine = (Button) findViewById(R.id.btnBojaPozadine);
-        Button bojaDugmeta = (Button) findViewById(R.id.btnBojaDugmeta);
-        Button bojaTeksta = (Button) findViewById(R.id.btnBojaTeksta);
+        Button snimiZvukTacnog = (Button) findViewById(R.id.btnSnimiTacan);
+        Button slusajZvukTacnog = (Button) findViewById(R.id.btnSlusajTacan);
+        Button vratiZvukTacnogNaPodrazumevano = (Button) findViewById(R.id.btnVratiNaPodrazumevaniTacni);
+
+        Button snimiZvukNetacnog = (Button) findViewById(R.id.btnSnimiNetacni);
+        Button slusajZvukNetacnog = (Button) findViewById(R.id.btnSlusajNetacni);
+        Button vratiZvukNetacnogNaPodrazumevano = (Button) findViewById(R.id.btnVratiNaPodrazumevanNetacni);
+
+
+
+        Button promeniSlova = (Button) findViewById(R.id.btnOdaberiSlova);
+        Button bojaPozadine = (Button) findViewById(R.id.btnOdaberiBojuPozadine);
+
+        Button bojaTeksta = (Button) findViewById(R.id.btnOdaberiBojuTeksta);
 
         podesavanja = Pocetna.db.vratiPodesavanja();
         mPaint = new Paint();
 
-        zvukRadovanja.setOnClickListener(new View.OnClickListener() {
+        snimiZvukTacnog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TREBA SMISLITI KAKO DA SE DODAJE ZVUK ZA RADOVANJE!!!
             }
         });
 
@@ -43,7 +51,42 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
             }
         });
 
-        bojaDugmeta.setOnClickListener(new View.OnClickListener() {
+        slusajZvukTacnog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        vratiZvukTacnogNaPodrazumevano.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        vratiZvukNetacnogNaPodrazumevano.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        snimiZvukNetacnog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        slusajZvukNetacnog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        bojaPozadine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ColorPickerDialog c = new ColorPickerDialog(Podesavanja.this, Podesavanja.this, mPaint.getColor());
@@ -52,17 +95,12 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
             }
         });
 
-        bojaPozadine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(Podesavanja.this, mPaint.getColor() + "", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         bojaTeksta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ColorPickerDialog c = new ColorPickerDialog(Podesavanja.this, Podesavanja.this, mPaint.getColor());
+                c.setCancelable(true);
+                c.show();
             }
         });
 

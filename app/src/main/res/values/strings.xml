@@ -16,9 +16,10 @@
     <string name="radi_lekcije">Postojeće lekcije</string>
     <string name="upravljanje_sadrzajem">Napravi novu lekciju</string>
     <string name="uredi_postojece">Uredi postojeće lekcije</string>
+    <string name="osnovni">Podrazumevani</string>
     <string name="dodaj_pitanje">Dodaj pitanje</string>
     <string name="sacuvaj">Sačuvaj</string>
-    <string name="opcije">Podešavanja</string>
+    <string name="opcije">Podešavanja lekcija</string>
     <string name="izlaz">Izlaz</string>
     <string name="uredi_lekciju">Uredi lekciju</string>
     <string name="uredi_pitanje">Uredi pitanje</string>
@@ -32,6 +33,7 @@
     <string name="title_activity_upravljanje_karticama">Upravljanje karticama</string>
     <string name="naslov_kartice">Tekst:</string>
     <string name="snimi">Snimaj</string>
+    <string name="odaberi">Odaberi</string>
     <string name="preslusaj">Slušaj</string>
     <string name="slika">Odaberite sliku</string>
     <string name="pregled">Pogledaj</string>
@@ -39,10 +41,10 @@
     <string name="sacuvaj_lekciju">Sačuvaj</string>
     <string name="title_activity_podesavanja">Podešavanja</string>
     <string name="zvuk_radovanja">Promeni zvuk radovanja</string>
-    <string name="boja_pozadina">Promeni boju pozadine</string>
-    <string name="boja_dugmeta">Promeni boju dugmeta</string>
-    <string name="boja_teksta">Promeni boju teksta</string>
-    <string name="promena_slova">Promeni slova</string>
+    <string name="boja_pozadina">Promeni boju pozadine:</string>
+    <string name="boja_dugmeta">Promeni boju dugmeta:</string>
+    <string name="boja_teksta">Promeni boju teksta:</string>
+    <string name="promena_slova">Promeni pismo na:</string>
     <string name="naziv_lekcije">Naziv lekcije: </string>
     <string name="odaberite_boju">Odaberite boju</string>
     <string name="c_odaberite_boju">Одаберите боју</string>
@@ -91,5 +93,7 @@
     <string name="title_activity_postojece_lekcije">Postojece lekcije</string>
     <string name="title_activity_odgovor">Odgovor</string>
     <string name="title_activity_pitanja_rad">PitanjaRad</string>
+    <string name="zvuk_za_tacan">Zvuk za tačan odgovor:</string>
+    <string name="zvuk_za_netacan">Zvuk za netačan odgovor:</string>
 
 </resources>
