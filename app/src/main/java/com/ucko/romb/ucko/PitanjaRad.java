@@ -37,31 +37,31 @@ public class PitanjaRad extends Activity {
                 case 2 :
                     Fragment_2 fr2 = new Fragment_2();
                     FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
-                    transaction2.add(R.id.fragment_2, fr2);
+                    transaction2.add(R.id.trFragment, fr2);
                     transaction2.commit();
                     break;
                 case 3 :
                     Fragment_3 fr3 = new Fragment_3();
                     FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
-                    transaction3.add(R.id.fragment_3, fr3);
+                    transaction3.add(R.id.trFragment, fr3);
                     transaction3.commit();
                     break;
                 case 4 :
                     Fragment_4 fr4 = new Fragment_4();
                     FragmentTransaction transaction4 = getFragmentManager().beginTransaction();
-                    transaction4.add(R.id.fragment_4, fr4);
+                    transaction4.add(R.id.trFragment, fr4);
                     transaction4.commit();
                     break;
                 case 5 :
                     Fragment_5 fr5 = new Fragment_5();
                     FragmentTransaction transaction5 = getFragmentManager().beginTransaction();
-                    transaction5.add(R.id.fragment_5, fr5);
+                    transaction5.add(R.id.trFragment, fr5);
                     transaction5.commit();
                     break;
                 case 6 :
                     Fragment_6 fr6 = new Fragment_6();
                     FragmentTransaction transaction6 = getFragmentManager().beginTransaction();
-                    transaction6.add(R.id.fragment_6, fr6);
+                    transaction6.add(R.id.trFragment, fr6);
                     transaction6.commit();
                     break;
             }
