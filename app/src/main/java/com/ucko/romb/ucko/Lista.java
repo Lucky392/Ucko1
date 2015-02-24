@@ -44,9 +44,11 @@ public class Lista extends Fragment {
         adapter = new MojAdapter(getActivity(), android.R.layout.simple_list_item_1, lista);
         if (lista.size() == 0) {
             if (readFromDatabase){
+                readFromDatabase = false;
                 Toast.makeText(getActivity(), "Lista je prazna", Toast.LENGTH_SHORT).show();
                 return;
             }
+            readFromDatabase = false;
         }
         GridView gv = (GridView) getView().findViewById(R.id.gridViewOkviri);
         gv.setAdapter(adapter);

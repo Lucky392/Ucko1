@@ -59,7 +59,7 @@ public class SpinAdapter extends ArrayAdapter<Tuple> {
         TextView label = new TextView(context);
         label.setTextColor(Color.BLACK);
         label.setText(values.get(position).getS());
-
+        label.setTextSize(30);
         return label;
     }
 }

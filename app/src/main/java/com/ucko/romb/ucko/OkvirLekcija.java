@@ -20,6 +20,7 @@ public class OkvirLekcija extends Okvir {
 
     public OkvirLekcija(String naziv, ArrayList<Okvir> pitanja){
         this.naziv = naziv;
+        this.pitanja = new ArrayList<Integer>();
         for (int i = 0; i < pitanja.size(); i++) {
             this.pitanja.add(pitanja.get(i).getId());
         }

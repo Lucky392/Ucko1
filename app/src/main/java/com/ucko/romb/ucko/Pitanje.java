@@ -1,5 +1,7 @@
 package com.ucko.romb.ucko;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -42,6 +44,7 @@ public class Pitanje extends ActionBarActivity {
     private MediaPlayer mPlayer = null;
     boolean flagZvuk;
     String ekstra;
+    static Lista l;
 
     ArrayList<String> odgovori;
     ArrayList<Tuple> tuple;
@@ -133,25 +136,33 @@ public class Pitanje extends ActionBarActivity {
                     }
                     finish();
                 } else {
-                    if (!mFileName.equals("") &&!pitanje.getText().toString().trim().equals("") && Pocetna.odgovori.size() >= 2  && Pocetna.odgovori.size() <= 6 && tacanOdgovor.isSelected()) {
+                    if (!mFileName.equals("") &&!pitanje.getText().toString().trim().equals("") && Pocetna.odgovori.size() >= 2  && Pocetna.odgovori.size() <= 6/* && tacanOdgovor.isSelected()*/) {
                         String netacniOdgovori = "";
                         ArrayList<Integer> s = new ArrayList<Integer>();
-                        for (int i = 0; i < Pocetna.odgovori.size(); i++) {
-                            if (Pocetna.odgovori.get(i).getId() == tacanOdgovor.getSelectedItemId())
-                                continue;
+                        for (int i = 1; i < Pocetna.odgovori.size(); i++) {
+                            /*if (Pocetna.odgovori.get(i).getId() == tacanOdgovor.getSelectedItemId())
+                                continue;*/
                             s.add(Pocetna.odgovori.get(i).getId());
                         }
                         netacniOdgovori += s.get(0);
                         for (int i = 1; i < s.size(); i++) {
                             netacniOdgovori += "##" + s.get(i);
                         }
-                        OkvirPitanje o = new OkvirPitanje(pitanje.getText().toString(), mFileName, (int)tacanOdgovor.getSelectedItemId(), netacniOdgovori);
+                        OkvirPitanje o = new OkvirPitanje(pitanje.getText().toString(), mFileName, 1, netacniOdgovori);
 
                         Pocetna.db.dodajPitanje(o);
 
                         Pocetna.pitanja.add(o);
 
                         Toast.makeText(Pitanje.this, "Uspešno ste dodali pitanje", Toast.LENGTH_SHORT).show();
+
+                        ArrayList<String> s1 = new ArrayList<String>();
+                        for (Okvir o1 : Pocetna.pitanja){
+                            s1.add(o1.getNaziv());
+                        }
+                        Lista.lista = s1;
+
+                        Lista.adapter.notifyDataSetChanged();
 
                         finish();
                     } else {
@@ -168,7 +179,6 @@ public class Pitanje extends ActionBarActivity {
             public void onClick(View v) {
                 Intent i = new Intent(Pitanje.this, Odgovor.class);
                 i.putExtra("nov", "da");
-                finish();
                 startActivity(i);
             }
         });
@@ -226,4 +236,15 @@ public class Pitanje extends ActionBarActivity {
         }
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        l = new Lista();
+        fragmentTransaction.replace(R.id.fragment_container, l);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
 }

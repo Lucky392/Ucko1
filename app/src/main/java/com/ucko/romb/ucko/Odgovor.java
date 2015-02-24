@@ -216,7 +216,7 @@ public class Odgovor extends Activity {
 
                         Lista.adapter.notifyDataSetChanged();
 
-                        startActivity(new Intent(Odgovor.this, Pitanje.class));
+                        //startActivity(new Intent(Odgovor.this, Pitanje.class));
 
                         finish();
                     } else {

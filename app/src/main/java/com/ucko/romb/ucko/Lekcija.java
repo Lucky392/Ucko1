@@ -1,6 +1,8 @@
 package com.ucko.romb.ucko;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -10,10 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class Lekcija extends ActionBarActivity {
 
     Button dodajPitanje, sacuvaj;
     EditText nazivLekcije;
+    static Lista l;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,38 +32,54 @@ public class Lekcija extends ActionBarActivity {
         dodajPitanje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(Lekcija.this)
-                        .setMessage("Dodaj lekciju")
+                /*new AlertDialog.Builder(Lekcija.this)
+                        .setMessage("Dodaj pitanje")
                         .setCancelable(true)
-                        .setPositiveButton("Nova", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Novo", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialog, int which) {*/
                                 Intent i = new Intent(Lekcija.this, Pitanje.class);
-                                finish();
+                                i.putExtra("nov", "da");
                                 startActivity(i);
-                            }
+                     /*       }
                         })
-                        .setNeutralButton("Postojeća", new DialogInterface.OnClickListener() {
+                        .setNeutralButton("Postojeće", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent i = new Intent(Lekcija.this, Pitanja.class);
+                                i.putExtra("tabela", DatabaseHandler.LEKCIJE);
+                                Lista.readFromDatabase = true;
                                 startActivity(i);
                             }
     })
-            .show();
+            .show();*/
 }
 });
 
         sacuvaj.setOnClickListener(new View.OnClickListener() {
 @Override
 public void onClick(View v) {
-        if (Pocetna.pitanja.size() > 0)
-        Pocetna.db.dodajLekciju(new OkvirLekcija(nazivLekcije.getText().toString(), Pocetna.pitanja));
+        if (Pocetna.pitanja.size() > 0) {
+            Pocetna.db.dodajLekciju(new OkvirLekcija(nazivLekcije.getText().toString(), Pocetna.pitanja));
+            Lista.lista = new ArrayList<String>();
+            Lista.adapter.notifyDataSetChanged();
+            finish();
+        }
         else
-        Toast.makeText(null, "Niste uneli ni jedno pitanje!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(null, "Niste uneli ni jedno pitanje!", Toast.LENGTH_SHORT).show();
         }
         });
         }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        l = new Lista();
+        fragmentTransaction.replace(R.id.fragment_container, l);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
 
 }

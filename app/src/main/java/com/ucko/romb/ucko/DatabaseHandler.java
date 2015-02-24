@@ -220,7 +220,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	}
 
     public ArrayList<Tuple> vratiOkvire(String tabela) {
-        String selectQuery = "SELECT id, naziv FROM " + OKVIRI + " AS o INNER JOIN "+ tabela +" AS t ON o.id=t.id";
+        String selectQuery = "SELECT o.id, o.naziv FROM " + OKVIRI + " AS o INNER JOIN "+ tabela +" AS t ON o.id=t.id";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         ArrayList<Tuple> listaOkvira = new ArrayList<Tuple>();

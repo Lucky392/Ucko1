@@ -22,6 +22,7 @@ public class MojAdapter extends ArrayAdapter<String>{
         View view = super.getView(position, convertView, parent);
         TextView text = (TextView) view.findViewById(android.R.id.text1);
         text.setTextColor(Color.WHITE);
+        text.setTextSize(50);
         return view;
     }
 }
