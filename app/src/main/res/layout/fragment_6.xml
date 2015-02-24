@@ -26,10 +26,10 @@
                     android:layout_height="fill_parent"
                     android:layout_weight=".2" >
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/imageButton1" />
+                        android:id="@+id/imageView61" />
                 </TableRow>
 
                 <TableRow
@@ -45,7 +45,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
                         android:layout_gravity="center"
-                        android:id="@+id/textView1" />
+                        android:id="@+id/textView61" />
                 </TableRow>
             </LinearLayout>
 
@@ -67,10 +67,10 @@
                     android:layout_height="fill_parent"
                     android:layout_weight=".2" >
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/imageButton2" />
+                        android:id="@+id/imageView62"/>
                 </TableRow>
 
                 <TableRow
@@ -86,7 +86,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
                         android:layout_gravity="center"
-                        android:id="@+id/textView2" />
+                        android:id="@+id/textView62" />
                 </TableRow>
             </LinearLayout>
 
@@ -108,10 +108,10 @@
                     android:layout_height="fill_parent"
                     android:layout_weight=".2" >
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/imageButton3" />
+                        android:id="@+id/imageView63" />
                 </TableRow>
 
                 <TableRow
@@ -127,7 +127,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
                         android:layout_gravity="center"
-                        android:id="@+id/textView3" />
+                        android:id="@+id/textView63" />
                 </TableRow>
 
             </LinearLayout>
@@ -158,10 +158,10 @@
                     android:layout_height="fill_parent"
                     android:layout_weight=".2" >
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/imageButton4" />
+                        android:id="@+id/imageView64" />
                 </TableRow>
 
                 <TableRow
@@ -177,7 +177,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
                         android:layout_gravity="center"
-                        android:id="@+id/textView4" />
+                        android:id="@+id/textView64" />
                 </TableRow>
             </LinearLayout>
 
@@ -199,10 +199,10 @@
                     android:layout_height="fill_parent"
                     android:layout_weight=".2" >
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/imageButton5" />
+                        android:id="@+id/imageView65" />
                 </TableRow>
 
                 <TableRow
@@ -218,7 +218,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
                         android:layout_gravity="center"
-                        android:id="@+id/textView5" />
+                        android:id="@+id/textView65" />
                 </TableRow>
             </LinearLayout>
 
@@ -240,10 +240,10 @@
                     android:layout_height="fill_parent"
                     android:layout_weight=".2" >
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/imageButton6" />
+                        android:id="@+id/imageView66" />
                 </TableRow>
 
                 <TableRow
@@ -259,7 +259,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
                         android:layout_gravity="center"
-                        android:id="@+id/textView6" />
+                        android:id="@+id/textView66" />
                 </TableRow>
 
             </LinearLayout>

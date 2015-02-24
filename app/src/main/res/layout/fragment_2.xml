@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_2">
+    android:id="@+id/fragment_2"
+    android:background="#000">
 
 
     <TableRow
@@ -23,10 +24,10 @@
                 android:layout_height="fill_parent"
                 android:layout_weight=".2" >
 
-                <ImageButton
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/imageButton21" />
+                    android:id="@+id/imageview21" />
             </TableRow>
 
             <TableRow
@@ -65,10 +66,10 @@
                 android:layout_height="fill_parent"
                 android:layout_weight=".2" >
 
-                <ImageButton
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/imageButton22" />
+                    android:id="@+id/imageview22" />
             </TableRow>
 
             <TableRow

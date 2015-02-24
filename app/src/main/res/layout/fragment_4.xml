@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_4">
+    android:id="@+id/fragment_4"
+    android:background="#000">
 
     <TableRow
         android:layout_width="match_parent"
@@ -27,10 +28,10 @@
                     android:layout_height="fill_parent"
                     android:layout_weight=".2" >
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/imageButton1" />
+                        android:id="@+id/imageview41" />
                 </TableRow>
 
                 <TableRow
@@ -46,7 +47,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
                         android:layout_gravity="center"
-                        android:id="@+id/textView1" />
+                        android:id="@+id/textView41" />
                 </TableRow>
             </LinearLayout>
         </TableRow>
@@ -69,10 +70,10 @@
                     android:layout_height="fill_parent"
                     android:layout_weight=".2" >
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/imageButton2" />
+                        android:id="@+id/imageview42" />
                 </TableRow>
 
                 <TableRow
@@ -88,7 +89,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
                         android:layout_gravity="center"
-                        android:id="@+id/textView2" />
+                        android:id="@+id/textView42" />
                 </TableRow>
             </LinearLayout>
         </TableRow>
@@ -119,10 +120,10 @@
                     android:layout_height="fill_parent"
                     android:layout_weight=".2" >
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/imageButton3" />
+                        android:id="@+id/imageview43" />
                 </TableRow>
 
                 <TableRow
@@ -138,7 +139,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
                         android:layout_gravity="center"
-                        android:id="@+id/textView3" />
+                        android:id="@+id/textView43" />
                 </TableRow>
             </LinearLayout>
         </TableRow>
@@ -161,10 +162,10 @@
                     android:layout_height="fill_parent"
                     android:layout_weight=".2" >
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/imageButton4" />
+                        android:id="@+id/imageview44" />
                 </TableRow>
 
                 <TableRow
@@ -180,7 +181,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
                         android:layout_gravity="center"
-                        android:id="@+id/textView4" />
+                        android:id="@+id/textView44" />
                 </TableRow>
             </LinearLayout>
         </TableRow>
