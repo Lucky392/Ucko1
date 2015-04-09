@@ -1,9 +1,6 @@
 package com.ucko.romb.ucko;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -12,19 +9,19 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+import baza.DatabaseHandler;
+import okviri.Lekcija;
+
 
 public class Pocetna extends ActionBarActivity {
 
-    //komentar
     Button radiLekcije;
     Button novaLekcija;
     Button urediPostojece;
     Button opcije;
     Button izlaz;
     public static DatabaseHandler db;
-    public static ArrayList<Okvir> okviri = new ArrayList<Okvir>();
-    public static ArrayList<Okvir> pitanja = new ArrayList<Okvir>();
-    public static ArrayList<Okvir> odgovori = new ArrayList<Okvir>();
+    public static ArrayList<Lekcija> lekcije = new ArrayList<Lekcija>();
 
     private static char[] removeElements(char[] input, int deleteMe) {
         ArrayList<Character> result = new ArrayList<Character>();
@@ -203,9 +200,9 @@ public class Pocetna extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Pocetna.this, PostojeceLekcije.class);
-                i.putExtra("radjenje", true);
-                i.putExtra("tabela", DatabaseHandler.LEKCIJE);
+                Intent i = new Intent(Pocetna.this, PitanjaRad.class);
+                /*i.putExtra("radjenje", true);
+                i.putExtra("tabela", DatabaseHandler.LEKCIJE);*/
                 startActivity(i);
             }
         });
@@ -214,7 +211,7 @@ public class Pocetna extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Pocetna.this, Lekcija.class);
+                Intent i = new Intent(Pocetna.this, ActvityLekcija.class);
                 i.putExtra("nova", true);
                 startActivity(i);
             }
@@ -224,7 +221,7 @@ public class Pocetna extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Pocetna.this, Lekcija.class);
+                Intent i = new Intent(Pocetna.this, ActvityLekcija.class);
                 i.putExtra("nova", false);
                 i.putExtra("tabela", DatabaseHandler.LEKCIJE);
                 startActivity(i);

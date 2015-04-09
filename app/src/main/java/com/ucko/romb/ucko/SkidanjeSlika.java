@@ -2,10 +2,7 @@ package com.ucko.romb.ucko;
 
 import java.io.File;
 import java.util.Date;
-import java.util.List;
 
-import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -76,8 +73,8 @@ public class SkidanjeSlika extends AsyncTask<Void, Integer, Void>{
     protected void onPostExecute(Void result) {
 
         if (new File(folder + File.separator + najnoviji).lastModified() >= check || najnoviji == "") {
-                Odgovor.putanjaZaBazu = folder + File.separator + najnoviji;
-            iv.setImageBitmap(BitmapFactory.decodeFile(Odgovor.putanjaZaBazu));
+                ActivityOdgovor.putanjaZaBazu = folder + File.separator + najnoviji;
+            iv.setImageBitmap(BitmapFactory.decodeFile(ActivityOdgovor.putanjaZaBazu));
             Toast.makeText(cont, "Slika je dodata", Toast.LENGTH_LONG).show();
 /*
 

@@ -28,7 +28,7 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".Pitanje"
+            android:name=".ActivityPitanje"
             android:label="@string/title_activity_pitanje" >
         </activity>
         <activity
@@ -36,7 +36,7 @@
             android:label="@string/title_activity_pitanja" >
         </activity>
         <activity
-            android:name=".Lekcija"
+            android:name=".ActvityLekcija"
             android:label="@string/title_activity_lekcija" >
         </activity>
         <activity
@@ -44,8 +44,12 @@
             android:label="@string/title_activity_postojece_lekcije" >
         </activity>
         <activity
-            android:name=".Odgovor"
+            android:name=".ActivityOdgovor"
             android:label="@string/title_activity_odgovor" >
+        </activity>
+        <activity
+        android:name=".PitanjaRad"
+        android:label="@string/title_activity_odgovor" >
         </activity>
     </application>
 

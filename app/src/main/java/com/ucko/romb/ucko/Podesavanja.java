@@ -35,7 +35,7 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
 
         Button bojaTeksta = (Button) findViewById(R.id.btnOdaberiBojuTeksta);
 
-        podesavanja = Pocetna.db.vratiPodesavanja();
+        //podesavanja = Pocetna.db.vratiPodesavanja();
         mPaint = new Paint();
 
         snimiZvukTacnog.setOnClickListener(new View.OnClickListener() {

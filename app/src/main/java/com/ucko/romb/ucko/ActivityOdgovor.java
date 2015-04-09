@@ -18,7 +18,6 @@ import android.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -31,14 +30,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
-import com.ucko.romb.ucko.DatabaseHandler;
-import com.ucko.romb.ucko.Okvir;
-import com.ucko.romb.ucko.OkvirOdgovor;
-import com.ucko.romb.ucko.Pocetna;
-import com.ucko.romb.ucko.R;
-import com.ucko.romb.ucko.SkidanjeSlika;
+import baza.DatabaseHandler;
+import okviri.Odgovor;
 
-public class Odgovor extends Activity {
+public class ActivityOdgovor extends Activity {
 
     EditText naslov;
     Button odaberiSliku;
@@ -52,7 +47,7 @@ public class Odgovor extends Activity {
     boolean flagZvuk;
     String ekstra;
 
-    OkvirOdgovor k;
+    Odgovor k;
 
     // ZA SLIKE
     String trenutnaPutanja = "";
@@ -127,8 +122,10 @@ public class Odgovor extends Activity {
 
         //AKO NIJE NOV ODGOVOR, MENJA SE
         if (ekstra.equals("ne")) {
-            k = (OkvirOdgovor) Pocetna.db.vratiProsireniOkvir(getIntent().getIntExtra("pozicija", 1), DatabaseHandler.KARTICE);
-            naslov.setText(k.getNaziv());
+            k = Pocetna.db.vratiOdgovor(getIntent().getIntExtra("pozicija", 1));
+            naslov.setText(k.getText());
+            putanjaZaBazu = k.getSlika();
+            mFileName = k.getZvuk();
         }
 
         odaberiSliku.setOnClickListener(new OnClickListener() {
@@ -168,14 +165,14 @@ public class Odgovor extends Activity {
             public void onClick(View arg0) {
                 if (flag) {
                     MediaPlayer mp = MediaPlayer.create(
-                            Odgovor.this, Uri.parse(mFileName));
+                            ActivityOdgovor.this, Uri.parse(mFileName));
                     int duration = mp.getDuration();
                     startPlaying();
                     SystemClock.sleep(duration);
                     mPlayer.release();
                     mPlayer = null;
                 } else {
-                    Toast.makeText(Odgovor.this,
+                    Toast.makeText(ActivityOdgovor.this,
                             "Niste snimili zvuk", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -187,40 +184,32 @@ public class Odgovor extends Activity {
             @Override
             public void onClick(View arg0) {
                 if (ekstra.equals("ne")) {
-                    if (!naslov.getText().toString().equals(k.getNaziv()) || flagSlika || flagZvuk) {
-                        k = new OkvirOdgovor(k.getId(), naslov.getText().toString(), putanjaZaBazu, mFileName);
+                    if (!naslov.getText().toString().equals(k.getText()) || flagSlika || flagZvuk) {
+                        //pitanje je da li ovo radi!!!
+                        k = new Odgovor(k.getId(), naslov.getText().toString(), putanjaZaBazu, mFileName);
 
                         Pocetna.db.azurirajOdgovor(k);
 
-                        Toast.makeText(Odgovor.this, "Uspešno ste ažurirali odgovor", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityOdgovor.this, "Uspešno ste ažurirali odgovor", Toast.LENGTH_SHORT).show();
                     }
                     finish();
                 } else {
-                    if (!naslov.getText().toString().trim().equals("")
-                            && !putanjaZaBazu.equals("") && flag) {
+                    if (!naslov.getText().toString().trim().equals("") && !putanjaZaBazu.equals("") && flag) {
 
-                        OkvirOdgovor kartica = new OkvirOdgovor(naslov.getText()
+                        Odgovor o = new Odgovor(naslov.getText()
                                 .toString(), putanjaZaBazu, mFileName);
 
-                        Pocetna.db.dodajOdgovor(kartica);
+                        Pocetna.db.dodajOdgovor(o);
 
-                        Pocetna.odgovori.add(kartica);
+                        o.setId(Pocetna.db.vratiIdOdgovora());
 
-                        Toast.makeText(Odgovor.this, "Uspešno ste dodali odgovor", Toast.LENGTH_SHORT).show();
+                        ActivityPitanje.odgovori.add(o);
 
-                        ArrayList<String> s = new ArrayList<String>();
-                        for (Okvir o : Pocetna.odgovori){
-                            s.add(o.getNaziv());
-                        }
-                        Lista.lista = s;
-
-                        Lista.adapter.notifyDataSetChanged();
-
-                        //startActivity(new Intent(Odgovor.this, Pitanje.class));
+                        Toast.makeText(ActivityOdgovor.this, "Uspešno ste dodali odgovor", Toast.LENGTH_SHORT).show();
 
                         finish();
                     } else {
-                        Toast.makeText(Odgovor.this,
+                        Toast.makeText(ActivityOdgovor.this,
                                 "Niste uneli sve podatke", Toast.LENGTH_SHORT)
                                 .show();
                     }
@@ -332,7 +321,7 @@ public class Odgovor extends Activity {
     }
 
     private void dialogSlika(){
-        new AlertDialog.Builder(Odgovor.this)
+        new AlertDialog.Builder(ActivityOdgovor.this)
                 .setTitle("Odabir slike")
                 .setMessage("Kako zelite da dodate sliku?")
                 .setCancelable(true)
@@ -367,7 +356,7 @@ public class Odgovor extends Activity {
                                         Intent.ACTION_VIEW,
                                         Uri.parse("http://www.google.rs/imghp?hl=en&tab=wi&ei=CAniU-OeDK-GyAPnjYGIBg&ved=0CAQQqi4oAg"));
                                 startActivity(i);
-                                skidanjeSlika = new SkidanjeSlika(Odgovor.this, iv);
+                                skidanjeSlika = new SkidanjeSlika(ActivityOdgovor.this, iv);
                                 skidanjeSlika.execute();
                             }
                         }).show();

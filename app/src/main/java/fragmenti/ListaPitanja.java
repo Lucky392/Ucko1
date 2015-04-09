@@ -1,24 +1,25 @@
-package com.ucko.romb.ucko;
-
-import java.util.ArrayList;
-import java.util.List;
+package fragmenti;
 
 import android.app.Fragment;
-import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.Toast;
+import com.ucko.romb.ucko.ActvityLekcija;
+import com.ucko.romb.ucko.MojAdapter;
+import com.ucko.romb.ucko.Pocetna;
+import com.ucko.romb.ucko.R;
+import java.util.ArrayList;
+import okviri.Pitanje;
 
-public class Lista extends Fragment {
+public class ListaPitanja extends Fragment {
 
-    public static ArrayList<String> lista = new ArrayList<String>();
-    public static boolean readFromDatabase;
-    public static MojAdapter adapter;
+    public ArrayList<String> lista = new ArrayList<String>();
+    public boolean readFromDatabase;
+    public MojAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,14 +31,19 @@ public class Lista extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (!readFromDatabase){
-            for (Okvir o : Pocetna.okviri){
-                lista.add(o.getNaziv());
+            for (Pitanje op : ActvityLekcija.pitanja){
+                lista.add(op.getNaslov());
             }
         } else {
-            DatabaseHandler db = new DatabaseHandler(getActivity());
-            List<Tuple> tl = db.vratiOkvire(getActivity().getIntent().getStringExtra("tabela"));
-            for (Tuple t : tl){
-                lista.add(t.getS());
+            ArrayList<Pitanje> p = new ArrayList<Pitanje>();
+            try {
+                p = Pocetna.db.vratiSvaPitanja();
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            for (Pitanje o : p){
+                lista.add(o.getNaslov());
             }
         }
 
@@ -48,11 +54,10 @@ public class Lista extends Fragment {
                 Toast.makeText(getActivity(), "Lista je prazna", Toast.LENGTH_SHORT).show();
                 return;
             }
-            readFromDatabase = false;
         }
         GridView gv = (GridView) getView().findViewById(R.id.gridViewOkviri);
         gv.setAdapter(adapter);
-        gv.setOnItemClickListener(new OnItemClickListener() {
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(), "Item " + position, Toast.LENGTH_SHORT).show();
@@ -60,4 +65,3 @@ public class Lista extends Fragment {
         });
     }
 }
-

@@ -28,7 +28,7 @@
                 android:text="@string/naziv_lekcije"
                 android:textColor="#FFF"
                 android:layout_gravity="center"
-                android:textSize="20sp"
+                android:textSize="40sp"
                 android:id="@+id/textView1" />
         </TableRow>
 
@@ -80,6 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/dodaj_pitanje"
+                android:textSize="30sp"
                 android:background="@drawable/oblik_dugmeta"
                 android:id="@+id/btnDodajPitanje"
                 android:gravity="center"/>
@@ -96,6 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sacuvaj_lekciju"
+                android:textSize="30sp"
                 android:background="@drawable/oblik_dugmeta"
                 android:id="@+id/btnSacuvaj" />
         </TableRow>

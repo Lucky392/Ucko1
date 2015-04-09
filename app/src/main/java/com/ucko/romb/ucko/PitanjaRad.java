@@ -5,20 +5,29 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+import baza.DatabaseHandler;
+import okviri.Lekcija;
+import okviri.Pitanje;
 
 
-public class PitanjaRad extends Activity {
+public class PitanjaRad extends Activity implements RadLekcije.OdgovorInterface {
 
     public static ImageButton btnZvukPitanja;
     private TextView naslovPitanja;
     private TableRow trFragment;
-    private OkvirLekcija lekcija;
-
+    public static Lekcija lekcija;
+    private RadLekcije radLekcije;
+    int brojac;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,65 +38,46 @@ public class PitanjaRad extends Activity {
         naslovPitanja = (TextView) findViewById(R.id.tvNaslovPitanja);
         trFragment = (TableRow) findViewById(R.id.trFragment);
 
-
-        for (int i = 0; i < lekcija.getPitanja().size(); i++) {
-            int brOdgovora = ((OkvirPitanje) Pocetna.db.vratiProsireniOkvir(lekcija.getPitanja().get(i), DatabaseHandler.PITANJA)).getNetacniOdgovori().size() + 1;
-
-            switch (brOdgovora) {
-                case 2 :
-                    Fragment_2 fr2 = new Fragment_2();
-                    FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
-                    transaction2.add(R.id.trFragment, fr2);
-                    transaction2.commit();
-                    break;
-                case 3 :
-                    Fragment_3 fr3 = new Fragment_3();
-                    FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
-                    transaction3.add(R.id.trFragment, fr3);
-                    transaction3.commit();
-                    break;
-                case 4 :
-                    Fragment_4 fr4 = new Fragment_4();
-                    FragmentTransaction transaction4 = getFragmentManager().beginTransaction();
-                    transaction4.add(R.id.trFragment, fr4);
-                    transaction4.commit();
-                    break;
-                case 5 :
-                    Fragment_5 fr5 = new Fragment_5();
-                    FragmentTransaction transaction5 = getFragmentManager().beginTransaction();
-                    transaction5.add(R.id.trFragment, fr5);
-                    transaction5.commit();
-                    break;
-                case 6 :
-                    Fragment_6 fr6 = new Fragment_6();
-                    FragmentTransaction transaction6 = getFragmentManager().beginTransaction();
-                    transaction6.add(R.id.trFragment, fr6);
-                    transaction6.commit();
-                    break;
-            }
+        try {
+            lekcija = Pocetna.db.vratiLekciju(1);
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(),Toast.LENGTH_SHORT).show();
+            return;
         }
-    }
 
+        brojac = lekcija.getPitanja().size();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_pitanja_rad, menu);
-        return true;
+        changeFragment(brojac%lekcija.getPitanja().size());
+
+        brojac++;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public void onTacanClicked() {
+        changeFragment(brojac%lekcija.getPitanja().size());
+        brojac++;
+    }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+    private void changeFragment(int trenutno) {
+        Bundle b = new Bundle();
+        b.putInt("tren", trenutno);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (radLekcije != null)
+            fragmentTransaction.detach(radLekcije);
+        radLekcije = new RadLekcije();
+        radLekcije.setArguments(b);
+        fragmentTransaction.replace(R.id.fragment_container, radLekcije);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
             return true;
         }
-
-        return super.onOptionsItemSelected(item);
+        return super.onKeyDown(keyCode, event);
     }
 }

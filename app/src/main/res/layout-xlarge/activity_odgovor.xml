@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/tr1"
-        android:layout_weight=".41">
+        android:layout_weight=".41"
+        android:layout_marginTop="10dp">
 
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,8 +35,8 @@
                 android:id="@+id/tableRow2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
-                android:layout_marginTop="15dp"
                 android:layout_weight=".1" >
 
                 <TextView
@@ -44,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:textColor="#ffffff"
-                    android:textSize="20sp"
+                    android:textSize="40sp"
                     android:text="@string/naslov_kartice" />
 
                 <EditText
@@ -63,7 +64,7 @@
                 android:id="@+id/tableRow1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="40dp"
                 android:layout_weight=".1">
 
                 <TextView
@@ -72,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:textColor="#ffffff"
-                    android:textSize="20sp"
+                    android:textSize="40sp"
                     android:gravity="center"
                     android:text="@string/slika" />
 
@@ -80,6 +81,7 @@
                     android:id="@+id/btnOdaberiSliku"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="30sp"
                     android:background="@drawable/oblik_dugmeta"
                     android:text="@string/izaberi" />
 
@@ -89,7 +91,7 @@
                 android:id="@+id/tableRow3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="40dp"
                 android:layout_weight=".1">
 
                 <TextView
@@ -97,8 +99,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#ffffff"
-                    android:layout_marginRight="7dp"
-                    android:textSize="20sp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="40sp"
                     android:gravity="center"
                     android:text="@string/dodaj_zvuk" />
 
@@ -106,8 +108,8 @@
                     android:id="@+id/btnSnimiNaslov"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="7dp"
-                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:textSize="30sp"
                     android:background="@drawable/oblik_dugmeta"
                     android:text="@string/snimi" />
 
@@ -115,8 +117,8 @@
                     android:id="@+id/btnPustiNaslov"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="30sp"
                     android:background="@drawable/oblik_dugmeta"
-                    android:layout_weight="1"
                     android:text="@string/preslusaj" />
 
             </TableRow>
@@ -126,7 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="60dp"
                 android:layout_weight=".1">
 
                 <Button
@@ -134,6 +136,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="30sp"
                     android:background="@drawable/oblik_dugmeta"
                     android:layout_marginLeft="5dip"
                     android:text="@string/sacuvaj_lekciju" />
@@ -181,7 +184,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#fff"
-                    android:textSize="20dp"
+                    android:textSize="40dp"
                     android:text="Odgovor"
                     android:id="@+id/tvOdg" />
             </TableRow>

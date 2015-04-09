@@ -11,8 +11,6 @@ import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,8 +24,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import fragmenti.ListaOdgovora;
+import fragmenti.ListaPitanja;
+import okviri.Odgovor;
+import okviri.Pitanje;
 
-public class Pitanje extends ActionBarActivity {
+
+public class ActivityPitanje extends ActionBarActivity {
 
     Button snimi;
     Button slusaj;
@@ -44,10 +47,9 @@ public class Pitanje extends ActionBarActivity {
     private MediaPlayer mPlayer = null;
     boolean flagZvuk;
     String ekstra;
-    static Lista l;
+    ListaOdgovora l;
+    public static ArrayList<Odgovor> odgovori = new ArrayList<Odgovor>();
 
-    ArrayList<String> odgovori;
-    ArrayList<Tuple> tuple;
     SpinAdapter adapter;
     MojAdapter mojAdapter;
 
@@ -65,12 +67,8 @@ public class Pitanje extends ActionBarActivity {
         tacanOdgovor = (Spinner) findViewById(R.id.tacan_odgovor);
         pitanje = (EditText) findViewById(R.id.etPitanje);
 
-        tuple = new ArrayList<Tuple>();
-        for (Okvir o : Pocetna.odgovori){
-            tuple.add(new Tuple(o.getId(),o.getNaziv()));
-        }
-        adapter = new SpinAdapter(Pitanje.this, android.R.layout.simple_spinner_item, tuple);
-        tacanOdgovor.setAdapter(adapter);
+        //adapter = new SpinAdapter(ActivityPitanje.this, android.R.layout.simple_spinner_item, tuple);
+        //tacanOdgovor.setAdapter(adapter);
 
         NapraviNovoPitanje();
 
@@ -79,11 +77,8 @@ public class Pitanje extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view,
                                        int position, long id) {
-                // Here you get the current item (a User object) that is selected by its position
-                Tuple t = adapter.getItem(position);
-                // Here you can do the action you want to...
-                Toast.makeText(Pitanje.this, t.getI() + ", " + t.getS(),
-                        Toast.LENGTH_SHORT).show();
+                String t = adapter.getItem(position);
+                Toast.makeText(ActivityPitanje.this, t, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapter) {  }
@@ -113,14 +108,14 @@ public class Pitanje extends ActionBarActivity {
             public void onClick(View v) {
                 if (flag) {
                     MediaPlayer mp = MediaPlayer.create(
-                            Pitanje.this, Uri.parse(mFileName));
+                            ActivityPitanje.this, Uri.parse(mFileName));
                     int duration = mp.getDuration();
                     startPlaying();
                     SystemClock.sleep(duration);
                     mPlayer.release();
                     mPlayer = null;
                 } else {
-                    Toast.makeText(Pitanje.this,
+                    Toast.makeText(ActivityPitanje.this,
                             "Niste snimili zvuk", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -136,37 +131,28 @@ public class Pitanje extends ActionBarActivity {
                     }
                     finish();
                 } else {
-                    if (!mFileName.equals("") &&!pitanje.getText().toString().trim().equals("") && Pocetna.odgovori.size() >= 2  && Pocetna.odgovori.size() <= 6/* && tacanOdgovor.isSelected()*/) {
-                        String netacniOdgovori = "";
-                        ArrayList<Integer> s = new ArrayList<Integer>();
-                        for (int i = 1; i < Pocetna.odgovori.size(); i++) {
-                            /*if (Pocetna.odgovori.get(i).getId() == tacanOdgovor.getSelectedItemId())
-                                continue;*/
-                            s.add(Pocetna.odgovori.get(i).getId());
-                        }
-                        netacniOdgovori += s.get(0);
-                        for (int i = 1; i < s.size(); i++) {
-                            netacniOdgovori += "##" + s.get(i);
-                        }
-                        OkvirPitanje o = new OkvirPitanje(pitanje.getText().toString(), mFileName, 1, netacniOdgovori);
+                    if (!mFileName.equals("") && !pitanje.getText().toString().trim().equals("") && odgovori.size() >= 2/* && tacanOdgovor.isSelected()*/) {
 
-                        Pocetna.db.dodajPitanje(o);
+                        //NULA PROMENITI NA ODABRANO SA SPINERA
+                        Odgovor tacan = odgovori.get(0);
 
-                        Pocetna.pitanja.add(o);
+                        odgovori.remove(0);
 
-                        Toast.makeText(Pitanje.this, "Uspešno ste dodali pitanje", Toast.LENGTH_SHORT).show();
+                        Pitanje p = new Pitanje(pitanje.getText().toString(), mFileName, tacan, odgovori);
 
-                        ArrayList<String> s1 = new ArrayList<String>();
-                        for (Okvir o1 : Pocetna.pitanja){
-                            s1.add(o1.getNaziv());
-                        }
-                        Lista.lista = s1;
+                        Pocetna.db.dodajPitanje(p);
 
-                        Lista.adapter.notifyDataSetChanged();
+                        p.setId(Pocetna.db.vratiIdPitanja());
+
+                        ActvityLekcija.pitanja.add(p);
+
+                        Toast.makeText(ActivityPitanje.this, "Uspešno ste dodali pitanje", Toast.LENGTH_SHORT).show();
+
+                        odgovori.clear();
 
                         finish();
                     } else {
-                        Toast.makeText(Pitanje.this,
+                        Toast.makeText(ActivityPitanje.this,
                                 "Niste uneli sve podatke", Toast.LENGTH_SHORT)
                                 .show();
                     }
@@ -177,9 +163,13 @@ public class Pitanje extends ActionBarActivity {
         dodajOdgovor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Pitanje.this, Odgovor.class);
-                i.putExtra("nov", "da");
-                startActivity(i);
+                if (odgovori.size() < 6) {
+                    Intent i = new Intent(ActivityPitanje.this, ActivityOdgovor.class);
+                    i.putExtra("nov", "da");
+                    startActivity(i);
+                } else {
+                    Toast.makeText(ActivityPitanje.this, "Uneli ste maksimalan broj pitanja", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -242,7 +232,7 @@ public class Pitanje extends ActionBarActivity {
         super.onResume();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        l = new Lista();
+        l = new ListaOdgovora();
         fragmentTransaction.replace(R.id.fragment_container, l);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
