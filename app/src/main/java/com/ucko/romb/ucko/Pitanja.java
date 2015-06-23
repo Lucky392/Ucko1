@@ -1,39 +1,48 @@
 package com.ucko.romb.ucko;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import fragmenti.ListaOkvira;
+import okviri.Lekcija;
+import okviri.Okvir;
+import okviri.Pitanje;
+import sesija.Kontroler;
 
-public class Pitanja extends ActionBarActivity {
+
+public class Pitanja extends Activity {
+
+    ListaOkvira lo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pitanja);
-    }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_pitanja, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        lo = new ListaOkvira();
+        Bundle b = new Bundle();
+        b.putString("svrha", "odabir");
+        lo.setArguments(b);
+        Pitanje p = new Pitanje();
+        lo.setSwitchValue(p);
+        getFragmentManager().beginTransaction().add(R.id.fragment_container, lo).commit();
+        try {
+            for (Okvir o : Kontroler.getInstance().vratiOkvire(p, false)){
+                Kontroler.getInstance().getOkviri().add(o);
+            }
+            lo.setOkviri(Kontroler.getInstance().getOkviri());
+        } catch (Exception e){
+            e.printStackTrace();
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onDestroy() {
+        Kontroler.getInstance().getOkviri().clear();
+        super.onDestroy();
+    }
+
 }

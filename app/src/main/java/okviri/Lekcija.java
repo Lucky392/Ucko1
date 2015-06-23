@@ -1,39 +1,64 @@
 package okviri;
+import android.content.ContentValues;
+
 import java.util.ArrayList;
+import java.util.List;
+
+import baza.DatabaseHandler;
+import sesija.Kontroler;
 
 
-public class Lekcija {
+public class Lekcija extends Okvir {
 
-	int id;
 	String naslov;
-	ArrayList<Pitanje> pitanja;
-	
-	public Lekcija(int id, String naslov, ArrayList<Pitanje> pitanja) {
+	List<Okvir> pitanja;
+
+	public Lekcija(int id, String naslov, List<Okvir> pitanja) {
 		super();
 		this.id = id;
 		this.naslov = naslov;
-		this.pitanja = pitanja;
+		this.pitanja = new ArrayList<>();
+		for (Okvir o : pitanja){
+			this.pitanja.add((Pitanje)o);
+		}
 	}
 	
-	public Lekcija(String naslov, ArrayList<Pitanje> pitanja) {
+	public Lekcija(String naslov, List<Okvir> pitanja) {
 		super();
 		this.naslov = naslov;
 		this.pitanja = pitanja;
 	}
 
-	public int getId() {
-		return id;
+	public Lekcija() {
 	}
 
-	public void setId(int id) {
+	public Lekcija(int id) {
 		this.id = id;
+	}
+
+	@Override
+	public String getIme() {
+		return DatabaseHandler.LEKCIJE;
+	}
+
+	@Override
+	public String[] vratiNizAtributa() {
+		return new String[] { DatabaseHandler.ID, DatabaseHandler.NAZIV, DatabaseHandler.PITANJA };
+	}
+
+	@Override
+	public ContentValues getValues() {
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHandler.NAZIV, naslov);
+		values.put(DatabaseHandler.PITANJA, getPitanjaString());
+		return values;
 	}
 
 	public String getNaslov() {
 		return naslov;
 	}
 
-	public ArrayList<Pitanje> getPitanja() {
+	public List<Okvir> getPitanja() {
 		return pitanja;
 	}
 	
@@ -44,5 +69,9 @@ public class Lekcija {
 		}
 		return s;
 	}
-	
+
+	@Override
+	public String toString() {
+		return naslov;
+	}
 }

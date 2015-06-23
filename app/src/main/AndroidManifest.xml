@@ -2,10 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ucko.romb.ucko" >
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name = "android.permission.CAMERA"></uses-permission>
-    <uses-permission android:name="android.permission.RECORD_AUDIO" ></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" ></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -48,8 +52,12 @@
             android:label="@string/title_activity_odgovor" >
         </activity>
         <activity
-        android:name=".PitanjaRad"
-        android:label="@string/title_activity_odgovor" >
+            android:name=".PitanjaRad"
+            android:label="@string/title_activity_odgovor" >
+        </activity>
+        <activity
+            android:name=".Odgovori"
+            android:label="@string/title_activity_odgovori" >
         </activity>
     </application>
 

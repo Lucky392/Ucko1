@@ -1,18 +1,17 @@
 package com.ucko.romb.ucko;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -21,13 +20,13 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
-import fragmenti.ListaOdgovora;
-import fragmenti.ListaPitanja;
+import fragmenti.ListaOkvira;
 import okviri.Odgovor;
+import okviri.Okvir;
 import okviri.Pitanje;
+import sesija.Kontroler;
 
 
 public class ActivityPitanje extends ActionBarActivity {
@@ -36,7 +35,6 @@ public class ActivityPitanje extends ActionBarActivity {
     Button slusaj;
     Button zapamti;
     Button dodajOdgovor;
-    Spinner tacanOdgovor;
     EditText pitanje;
     // ZA ZVUK
     private static final String LOG_TAG = "AudioRecordTest";
@@ -47,18 +45,20 @@ public class ActivityPitanje extends ActionBarActivity {
     private MediaPlayer mPlayer = null;
     boolean flagZvuk;
     String ekstra;
-    ListaOdgovora l;
-    public static ArrayList<Odgovor> odgovori = new ArrayList<Odgovor>();
-
+    private static ListaOkvira lo;
+    Spinner tacanOdgovor;
     SpinAdapter adapter;
-    MojAdapter mojAdapter;
+    Pitanje p;
+
+    public static ListaOkvira getLo() {
+        return lo;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pitanje);
-
-        ekstra = getIntent().getStringExtra("nov");
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         snimi = (Button) findViewById(R.id.btnSnimiPitanje);
         slusaj = (Button) findViewById(R.id.btnSlusajPitanje);
@@ -67,29 +67,39 @@ public class ActivityPitanje extends ActionBarActivity {
         tacanOdgovor = (Spinner) findViewById(R.id.tacan_odgovor);
         pitanje = (EditText) findViewById(R.id.etPitanje);
 
-        //adapter = new SpinAdapter(ActivityPitanje.this, android.R.layout.simple_spinner_item, tuple);
-        //tacanOdgovor.setAdapter(adapter);
+        ekstra = getIntent().getStringExtra("nov");
+        lo = new ListaOkvira();
+        lo.setSwitchValue(new Odgovor());
+        getFragmentManager().beginTransaction().add(R.id.fragment_container, lo).commit();
+        if (ekstra.equals("ne")) {
+            try {
+                p = (Pitanje) Kontroler.getInstance().vratiOkvir(new Pitanje(getIntent().getIntExtra("id", 0)));
+            } catch (Exception e) {
+                Toast.makeText(ActivityPitanje.this, "Greska prilikom pronalaska pitanja", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            pitanje.setText(p.toString());
+            mFileName = p.getZvuk();
+            int a = 0;
+            for (int i = 0; i < tacanOdgovor.getCount(); i++) {
+                if (tacanOdgovor.getSelectedItem().toString().equals(p.getTacan().toString())) {
+                    a = i;
+                    break;
+                }
+            }
+            tacanOdgovor.setSelection(a);
+            Kontroler.getInstance().getOdgovori().add(p.getTacan());
+            for (Okvir o : p.getNetacni()) {
+                Kontroler.getInstance().getOdgovori().add(o);
+            }
+            lo.setOkviri(Kontroler.getInstance().getOdgovori());
+        }
 
         NapraviNovoPitanje();
-
-        tacanOdgovor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view,
-                                       int position, long id) {
-                String t = adapter.getItem(position);
-                Toast.makeText(ActivityPitanje.this, t, Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapter) {  }
-        });
 
         snimi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ekstra.equals("ne")) {
-                    flagZvuk = true;
-                }
                 onRecord(mStartRecording);
                 flag = true;
                 if (mStartRecording) {
@@ -117,7 +127,6 @@ public class ActivityPitanje extends ActionBarActivity {
                 } else {
                     Toast.makeText(ActivityPitanje.this,
                             "Niste snimili zvuk", Toast.LENGTH_LONG).show();
-                    return;
                 }
             }
         });
@@ -126,30 +135,27 @@ public class ActivityPitanje extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (ekstra.equals("ne")) {
-                    if (true) {
-
+                    if (!mFileName.equals("") && !pitanje.getText().toString().trim().equals("") && Kontroler.getInstance().getOdgovori().size() >= 2) {
+                        Okvir tacan = Kontroler.getInstance().getOdgovori().get(tacanOdgovor.getSelectedItemPosition());
+                        Kontroler.getInstance().getOdgovori().remove(tacanOdgovor.getSelectedItemPosition());
+                        Okvir o = new Pitanje(pitanje.getText().toString(), mFileName, (Odgovor) tacan, Kontroler.getInstance().getOdgovori());
+                        int a = getIntent().getIntExtra("id", 0);
+                        o.setId(a);
+                        Kontroler.getInstance().getPitanja().remove(a);
+                        Kontroler.getInstance().getPitanja().add(o);
+                        Kontroler.getInstance().azurirajOkvir(o);
+                        ActvityLekcija.lo.refreshGridView(Kontroler.getInstance().getPitanja());
                     }
                     finish();
                 } else {
-                    if (!mFileName.equals("") && !pitanje.getText().toString().trim().equals("") && odgovori.size() >= 2/* && tacanOdgovor.isSelected()*/) {
-
-                        //NULA PROMENITI NA ODABRANO SA SPINERA
-                        Odgovor tacan = odgovori.get(0);
-
-                        odgovori.remove(0);
-
-                        Pitanje p = new Pitanje(pitanje.getText().toString(), mFileName, tacan, odgovori);
-
-                        Pocetna.db.dodajPitanje(p);
-
-                        p.setId(Pocetna.db.vratiIdPitanja());
-
-                        ActvityLekcija.pitanja.add(p);
-
+                    if (!mFileName.equals("") && !pitanje.getText().toString().trim().equals("") && Kontroler.getInstance().getOdgovori().size() >= 2) {
+                        Okvir tacan = Kontroler.getInstance().getOdgovori().get(tacanOdgovor.getSelectedItemPosition());
+                        Kontroler.getInstance().getOdgovori().remove(tacanOdgovor.getSelectedItemPosition());
+                        Okvir o = new Pitanje(pitanje.getText().toString(), mFileName, (Odgovor) tacan, Kontroler.getInstance().getOdgovori());
+                        o.setId(Kontroler.getInstance().dodajOkvir(o));
+                        Kontroler.getInstance().getPitanja().add(o);
                         Toast.makeText(ActivityPitanje.this, "Uspešno ste dodali pitanje", Toast.LENGTH_SHORT).show();
-
-                        odgovori.clear();
-
+                        ActvityLekcija.lo.refreshGridView(Kontroler.getInstance().getPitanja());
                         finish();
                     } else {
                         Toast.makeText(ActivityPitanje.this,
@@ -163,26 +169,41 @@ public class ActivityPitanje extends ActionBarActivity {
         dodajOdgovor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (odgovori.size() < 6) {
-                    Intent i = new Intent(ActivityPitanje.this, ActivityOdgovor.class);
-                    i.putExtra("nov", "da");
-                    startActivity(i);
+                if (Kontroler.getInstance().getOdgovori().size() < 6) {
+                    new AlertDialog.Builder(ActivityPitanje.this)
+                            .setMessage("Dodaj odgovor")
+                            .setCancelable(true)
+                            .setPositiveButton("Nov", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent i = new Intent(ActivityPitanje.this, ActivityOdgovor.class);
+                                    ActivityOdgovor.aPitanje = ActivityPitanje.this;
+                                    i.putExtra("nov", "da");
+                                    startActivity(i);
+                                }
+                            })
+                            .setNeutralButton("Postojeći", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent i = new Intent(ActivityPitanje.this, Odgovori.class);
+                                    i.putExtra("svrha", "odabir");
+                                    startActivity(i);
+                                }
+                            })
+                            .show();
                 } else {
-                    Toast.makeText(ActivityPitanje.this, "Uneli ste maksimalan broj pitanja", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityPitanje.this, "Uneli ste maksimalan broj Odgovora", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
     public void NapraviNovoPitanje() {
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath()
-                + File.separator + "App" + File.separator + "Zvuci";
-        if (!(new File(mFileName).exists())) {
-            new File(mFileName).mkdirs();
-        }
+        if (mFileName != null && !mFileName.equals(""))
+            (new File(mFileName)).delete();
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
                 .format(new Date());
-        mFileName += File.separator + "PITANJE_" + timeStamp + ".3gp";
+        mFileName = getFilesDir().getAbsolutePath() + File.separator + "PITANJE_" + timeStamp + ".3gp";
     }
 
     private void startPlaying() {
@@ -226,15 +247,15 @@ public class ActivityPitanje extends ActionBarActivity {
         }
     }
 
+    public void refreshSpinner() {
+        adapter = new SpinAdapter(ActivityPitanje.this, android.R.layout.simple_spinner_item,
+                Kontroler.getInstance().vratiTekstoveOkvira(Kontroler.getInstance().getOdgovori()));
+        tacanOdgovor.setAdapter(adapter);
+    }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        l = new ListaOdgovora();
-        fragmentTransaction.replace(R.id.fragment_container, l);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+    protected void onDestroy() {
+        Kontroler.getInstance().getOdgovori().clear();
+        super.onDestroy();
     }
 }

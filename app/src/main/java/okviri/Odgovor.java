@@ -1,8 +1,12 @@
 package okviri;
 
-public class Odgovor {
+import android.content.ContentValues;
 
-	int id;
+import baza.DatabaseHandler;
+import sesija.Kontroler;
+
+public class Odgovor extends Okvir {
+
 	String text;
 	String zvuk;
 	String slika;
@@ -12,7 +16,14 @@ public class Odgovor {
 		this.slika = slika;
 		this.zvuk = zvuk;
 	}
-	
+
+	public Odgovor() {
+	}
+
+	public Odgovor(int id) {
+		this.id = id;
+	}
+
 	public Odgovor(int id, String text, String slika, String zvuk){
 		this.id = id;
 		this.text = text;
@@ -20,12 +31,23 @@ public class Odgovor {
 		this.zvuk = zvuk;
 	}
 
-	public int getId() {
-		return id;
+	@Override
+	public String getIme() {
+		return DatabaseHandler.ODGOVORI;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	@Override
+	public String[] vratiNizAtributa() {
+		return new String[] { DatabaseHandler.ID, DatabaseHandler.NAZIV, DatabaseHandler.SLIKA, DatabaseHandler.ZVUK };
+	}
+
+	@Override
+	public ContentValues getValues() {
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHandler.NAZIV, text);
+		values.put(DatabaseHandler.SLIKA, slika);
+		values.put(DatabaseHandler.ZVUK, zvuk);
+		return values;
 	}
 
 	public String getText() {
@@ -39,7 +61,9 @@ public class Odgovor {
 	public String getSlika() {
 		return slika;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return text;
+	}
 }

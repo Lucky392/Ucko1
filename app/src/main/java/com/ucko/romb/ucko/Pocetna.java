@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import baza.DatabaseHandler;
 import okviri.Lekcija;
+import sesija.Kontroler;
 
 
 public class Pocetna extends ActionBarActivity {
@@ -84,6 +85,7 @@ public class Pocetna extends ActionBarActivity {
                             break;
                         }
                     } catch (ArrayIndexOutOfBoundsException ef){
+                        ef.printStackTrace();
                     }
                     n[i] = 'Ж';
                     break;
@@ -100,6 +102,7 @@ public class Pocetna extends ActionBarActivity {
                             break;
                         }
                     } catch (ArrayIndexOutOfBoundsException ef){
+                        ef.printStackTrace();
                     }
                         n[i] = 'Ј';
                         break;
@@ -179,8 +182,7 @@ public class Pocetna extends ActionBarActivity {
             a = Character.toUpperCase(a.charAt(0)) + a.substring(1);
             return a;
         } else {
-            String a = new String(n);
-            return a;
+            return new String(n);
         }
     }
 
@@ -195,14 +197,14 @@ public class Pocetna extends ActionBarActivity {
         opcije = (Button) findViewById(R.id.btnOpcije);
         izlaz = (Button) findViewById(R.id.btnIzlaz);
         db = new DatabaseHandler(this);
+        Kontroler.getInstance().initDB(this);
 
         radiLekcije.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Pocetna.this, PitanjaRad.class);
-                /*i.putExtra("radjenje", true);
-                i.putExtra("tabela", DatabaseHandler.LEKCIJE);*/
+                Intent i = new Intent(Pocetna.this, PostojeceLekcije.class);
+                i.putExtra("odabir", "rad");
                 startActivity(i);
             }
         });
@@ -212,7 +214,8 @@ public class Pocetna extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Pocetna.this, ActvityLekcija.class);
-                i.putExtra("nova", true);
+                i.putExtra("nov", "da");
+                i.putExtra("svrha", "azuriranje");
                 startActivity(i);
             }
         });
@@ -221,9 +224,8 @@ public class Pocetna extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Pocetna.this, ActvityLekcija.class);
-                i.putExtra("nova", false);
-                i.putExtra("tabela", DatabaseHandler.LEKCIJE);
+                Intent i = new Intent(Pocetna.this, PostojeceLekcije.class);
+                i.putExtra("odabir", "azuriranje");
                 startActivity(i);
             }
         });

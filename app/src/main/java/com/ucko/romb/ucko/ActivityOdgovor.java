@@ -1,12 +1,18 @@
 package com.ucko.romb.ucko;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -17,6 +23,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,8 +39,12 @@ import android.provider.MediaStore;
 
 import baza.DatabaseHandler;
 import okviri.Odgovor;
+import okviri.Okvir;
+import sesija.Kontroler;
 
 public class ActivityOdgovor extends Activity {
+
+    public static ActivityPitanje aPitanje;
 
     EditText naslov;
     Button odaberiSliku;
@@ -46,14 +57,13 @@ public class ActivityOdgovor extends Activity {
     boolean flagSlika;
     boolean flagZvuk;
     String ekstra;
+    static Context context;
 
-    Odgovor k;
+    Okvir okvir;
 
     // ZA SLIKE
-    String trenutnaPutanja = "";
     public static String putanjaZaBazu = "";
 
-    private static final int PICK_IMAGE = 1;
     private SkidanjeSlika skidanjeSlika;
 
     // ZA ZVUK
@@ -67,22 +77,28 @@ public class ActivityOdgovor extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE && data != null && data.getData() != null) {
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
-
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
             // User had pick an image.
             Cursor cursor = getContentResolver()
                     .query(uri,
-                            new String[] { android.provider.MediaStore.Images.ImageColumns.DATA },
-                            null, null, null);
+                            filePathColumn, null, null, null);
             cursor.moveToFirst();
 
             // Link to the image
-            putanjaZaBazu = cursor.getString(0);
-
-            iv.setImageBitmap(BitmapFactory.decodeFile(putanjaZaBazu));
-            //Izmeniti da se povuce slika i da se konvertuje u bitmap, pa u string i tako da se cuva u bazi...
+            putanjaZaBazu = cursor.getString(cursor.getColumnIndex(filePathColumn[0]));
+            Bitmap bm = Kontroler.getInstance().shrinkBitmap(putanjaZaBazu, 720, 1280);
             cursor.close();
+            iv.setImageBitmap(bm);
+            putanjaZaBazu = "";
+            saveToInternalSorage(bm);
+        }
+        if (requestCode == 2 && resultCode == RESULT_OK) {
+            galleryAddPic();
+            Bitmap bm = Kontroler.getInstance().shrinkBitmap(putanjaZaBazu, 720, 1280);
+            iv.setImageBitmap(bm);
+            saveToInternalSorage(bm);
         }
     }
 
@@ -90,6 +106,7 @@ public class ActivityOdgovor extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_odgovor);
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         naslov = (EditText) findViewById(R.id.etNaslovKartice);
         odaberiSliku = (Button) findViewById(R.id.btnOdaberiSliku);
@@ -98,7 +115,7 @@ public class ActivityOdgovor extends Activity {
         zapamti = (Button) findViewById(R.id.btnZapamti);
         tv = (TextView) findViewById(R.id.textView);
         iv = (ImageView) findViewById(R.id.imageView);
-
+        context = getApplicationContext();
         NapraviNoviOdgovor();
 
         naslov.addTextChangedListener(new TextWatcher() {
@@ -122,10 +139,16 @@ public class ActivityOdgovor extends Activity {
 
         //AKO NIJE NOV ODGOVOR, MENJA SE
         if (ekstra.equals("ne")) {
-            k = Pocetna.db.vratiOdgovor(getIntent().getIntExtra("pozicija", 1));
-            naslov.setText(k.getText());
-            putanjaZaBazu = k.getSlika();
-            mFileName = k.getZvuk();
+            //k = Pocetna.db.vratiOdgovor(getIntent().getIntExtra("pozicija", 1));
+            try {
+                okvir = Kontroler.getInstance().vratiOkvir(new Odgovor(getIntent().getIntExtra("id", 0)));
+            } catch (Exception e) {
+                Toast.makeText(ActivityOdgovor.this, "Greska prilikom pronalaska odgovora", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            naslov.setText(((Odgovor)okvir).getText());
+            putanjaZaBazu = ((Odgovor)okvir).getSlika();
+            mFileName = ((Odgovor)okvir).getZvuk();
         }
 
         odaberiSliku.setOnClickListener(new OnClickListener() {
@@ -174,7 +197,6 @@ public class ActivityOdgovor extends Activity {
                 } else {
                     Toast.makeText(ActivityOdgovor.this,
                             "Niste snimili zvuk", Toast.LENGTH_LONG).show();
-                    return;
                 }
             }
         });
@@ -184,28 +206,38 @@ public class ActivityOdgovor extends Activity {
             @Override
             public void onClick(View arg0) {
                 if (ekstra.equals("ne")) {
-                    if (!naslov.getText().toString().equals(k.getText()) || flagSlika || flagZvuk) {
-                        //pitanje je da li ovo radi!!!
-                        k = new Odgovor(k.getId(), naslov.getText().toString(), putanjaZaBazu, mFileName);
+                    //AKO JE TEKST PROMENJEN, PROMENJENA JE SLIKA ILI ZVUK, AZURIRA SE ODGOVOR U BAZI
+                    if (!naslov.getText().toString().equals(((Odgovor)okvir).getText()) || flagSlika || flagZvuk) {
 
-                        Pocetna.db.azurirajOdgovor(k);
+                        okvir = new Odgovor(okvir.getId(), naslov.getText().toString(), putanjaZaBazu, mFileName);
+
+                        Kontroler.getInstance().azurirajOkvir(okvir);
 
                         Toast.makeText(ActivityOdgovor.this, "Uspešno ste ažurirali odgovor", Toast.LENGTH_SHORT).show();
+
+                        ActivityPitanje.getLo().refreshGridView(Kontroler.getInstance().getOdgovori());
+
+                        aPitanje.refreshSpinner();
                     }
                     finish();
                 } else {
                     if (!naslov.getText().toString().trim().equals("") && !putanjaZaBazu.equals("") && flag) {
 
-                        Odgovor o = new Odgovor(naslov.getText()
+                        //PRAVLJENJE ODGOVORA
+                        okvir = new Odgovor(naslov.getText()
                                 .toString(), putanjaZaBazu, mFileName);
 
-                        Pocetna.db.dodajOdgovor(o);
+                        //DODAVANJE U BAZU
+                        okvir.setId(Kontroler.getInstance().dodajOkvir(okvir));
 
-                        o.setId(Pocetna.db.vratiIdOdgovora());
-
-                        ActivityPitanje.odgovori.add(o);
+                        //DODAVANJE U LISTU ODGOVORA, KAKO BI SE PRIKAZIVALA LISTA DODATIH
+                        Kontroler.getInstance().getOdgovori().add(okvir);
 
                         Toast.makeText(ActivityOdgovor.this, "Uspešno ste dodali odgovor", Toast.LENGTH_SHORT).show();
+
+                        ActivityPitanje.getLo().refreshGridView(Kontroler.getInstance().getOdgovori());
+
+                        aPitanje.refreshSpinner();
 
                         finish();
                     } else {
@@ -219,52 +251,40 @@ public class ActivityOdgovor extends Activity {
     }
 
     public void NapraviNoviOdgovor() {
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath()
-                + File.separator + "App" + File.separator + "Zvuci";
-        if (!(new File(mFileName).exists())) {
-            new File(mFileName).mkdirs();
-        }
+        if (mFileName != null && !mFileName.equals(""))
+            (new File(mFileName)).delete();
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
                 .format(new Date());
-        mFileName += File.separator + "NASLOV_" + timeStamp + ".3gp";
+        mFileName = getFilesDir().getAbsolutePath() + File.separator + "NASLOV_" + timeStamp + ".3gp";
     }
 
-    private void slikanje() {
-        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        if (i.resolveActivity(getPackageManager()) != null) {
-
-            File photoFile = null;
+    private void pokreniKameru(){
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            File photoFile;
             try {
-                photoFile = putanja();
+                photoFile = createImageFile();
             } catch (IOException ex) {
+                ex.printStackTrace();
                 Toast.makeText(this, "Nema memorijske kartice",
                         Toast.LENGTH_LONG).show();
                 return;
             }
-
             if (photoFile != null) {
-                i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                startActivity(i);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, 2);
             }
         }
     }
 
-    private File putanja() throws IOException {
-
-        String uri = Environment.getExternalStorageDirectory() + File.separator
-                + "App" + File.separator + "Slike";
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-                .format(new Date());
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp;
-        if (!(new File(uri).exists())) {
-            new File(uri).mkdirs();
-        }
-        File storageDir = new File(uri);
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
 
-        trenutnaPutanja = "file:" + image.getAbsolutePath();
         putanjaZaBazu = image.getAbsolutePath();
         return image;
     }
@@ -273,7 +293,7 @@ public class ActivityOdgovor extends Activity {
 
         Intent mediaScanIntent = new Intent(
                 Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(trenutnaPutanja);
+        File f = new File("file:" + putanjaZaBazu);
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
@@ -320,7 +340,7 @@ public class ActivityOdgovor extends Activity {
         }
     }
 
-    private void dialogSlika(){
+    private void dialogSlika() {
         new AlertDialog.Builder(ActivityOdgovor.this)
                 .setTitle("Odabir slike")
                 .setMessage("Kako zelite da dodate sliku?")
@@ -329,23 +349,15 @@ public class ActivityOdgovor extends Activity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int which) {
-                                Intent intent = new Intent();
-                                intent.setType("image/*");
-                                intent.setAction(Intent.ACTION_GET_CONTENT);
-                                startActivityForResult(Intent
-                                                .createChooser(intent,
-                                                        "Select Picture"),
-                                        PICK_IMAGE);
+                                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(i, 1);
                             }
                         })
                 .setNeutralButton("Fotoaparat",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int which) {
-
-                                slikanje();
-
-                                galleryAddPic();
+                                pokreniKameru();
                             }
                         })
                 .setNegativeButton("Internet",
@@ -360,6 +372,24 @@ public class ActivityOdgovor extends Activity {
                                 skidanjeSlika.execute();
                             }
                         }).show();
+    }
+
+    public static void saveToInternalSorage(Bitmap bitmapImage){
+        ContextWrapper cw = new ContextWrapper(context);
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("slike", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath=new File(directory, new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg");
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(mypath);
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        new File(putanjaZaBazu).delete();
+        putanjaZaBazu = mypath.getAbsolutePath();
     }
 
 }

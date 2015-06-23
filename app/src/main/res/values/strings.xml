@@ -95,5 +95,6 @@
     <string name="title_activity_pitanja_rad">PitanjaRad</string>
     <string name="zvuk_za_tacan">Zvuk za tačan odgovor:</string>
     <string name="zvuk_za_netacan">Zvuk za netačan odgovor:</string>
+    <string name="title_activity_odgovori">Odgovori</string>
 
 </resources>

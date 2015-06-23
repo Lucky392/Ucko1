@@ -4,12 +4,16 @@ import java.io.File;
 import java.util.Date;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import sesija.Kontroler;
+
 public class SkidanjeSlika extends AsyncTask<Void, Integer, Void>{
 
     String listOfFileNames[];
@@ -32,8 +36,6 @@ public class SkidanjeSlika extends AsyncTask<Void, Integer, Void>{
         listOfFileNames = folder.list();
 
         check = new Date().getTime();
-
-        this.iv = iv;
 
         super.onPreExecute();
     }
@@ -72,19 +74,12 @@ public class SkidanjeSlika extends AsyncTask<Void, Integer, Void>{
     @Override
     protected void onPostExecute(Void result) {
 
-        if (new File(folder + File.separator + najnoviji).lastModified() >= check || najnoviji == "") {
+        if (new File(folder + File.separator + najnoviji).lastModified() >= check || najnoviji.equals("")) {
                 ActivityOdgovor.putanjaZaBazu = folder + File.separator + najnoviji;
-            iv.setImageBitmap(BitmapFactory.decodeFile(ActivityOdgovor.putanjaZaBazu));
+            Bitmap bm = Kontroler.getInstance().shrinkBitmap(ActivityOdgovor.putanjaZaBazu, 720, 1280);
+            iv.setImageBitmap(bm);
+            ActivityOdgovor.saveToInternalSorage(bm);
             Toast.makeText(cont, "Slika je dodata", Toast.LENGTH_LONG).show();
-/*
-
-            ActivityManager am = (ActivityManager) cont.getSystemService(Context.ACTIVITY_SERVICE);
-            List<ActivityManager.RunningAppProcessInfo> taskInfo = am.getRunningAppProcesses();
-            am.restartPackage(taskInfo.get(0).processName);
-*/
-
-            /*ComponentName componentInfo = taskInfo.get(0).topActivity;
-            componentInfo.getPackageName();*/
         } else {
             Toast.makeText(cont, "Format slike nije podrzan, izadjite iz pretrazivaca i pokusajte ponovo", Toast.LENGTH_LONG).show();
         }

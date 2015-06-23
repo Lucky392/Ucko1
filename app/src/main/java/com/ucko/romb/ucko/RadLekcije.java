@@ -3,7 +3,6 @@ package com.ucko.romb.ucko;
 import android.app.Activity;
 import android.app.Fragment;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -18,9 +17,11 @@ import okviri.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import baza.DatabaseHandler;
 import okviri.Pitanje;
+import sesija.Kontroler;
 
 public class RadLekcije extends Fragment {
 
@@ -32,27 +33,31 @@ public class RadLekcije extends Fragment {
     TableRow tr41, tr42, tr43, tr44;
     TableRow tr51, tr52, tr53, tr54, tr55;
     TableRow tr61, tr62, tr63, tr64, tr65, tr66;
-    ArrayList<Odgovor> odgovori;
+    List<Odgovor> odgovori;
     Odgovor tacan;
     int a = 0;
 
     public interface OdgovorInterface {
-        public void onTacanClicked();
+        void onTacanClicked();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         int a = this.getArguments().getInt("tren");
-        brojOdgovora = PitanjaRad.lekcija.getPitanja().get(a).getNetacni().size() + 1;
+        pitanje = (Pitanje)PitanjaRad.lekcija.getPitanja().get(a);
+
+        tacan = pitanje.getTacan();
         try {
-            pitanje = PitanjaRad.lekcija.getPitanja().get(a);
+            odgovori = new ArrayList<>();
+            for (Odgovor o : pitanje.getNetacni()){
+                odgovori.add(o);
+            }
         } catch (Exception e) {
-            Toast.makeText(getActivity(), e.getMessage(),Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
-        tacan = PitanjaRad.lekcija.getPitanja().get(a).getTacan();
-        odgovori = vratiOdgovore(PitanjaRad.lekcija.getPitanja().get(a).getNetacni());
         odgovori.add(tacan);
+        brojOdgovora = odgovori.size();
         Collections.shuffle(odgovori);
 
         View v;
@@ -431,7 +436,7 @@ public class RadLekcije extends Fragment {
     }
 
     private void setOdgovor(ImageView iv, TextView tv, Odgovor odg){
-        iv.setImageURI(Uri.parse(odg.getSlika()));
+        iv.setImageBitmap(Kontroler.getInstance().loadImageFromStorage(odg.getSlika()));
         tv.setText(odg.getText());
     }
 
@@ -451,11 +456,5 @@ public class RadLekcije extends Fragment {
         mp = null;
     }
 
-    private ArrayList<Odgovor> vratiOdgovore(ArrayList<Odgovor> odg){
-        ArrayList<Odgovor> odgovori = new ArrayList<Odgovor>();
-        for(Odgovor o : odg){
-            odgovori.add(o);
-        }
-        return odgovori;
-    }
+
 }
