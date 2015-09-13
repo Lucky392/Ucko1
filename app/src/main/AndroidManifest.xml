@@ -20,7 +20,7 @@
             android:name=".Pocetna"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
-            <intent-filter>
+            <intent-filter>>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -33,31 +33,38 @@
         </activity>
         <activity
             android:name=".ActivityPitanje"
-            android:label="@string/title_activity_pitanje" >
+            android:label="@string/title_activity_pitanje"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".Pitanja"
-            android:label="@string/title_activity_pitanja" >
+            android:label="@string/title_activity_pitanja"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".ActvityLekcija"
-            android:label="@string/title_activity_lekcija" >
+            android:label="@string/title_activity_lekcija"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".PostojeceLekcije"
-            android:label="@string/title_activity_postojece_lekcije" >
+            android:label="@string/title_activity_postojece_lekcije"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".ActivityOdgovor"
-            android:label="@string/title_activity_odgovor" >
+            android:label="@string/title_activity_odgovor"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".PitanjaRad"
-            android:label="@string/title_activity_odgovor" >
+            android:label="@string/title_activity_odgovor"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".Odgovori"
-            android:label="@string/title_activity_odgovori" >
+            android:label="@string/title_activity_odgovori"
+            android:screenOrientation="landscape">
         </activity>
     </application>
 

@@ -6,9 +6,11 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -97,6 +99,20 @@ public class RadLekcije extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ImageButton pitanjeSound = (ImageButton) getActivity().findViewById(R.id.imgBtnZvukPitanja);
+        TextView pitanjeTextSound = (TextView) getActivity().findViewById(R.id.tvNaslovPitanja);
+        pitanjeSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playPitanje();
+            }
+        });
+        pitanjeTextSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playPitanje();
+            }
+        });
         switch (brojOdgovora) {
             case 2 :
                 tr21 = (TableRow) getView().findViewById(R.id.odg21);
@@ -145,11 +161,11 @@ public class RadLekcije extends Fragment {
                     public void onClick(View v) {
                         switch (a){
                             case 1:
-                                //playSound(0);
+                                playSound(0);
                                 odgovor.onTacanClicked();
                                 break;
                             default:
-                                //playSound(0);
+                                playSound(0);
                                 a = 1;
                         }
                     }
@@ -160,11 +176,11 @@ public class RadLekcije extends Fragment {
                     public void onClick(View v) {
                         switch (a){
                             case 2:
-                                //playSound(1);
+                                playSound(1);
                                 odgovor.onTacanClicked();
                                 break;
                             default:
-                                //playSound(1);
+                                playSound(1);
                                 a = 2;
                         }
                     }
@@ -175,11 +191,11 @@ public class RadLekcije extends Fragment {
                     public void onClick(View v) {
                         switch (a){
                             case 3:
-                                //playSound(2);
+                                playSound(2);
                                 odgovor.onTacanClicked();
                                 break;
                             default:
-                                //playSound(2);
+                                playSound(2);
                                 a = 3;
                         }
                     }
@@ -440,6 +456,22 @@ public class RadLekcije extends Fragment {
         tv.setText(odg.getText());
     }
 
+    private void playPitanje(){
+        MediaPlayer mp = new MediaPlayer();
+        try {
+            mp.setDataSource(pitanje.getZvuk());
+            mp.prepare();
+            mp.start();
+            long duration = mp.getDuration();
+            SystemClock.sleep(duration);
+        } catch (IOException e) {
+            Toast.makeText(getActivity(), "Morate ponovo da dodate zvuk za pitanje!", Toast.LENGTH_SHORT).show();
+        } finally {
+            mp.release();
+            mp = null;
+        }
+    }
+
     private void playSound(int i){
         String file = odgovori.get(i).getZvuk();
         MediaPlayer mp = new MediaPlayer();
@@ -447,13 +479,14 @@ public class RadLekcije extends Fragment {
             mp.setDataSource(file);
             mp.prepare();
             mp.start();
+            long duration = mp.getDuration();
+            SystemClock.sleep(duration);
         } catch (IOException e) {
             Toast.makeText(getActivity(), "Greska!", Toast.LENGTH_SHORT).show();
+        } finally {
+            mp.release();
+            mp = null;
         }
-        long duration = mp.getDuration();
-        SystemClock.sleep(duration);
-        mp.release();
-        mp = null;
     }
 
 
