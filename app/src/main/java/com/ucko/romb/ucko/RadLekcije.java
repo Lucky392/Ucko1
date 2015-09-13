@@ -162,7 +162,7 @@ public class RadLekcije extends Fragment {
                         switch (a){
                             case 1:
                                 playSound(0);
-                                odgovor.onTacanClicked();
+                                tacanNetacan(0);
                                 break;
                             default:
                                 playSound(0);
@@ -209,7 +209,7 @@ public class RadLekcije extends Fragment {
                 setOdgovor((ImageView)getView().findViewById(R.id.imageview41), (TextView)getView().findViewById(R.id.textView41), odgovori.get(0));
                 setOdgovor((ImageView)getView().findViewById(R.id.imageview42), (TextView)getView().findViewById(R.id.textView42), odgovori.get(1));
                 setOdgovor((ImageView)getView().findViewById(R.id.imageview43), (TextView)getView().findViewById(R.id.textView43), odgovori.get(2));
-                setOdgovor((ImageView)getView().findViewById(R.id.imageview44), (TextView)getView().findViewById(R.id.textView44), odgovori.get(3));
+                setOdgovor((ImageView) getView().findViewById(R.id.imageview44), (TextView) getView().findViewById(R.id.textView44), odgovori.get(3));
                 tr41.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -449,6 +449,13 @@ public class RadLekcije extends Fragment {
                 });
                 break;
         }
+    }
+
+    private void tacanNetacan(int brojIndexa) {
+        if (pitanje.getTacan().getId() == odgovori.get(brojIndexa).getId())
+            odgovor.onTacanClicked();
+        //else
+        //pusti zvuk netacnog
     }
 
     private void setOdgovor(ImageView iv, TextView tv, Odgovor odg){
