@@ -116,7 +116,7 @@ public class ActivityOdgovor extends Activity {
         tv = (TextView) findViewById(R.id.textView);
         iv = (ImageView) findViewById(R.id.imageView);
         context = getApplicationContext();
-        NapraviNoviOdgovor();
+
 
         naslov.addTextChangedListener(new TextWatcher() {
             @Override
@@ -311,6 +311,7 @@ public class ActivityOdgovor extends Activity {
     }
 
     private void startRecording() {
+        NapraviNoviOdgovor();
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);

@@ -95,8 +95,6 @@ public class ActivityPitanje extends ActionBarActivity {
             lo.setOkviri(Kontroler.getInstance().getOdgovori());
         }
 
-        NapraviNovoPitanje();
-
         snimi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,6 +216,7 @@ public class ActivityPitanje extends ActionBarActivity {
     }
 
     private void startRecording() {
+        NapraviNovoPitanje();
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
