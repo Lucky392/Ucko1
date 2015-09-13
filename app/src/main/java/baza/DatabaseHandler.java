@@ -33,7 +33,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String ZVUK_RADOVANJA = "zvuk_radovanja";
     private static final String ZVUK_TUGOVANJA = "zvuk_tugovanja";
     private static final String BOJA_POZADINE = "boja_pozadine";
-    private static final String BOJA_DUGMETA = "boja_dugmeta";
     private static final String BOJA_SLOVA = "boja_slova";
     private static final String PISMO = "pismo";
 
@@ -45,7 +44,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_TABLE = "CREATE TABLE " + PODESAVANJA + "(" + ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT," + ZVUK_RADOVANJA
                 + " TEXT," + ZVUK_TUGOVANJA + " TEXT," + BOJA_POZADINE
-                + " TEXT," + BOJA_DUGMETA + " TEXT," + BOJA_SLOVA + " TEXT,"
+                + " TEXT," + BOJA_SLOVA + " TEXT,"
                 + PISMO + " TEXT)";
         db.execSQL(CREATE_TABLE);
     }
@@ -115,8 +114,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public String[] vratiPodesavanja() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(PODESAVANJA, new String[]{ID, ZVUK_RADOVANJA, BOJA_POZADINE,
-                        BOJA_DUGMETA, BOJA_SLOVA, PISMO}, ID + "=?", new String[]{String.valueOf(1)},
+        Cursor cursor = db.query(PODESAVANJA, new String[]{ID, ZVUK_RADOVANJA, ZVUK_TUGOVANJA, BOJA_POZADINE,
+                         BOJA_SLOVA, PISMO}, ID + "=?", new String[]{String.valueOf(1)},
                 null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -130,15 +129,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return s;
     }
 
-    public void azurirajPodesavanja(String s1, String s2, String s3, String s4, String s5) {
+    public void azurirajPodesavanja(String[] niz) {
         SQLiteDatabase db = this.getWritableDatabase();
         String[] s = vratiPodesavanja();
         ContentValues values = new ContentValues();
-        values.put(ZVUK_RADOVANJA, s1);
-        values.put(BOJA_POZADINE, s2);
-        values.put(BOJA_DUGMETA, s3);
-        values.put(BOJA_SLOVA, s4);
-        values.put(PISMO, s5);
+        values.put(ZVUK_RADOVANJA, niz[0]);
+        values.put(ZVUK_TUGOVANJA, niz[1]);
+        values.put(BOJA_POZADINE, niz[2]);
+        values.put(BOJA_SLOVA, niz[3]);
+        values.put(PISMO, niz[4]);
         if (s == null) {
             db.insert(PODESAVANJA, null, values);
         } else {
