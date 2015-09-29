@@ -70,6 +70,7 @@ public class ActivityPitanje extends ActionBarActivity {
         ekstra = getIntent().getStringExtra("nov");
         lo = new ListaOkvira();
         lo.setSwitchValue(new Odgovor());
+        ActivityOdgovor.aPitanje = ActivityPitanje.this;
         getFragmentManager().beginTransaction().add(R.id.fragment_container, lo).commit();
         if (ekstra.equals("ne")) {
             try {
@@ -87,11 +88,12 @@ public class ActivityPitanje extends ActionBarActivity {
                     break;
                 }
             }
-            tacanOdgovor.setSelection(a);
             Kontroler.getInstance().getOdgovori().add(p.getTacan());
             for (Okvir o : p.getNetacni()) {
                 Kontroler.getInstance().getOdgovori().add(o);
             }
+            refreshSpinner();
+            tacanOdgovor.setSelection(a);
             lo.setOkviri(Kontroler.getInstance().getOdgovori());
         }
 
@@ -136,10 +138,15 @@ public class ActivityPitanje extends ActionBarActivity {
                     if (!mFileName.equals("") && !pitanje.getText().toString().trim().equals("") && Kontroler.getInstance().getOdgovori().size() >= 2) {
                         Okvir tacan = Kontroler.getInstance().getOdgovori().get(tacanOdgovor.getSelectedItemPosition());
                         Kontroler.getInstance().getOdgovori().remove(tacanOdgovor.getSelectedItemPosition());
-                        Okvir o = new Pitanje(pitanje.getText().toString(), mFileName, (Odgovor) tacan, Kontroler.getInstance().getOdgovori());
+                        String s = pitanje.getText().toString().toLowerCase();
+                        Okvir o = new Pitanje(Character.toUpperCase(s.charAt(0)) + s.substring(1), mFileName, (Odgovor) tacan, Kontroler.getInstance().getOdgovori());
                         int a = getIntent().getIntExtra("id", 0);
                         o.setId(a);
-                        Kontroler.getInstance().getPitanja().remove(a);
+                        for (int i = 0; i < Kontroler.getInstance().getPitanja().size(); i++){
+                            if (Kontroler.getInstance().getPitanja().get(i).getId()==a){
+                                Kontroler.getInstance().getPitanja().remove(i);
+                            }
+                        }
                         Kontroler.getInstance().getPitanja().add(o);
                         Kontroler.getInstance().azurirajOkvir(o);
                         ActvityLekcija.lo.refreshGridView(Kontroler.getInstance().getPitanja());
@@ -149,7 +156,8 @@ public class ActivityPitanje extends ActionBarActivity {
                     if (!mFileName.equals("") && !pitanje.getText().toString().trim().equals("") && Kontroler.getInstance().getOdgovori().size() >= 2) {
                         Okvir tacan = Kontroler.getInstance().getOdgovori().get(tacanOdgovor.getSelectedItemPosition());
                         Kontroler.getInstance().getOdgovori().remove(tacanOdgovor.getSelectedItemPosition());
-                        Okvir o = new Pitanje(pitanje.getText().toString(), mFileName, (Odgovor) tacan, Kontroler.getInstance().getOdgovori());
+                        String s = pitanje.getText().toString().toLowerCase();
+                        Okvir o = new Pitanje(Character.toUpperCase(s.charAt(0)) + s.substring(1), mFileName, (Odgovor) tacan, Kontroler.getInstance().getOdgovori());
                         o.setId(Kontroler.getInstance().dodajOkvir(o));
                         Kontroler.getInstance().getPitanja().add(o);
                         Toast.makeText(ActivityPitanje.this, "Uspešno ste dodali pitanje", Toast.LENGTH_SHORT).show();
@@ -175,7 +183,6 @@ public class ActivityPitanje extends ActionBarActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent i = new Intent(ActivityPitanje.this, ActivityOdgovor.class);
-                                    ActivityOdgovor.aPitanje = ActivityPitanje.this;
                                     i.putExtra("nov", "da");
                                     startActivity(i);
                                 }

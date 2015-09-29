@@ -10,6 +10,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import com.ucko.romb.ucko.Pocetna;
+import com.ucko.romb.ucko.Podesavanja;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
     // VERZIJA BAZE
@@ -123,10 +127,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         try {
             s = new String[]{cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)};
         } catch (Exception e) {
-            s = new String[]{"", "", "", "", ""};
+            dodajPodesavanje();
+            s = new String[]{"d", "d", "-16777216", "-1", ""};
         }
         cursor.close();
         return s;
+    }
+
+    public int dodajPodesavanje() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(ZVUK_RADOVANJA, "");
+        values.put(ZVUK_TUGOVANJA, "");
+        values.put(BOJA_POZADINE, "");
+        values.put(BOJA_SLOVA, "");
+        values.put(PISMO, "");
+        return (int) db.insert(PODESAVANJA, null, values);
     }
 
     public void azurirajPodesavanja(String[] niz) {

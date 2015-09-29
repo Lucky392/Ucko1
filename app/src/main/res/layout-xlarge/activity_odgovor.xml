@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:textColor="#ffffff"
-                    android:textSize="40sp"
+                    android:textSize="35sp"
                     android:text="@string/naslov_kartice" />
 
                 <EditText
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:textColor="#ffffff"
-                    android:textSize="40sp"
+                    android:textSize="35sp"
                     android:gravity="center"
                     android:text="@string/slika" />
 
@@ -81,7 +81,7 @@
                     android:id="@+id/btnOdaberiSliku"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp"
+                    android:textSize="20sp"
                     android:background="@drawable/oblik_dugmeta"
                     android:text="@string/izaberi" />
 
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#ffffff"
                     android:layout_marginRight="10dp"
-                    android:textSize="40sp"
+                    android:textSize="35sp"
                     android:gravity="center"
                     android:text="@string/dodaj_zvuk" />
 
@@ -109,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:textSize="30sp"
+                    android:textSize="20sp"
                     android:background="@drawable/oblik_dugmeta"
                     android:text="@string/snimi" />
 
@@ -117,7 +117,7 @@
                     android:id="@+id/btnPustiNaslov"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp"
+                    android:textSize="20sp"
                     android:background="@drawable/oblik_dugmeta"
                     android:text="@string/preslusaj" />
 

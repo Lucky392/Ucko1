@@ -30,6 +30,7 @@ public class Odgovori extends Activity {
         lo.setSwitchValue(o);
         getFragmentManager().beginTransaction().add(R.id.fragment_container, lo).commit();
         try {
+            Kontroler.getInstance().getOkviri().clear();
             for (Okvir ok : Kontroler.getInstance().vratiOkvire(o, false)){
                 Kontroler.getInstance().getOkviri().add(ok);
             }

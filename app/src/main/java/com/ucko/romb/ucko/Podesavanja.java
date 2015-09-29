@@ -1,5 +1,6 @@
 package com.ucko.romb.ucko;
 
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
@@ -25,13 +26,17 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
     private Paint mPaint;
     private String [] podesavanja;
     private MediaRecorder mRecorder = null;
-    boolean mStartRecording = true;
+    boolean mStartRecordingTacan = true;
+    boolean mStartRecordingNetacan = true;
     private MediaPlayer mPlayer = null;
     boolean flagZvuk;
-    boolean flag = false;
+    boolean flagTacan = false;
+    boolean flagNetacan = false;
     private static final String LOG_TAG = "AudioRecordTest";
     private String mFileNameTacan;
     private String mFileNameNetacan;
+    boolean pozadina = false;
+    boolean slova = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,40 +47,46 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
         final Button slusajZvukTacnog = (Button) findViewById(R.id.btnSlusajTacan);
         Button vratiZvukTacnogNaPodrazumevano = (Button) findViewById(R.id.btnVratiNaPodrazumevaniTacni);
 
-        Button snimiZvukNetacnog = (Button) findViewById(R.id.btnSnimiNetacni);
-        Button slusajZvukNetacnog = (Button) findViewById(R.id.btnSlusajNetacni);
+        final Button snimiZvukNetacnog = (Button) findViewById(R.id.btnSnimiNetacni);
+        final Button slusajZvukNetacnog = (Button) findViewById(R.id.btnSlusajNetacni);
         Button vratiZvukNetacnogNaPodrazumevano = (Button) findViewById(R.id.btnVratiNaPodrazumevanNetacni);
 
 
 
-        Button promeniSlova = (Button) findViewById(R.id.btnOdaberiSlova);
+        final Button promeniSlova = (Button) findViewById(R.id.btnOdaberiSlova);
         Button bojaPozadine = (Button) findViewById(R.id.btnOdaberiBojuPozadine);
 
         Button bojaTeksta = (Button) findViewById(R.id.btnOdaberiBojuTeksta);
 
+//        snimiZvukNetacnog.setBackgroundColor(Color.RED);
+
         podesavanja = Pocetna.db.vratiPodesavanja();
+        if (podesavanja[0] != null && !podesavanja[0].equals("")){
+            flagTacan = true;
+        }
+        if (podesavanja[1] != null && !podesavanja[1].equals("")){
+            flagNetacan = true;
+        }
+        if (podesavanja[4]!=null && podesavanja[4].equals("")){
+            promeniSlova.setText("LATINICA");
+        } else {
+            promeniSlova.setText("ĆIRILICA");
+        }
         mPaint = new Paint();
 
         snimiZvukTacnog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mFileNameTacan != null && !mFileNameTacan.equals(""))
-                    (new File(mFileNameTacan)).delete();
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-                        .format(new Date());
-                mFileNameTacan = getFilesDir().getAbsolutePath() + File.separator + "TACAN_" + timeStamp + ".3gp";
-                onRecordTacan(mStartRecording);
-                flag = true;
-                if (mStartRecording) {
+                onRecordTacan(mStartRecordingTacan);
+                flagTacan = true;
+                if (mStartRecordingTacan) {
                     snimiZvukTacnog.setText("Prekini");
                     slusajZvukTacnog.setClickable(false);
                 } else {
                     snimiZvukTacnog.setText("Snimaj");
                     slusajZvukTacnog.setClickable(true);
                 }
-                mStartRecording = !mStartRecording;
-                podesavanja[0] = mFileNameTacan;
-                Pocetna.db.azurirajPodesavanja(podesavanja);
+                mStartRecordingTacan = !mStartRecordingTacan;
             }
         });
 
@@ -83,7 +94,7 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
 
             @Override
             public void onClick(View v) {
-                if (flag) {
+                if (flagTacan) {
                     MediaPlayer mp = MediaPlayer.create(
                             Podesavanja.this, Uri.parse(mFileNameTacan));
                     int duration = mp.getDuration();
@@ -100,31 +111,24 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
 
         snimiZvukNetacnog.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (mFileNameNetacan != null && !mFileNameNetacan.equals(""))
-                    (new File(mFileNameNetacan)).delete();
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-                        .format(new Date());
-                mFileNameNetacan = getFilesDir().getAbsolutePath() + File.separator + "NETACAN" + timeStamp + ".3gp";
-                onRecordNetacan(mStartRecording);
-                flag = true;
-                if (mStartRecording) {
-                    snimiZvukTacnog.setText("Prekini");
-                    slusajZvukTacnog.setClickable(false);
+            public void onClick(View v) {
+                onRecordNetacan(mStartRecordingNetacan);
+                flagNetacan = true;
+                if (mStartRecordingNetacan) {
+                    snimiZvukNetacnog.setText("Prekini");
+                    slusajZvukNetacnog.setClickable(false);
                 } else {
-                    snimiZvukTacnog.setText("Snimaj");
-                    slusajZvukTacnog.setClickable(true);
+                    snimiZvukNetacnog.setText("Snimaj");
+                    slusajZvukNetacnog.setClickable(true);
                 }
-                mStartRecording = !mStartRecording;
-                podesavanja[1] = mFileNameNetacan;
-                Pocetna.db.azurirajPodesavanja(podesavanja);
+                mStartRecordingNetacan = !mStartRecordingNetacan;
             }
         });
 
         slusajZvukNetacnog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (flag) {
+                if (flagTacan) {
                     MediaPlayer mp = MediaPlayer.create(
                             Podesavanja.this, Uri.parse(mFileNameNetacan));
                     int duration = mp.getDuration();
@@ -142,6 +146,17 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
         promeniSlova.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(podesavanja[4].equals("c")) {
+                    podesavanja[4] = "";
+                    Pocetna.db.azurirajPodesavanja(podesavanja);
+                    promeniSlova.setText("LATINICA");
+                    Toast.makeText(getApplicationContext(), "Postavili ste pismo na latinicu.", Toast.LENGTH_LONG).show();
+                } else {
+                    podesavanja[4] = "c";
+                    Pocetna.db.azurirajPodesavanja(podesavanja);
+                    promeniSlova.setText("ĆIRILICA");
+                    Toast.makeText(getApplicationContext(), "Postavili ste pismo na ćirilicu.", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
@@ -149,37 +164,34 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
         vratiZvukTacnogNaPodrazumevano.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                podesavanja[0] = "d";
+                Pocetna.db.azurirajPodesavanja(podesavanja);
+                Toast.makeText(getApplicationContext(), "Postavili ste zvuk tacnog odgovora na podrazumevanu vrednost.", Toast.LENGTH_LONG).show();
             }
         });
 
         vratiZvukNetacnogNaPodrazumevano.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                podesavanja[1] = "d";
+                Pocetna.db.azurirajPodesavanja(podesavanja);
+                Toast.makeText(getApplicationContext(), "Postavili ste zvuk netacnog odgovora na podrazumevanu vrednost.", Toast.LENGTH_LONG).show();
             }
         });
 
-        snimiZvukNetacnog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-
-        slusajZvukNetacnog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         bojaPozadine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int boja = 0;
                 ColorPickerDialog c = new ColorPickerDialog(Podesavanja.this, Podesavanja.this, mPaint.getColor());
                 c.setCancelable(true);
                 c.show();
+                if (slova == true){
+                    slova = false;
+                }
+                pozadina = true;
             }
         });
 
@@ -189,9 +201,29 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
                 ColorPickerDialog c = new ColorPickerDialog(Podesavanja.this, Podesavanja.this, mPaint.getColor());
                 c.setCancelable(true);
                 c.show();
+                if (pozadina == true){
+                    pozadina = false;
+                }
+                slova = true;
             }
         });
 
+    }
+
+    public void napraviZvukTacan() {
+        if (mFileNameTacan != null && !mFileNameTacan.equals(""))
+            (new File(mFileNameTacan)).delete();
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                .format(new Date());
+        mFileNameTacan = getFilesDir().getAbsolutePath() + File.separator + "TACAN_" + timeStamp + ".3gp";
+    }
+
+    public void napraviZvukNetacan() {
+        if (mFileNameNetacan != null && !mFileNameNetacan.equals(""))
+            (new File(mFileNameNetacan)).delete();
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                .format(new Date());
+        mFileNameNetacan = getFilesDir().getAbsolutePath() + File.separator + "NETACAN_" + timeStamp + ".3gp";
     }
 
 
@@ -218,6 +250,7 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
     }
 
     private void startRecordingTacan() {
+        napraviZvukTacan();
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -233,6 +266,7 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
         mRecorder.start();
     }
     private void startRecordingNetacan() {
+        napraviZvukNetacan();
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -248,24 +282,30 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
         mRecorder.start();
     }
 
-    private void stopRecording() {
+    private void stopRecording(int tn) {
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
+        if (tn == 0) {
+            podesavanja[tn] = mFileNameTacan;
+        } else {
+            podesavanja[tn] = mFileNameNetacan;
+        }
+        Pocetna.db.azurirajPodesavanja(podesavanja);
     }
 
     private void onRecordTacan(boolean start) {
         if (start) {
             startRecordingTacan();
         } else {
-            stopRecording();
+            stopRecording(0);
         }
     }
     private void onRecordNetacan(boolean start) {
         if (start) {
             startRecordingNetacan();
         } else {
-            stopRecording();
+            stopRecording(1);
         }
     }
 
@@ -291,5 +331,17 @@ public class Podesavanja extends ActionBarActivity implements ColorPickerDialog.
     }
     public void colorChanged(int color) {
         mPaint.setColor(color);
+        if (pozadina){
+            podesavanja[2] = mPaint.getColor() + "";
+            Pocetna.db.azurirajPodesavanja(podesavanja);
+            Toast.makeText(getApplicationContext(), "Promenili ste boju pozadine u lekcijama.", Toast.LENGTH_LONG).show();
+            pozadina = false;
+        }
+        if (slova){
+            podesavanja[3] = mPaint.getColor() + "";
+            Pocetna.db.azurirajPodesavanja(podesavanja);
+            Toast.makeText(getApplicationContext(), "Promenili ste boju teksta u lekcijama.", Toast.LENGTH_LONG).show();
+            slova = false;
+        }
     }
 }

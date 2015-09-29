@@ -30,7 +30,9 @@ public class Pitanja extends Activity {
         lo.setSwitchValue(p);
         getFragmentManager().beginTransaction().add(R.id.fragment_container, lo).commit();
         try {
+            Kontroler.getInstance().getOkviri().clear();
             for (Okvir o : Kontroler.getInstance().vratiOkvire(p, false)){
+
                 Kontroler.getInstance().getOkviri().add(o);
             }
             lo.setOkviri(Kontroler.getInstance().getOkviri());

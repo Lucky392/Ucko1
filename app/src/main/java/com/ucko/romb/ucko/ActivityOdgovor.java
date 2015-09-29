@@ -148,9 +148,9 @@ public class ActivityOdgovor extends Activity {
             }
             naslov.setText(((Odgovor)okvir).getText());
             putanjaZaBazu = ((Odgovor)okvir).getSlika();
+            iv.setImageBitmap(Kontroler.getInstance().loadImageFromStorage(putanjaZaBazu));
             mFileName = ((Odgovor)okvir).getZvuk();
         }
-
         odaberiSliku.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -209,12 +209,18 @@ public class ActivityOdgovor extends Activity {
                     //AKO JE TEKST PROMENJEN, PROMENJENA JE SLIKA ILI ZVUK, AZURIRA SE ODGOVOR U BAZI
                     if (!naslov.getText().toString().equals(((Odgovor)okvir).getText()) || flagSlika || flagZvuk) {
 
-                        okvir = new Odgovor(okvir.getId(), naslov.getText().toString(), putanjaZaBazu, mFileName);
+                        okvir = new Odgovor(okvir.getId(), naslov.getText().toString().toUpperCase(), putanjaZaBazu, mFileName);
 
                         Kontroler.getInstance().azurirajOkvir(okvir);
 
                         Toast.makeText(ActivityOdgovor.this, "Uspešno ste ažurirali odgovor", Toast.LENGTH_SHORT).show();
-
+                        for (int i = 0; i < Kontroler.getInstance().getOdgovori().size(); i++){
+                            if (Kontroler.getInstance().getOdgovori().get(i).getId()==okvir.getId()){
+                                Kontroler.getInstance().getOdgovori().remove(i);
+                                break;
+                            }
+                        }
+                        Kontroler.getInstance().getOdgovori().add(okvir);
                         ActivityPitanje.getLo().refreshGridView(Kontroler.getInstance().getOdgovori());
 
                         aPitanje.refreshSpinner();
@@ -225,7 +231,7 @@ public class ActivityOdgovor extends Activity {
 
                         //PRAVLJENJE ODGOVORA
                         okvir = new Odgovor(naslov.getText()
-                                .toString(), putanjaZaBazu, mFileName);
+                                .toString().toUpperCase(), putanjaZaBazu, mFileName);
 
                         //DODAVANJE U BAZU
                         okvir.setId(Kontroler.getInstance().dodajOkvir(okvir));

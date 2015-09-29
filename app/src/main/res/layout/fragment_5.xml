@@ -14,7 +14,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:padding="15dp"
-                android:background="#000"
                 android:id="@+id/odg51">
 
                 <LinearLayout android:orientation="vertical"
@@ -36,7 +35,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight=".8"
-                        android:background="#FFF"
                         android:gravity="center">
 
                         <TextView
@@ -55,7 +53,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:padding="15dp"
-                android:background="#000"
                 android:id="@+id/odg52">
 
                 <LinearLayout android:orientation="vertical"
@@ -77,7 +74,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight=".8"
-                        android:background="#FFF"
                         android:gravity="center">
 
                         <TextView
@@ -96,7 +92,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:padding="15dp"
-                android:background="#000"
                 android:id="@+id/odg53">
 
                 <LinearLayout android:orientation="vertical"
@@ -118,7 +113,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight=".8"
-                    android:background="#FFF"
                     android:gravity="center">
 
                     <TextView
@@ -139,8 +133,7 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="#000">
+        android:layout_weight="1">
 
         <TableRow
             android:layout_width="match_parent"
@@ -155,7 +148,6 @@
             android:layout_weight="4"
             android:layout_marginRight="5dp"
             android:padding="15dp"
-            android:background="#000"
             android:id="@+id/odg54">
 
             <LinearLayout android:orientation="vertical"
@@ -177,7 +169,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight=".8"
-                    android:background="#FFF"
                     android:gravity="center">
 
                     <TextView
@@ -198,7 +189,6 @@
             android:layout_weight="4"
             android:layout_marginLeft="5dp"
             android:padding="15dp"
-            android:background="#000"
             android:id="@+id/odg55">
 
             <LinearLayout android:orientation="vertical"
@@ -220,7 +210,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight=".8"
-                    android:background="#FFF"
                     android:gravity="center">
 
                     <TextView

@@ -81,11 +81,11 @@ public class ListaOkvira extends Fragment {
                             i.putExtra("pozicija", position);
                             startActivity(i);
                         } else {
-                            popUp(position);
+                            popUp(position, okviri.get(position));
                         }
                         break;
                     case DatabaseHandler.PITANJA:
-                        if (b.getString("svrha").equals("odabir")){
+                        if (b != null && b.getString("svrha").equals("odabir")){
                             try {
                                 Kontroler.getInstance().getPitanja().add(okviri.get(position));
                                 ActvityLekcija.getLo().refreshGridView(Kontroler.getInstance().getPitanja());
@@ -94,11 +94,11 @@ public class ListaOkvira extends Fragment {
                                 e.printStackTrace();
                             }
                         } else {
-                            popUp(position);
+                            popUp(position, okviri.get(position));
                         }
                         break;
                     case DatabaseHandler.ODGOVORI:
-                        if (b.getString("svrha").equals("odabir")){
+                        if (b != null && b.getString("svrha").equals("odabir")){
                             try {
                                 Kontroler.getInstance().getOdgovori().add(okviri.get(position));
                                 ActivityPitanje.getLo().refreshGridView(Kontroler.getInstance().getOdgovori());
@@ -108,7 +108,7 @@ public class ListaOkvira extends Fragment {
                                 e.printStackTrace();
                             }
                         } else {
-                            popUp(position);
+                            popUp(position, okviri.get(position));
                         }
                         break;
                 }
@@ -125,9 +125,9 @@ public class ListaOkvira extends Fragment {
         gv.setAdapter(adapter);
     }
 
-    private void popUp(final int pozicija) {
+    private void popUp(final int pozicija, final Okvir o) {
         new AlertDialog.Builder(getActivity())
-                .setMessage("äta ûelite da uradite?")
+                .setMessage("≈†ta ≈æelite da uradite?")
                 .setCancelable(true)
                 .setPositiveButton("Izmeni", new DialogInterface.OnClickListener() {
                     @Override
@@ -146,11 +146,11 @@ public class ListaOkvira extends Fragment {
                         }
                         i.putExtra("nov", "ne");
                         i.putExtra("svrha", "azuriranje");
-                        i.putExtra("id", pozicija);
+                        i.putExtra("id", o.getId());
                         startActivity(i);
                     }
                 })
-                .setNeutralButton("Obriöi", new DialogInterface.OnClickListener() {
+                .setNeutralButton("Obri≈°i", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (switchValue) {
@@ -182,7 +182,7 @@ public class ListaOkvira extends Fragment {
                             okviri.remove(pozicija);
                             refreshGridView(okviri);
                         } else {
-                            Toast.makeText(getActivity(), "Niste uspeli da obriöete lekciju", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Neuspe≈°no brisanje!", Toast.LENGTH_LONG).show();
                         }
                     }
                 })

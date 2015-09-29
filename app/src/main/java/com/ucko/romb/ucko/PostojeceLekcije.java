@@ -13,6 +13,10 @@ public class PostojeceLekcije extends Activity {
 
     private static ListaOkvira lo;
 
+    public static ListaOkvira getLo() {
+        return lo;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

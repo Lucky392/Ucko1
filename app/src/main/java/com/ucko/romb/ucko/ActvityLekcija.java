@@ -43,7 +43,7 @@ public class ActvityLekcija extends ActionBarActivity {
         ekstra = getIntent().getStringExtra("nov");
         if (ekstra.equals("ne")) {
             try {
-                l = (Lekcija) Kontroler.getInstance().vratiOkvir(Kontroler.getInstance().getOkviri().get(getIntent().getIntExtra("id", 0)));
+                l = (Lekcija) Kontroler.getInstance().vratiOkvir(new Lekcija(getIntent().getIntExtra("id",0)));
             } catch (Exception e) {
                 Toast.makeText(ActvityLekcija.this, "Nije moguće pronaći lekciju!", Toast.LENGTH_SHORT).show();
                 return;
@@ -85,14 +85,21 @@ public class ActvityLekcija extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (ekstra.equals("ne")) {
-                    Kontroler.getInstance().azurirajOkvir(new Lekcija(l.getId(), nazivLekcije.getText().toString(), Kontroler.getInstance().getPitanja()));
+                    Lekcija le = new Lekcija(l.getId(), nazivLekcije.getText().toString().toUpperCase(), Kontroler.getInstance().getPitanja());
+                    Kontroler.getInstance().azurirajOkvir(le);
+                    for (int i = 0; i < Kontroler.getInstance().getOkviri().size(); i++){
+                        if (Kontroler.getInstance().getOkviri().get(i).getId()==l.getId()){
+                            Kontroler.getInstance().getOkviri().remove(i);
+                        }
+                    }
+                    Kontroler.getInstance().getOkviri().add(le);
+                    PostojeceLekcije.getLo().refreshGridView(Kontroler.getInstance().getOkviri());
                     Toast.makeText(ActvityLekcija.this, "Uspešno ste izmenili lekciju!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Kontroler.getInstance().dodajOkvir(new Lekcija(nazivLekcije.getText().toString(), Kontroler.getInstance().getPitanja()));
+                    Kontroler.getInstance().dodajOkvir(new Lekcija(nazivLekcije.getText().toString().toUpperCase(), Kontroler.getInstance().getPitanja()));
                     Toast.makeText(ActvityLekcija.this, "Uspešno ste dodali lekciju!", Toast.LENGTH_SHORT).show();
                 }
                 finish();
-
             }
         });
     }

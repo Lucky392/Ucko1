@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -47,6 +48,16 @@ public class PitanjaRad extends Activity implements RadLekcije.OdgovorInterface 
         naslovPitanja = (TextView) findViewById(R.id.tvNaslovPitanja);
         trFragment = (TableRow) findViewById(R.id.trFragment);
 
+        String [] podesavanja = Pocetna.db.vratiPodesavanja();
+        if (!podesavanja[2].equals("")){
+            String hexColor = String.format("#%06X", (0xFFFFFF & Integer.parseInt(podesavanja[2])));
+            findViewById(R.id.pitanja_rad).setBackgroundColor(Color.parseColor(hexColor));
+            btnZvukPitanja.setBackgroundColor(Color.parseColor(hexColor));
+        }
+        if (!podesavanja[3].equals("")){
+            String hexColor = String.format("#%06X", (0xFFFFFF & Integer.parseInt(podesavanja[3])));
+            naslovPitanja.setTextColor(Color.parseColor(hexColor));
+        }
         try {
             lekcija = (Lekcija)Kontroler.getInstance().vratiOkvir(
                     Kontroler.getInstance().getOkviri().get(getIntent().getIntExtra("pozicija", 0)));
@@ -73,8 +84,8 @@ public class PitanjaRad extends Activity implements RadLekcije.OdgovorInterface 
 
     @Override
     public void onTacanClicked() {
-        changeFragment(brojac%lekcija.getPitanja().size());
-        naslovPitanja.setText(lekcija.getPitanja().get(brojac%lekcija.getPitanja().size()).toString());
+        changeFragment(brojac % lekcija.getPitanja().size());
+        naslovPitanja.setText(lekcija.getPitanja().get(brojac % lekcija.getPitanja().size()).toString());
         brojac++;
     }
 
