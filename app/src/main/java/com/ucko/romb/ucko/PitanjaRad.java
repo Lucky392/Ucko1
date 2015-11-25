@@ -66,13 +66,6 @@ public class PitanjaRad extends Activity implements RadLekcije.OdgovorInterface 
             return;
         }
 
-        naslovPitanja.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                playSound(brojac % lekcija.getPitanja().size());
-            }
-        });
-
         brojac = lekcija.getPitanja().size();
 
         changeFragment(brojac%lekcija.getPitanja().size());
@@ -110,18 +103,4 @@ public class PitanjaRad extends Activity implements RadLekcije.OdgovorInterface 
         return super.onKeyDown(keyCode, event);
     }
 
-    private void playSound(int i){
-        String file = ((Pitanje)lekcija.getPitanja().get(i)).getZvuk();
-        MediaPlayer mp = new MediaPlayer();
-        try {
-            mp.setDataSource(file);
-            mp.prepare();
-            mp.start();
-        } catch (IOException e) {
-            Toast.makeText(this, "Greska!", Toast.LENGTH_SHORT).show();
-        }
-        long duration = mp.getDuration();
-        SystemClock.sleep(duration);
-        mp.release();
-    }
 }

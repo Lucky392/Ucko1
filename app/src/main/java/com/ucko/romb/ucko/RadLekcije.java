@@ -723,5 +723,15 @@ public class RadLekcije extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                playPitanje();
+            }
+        }).start();
+    }
 
 }
