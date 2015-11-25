@@ -695,7 +695,7 @@ public class RadLekcije extends Fragment {
         MediaPlayer mp = null;
         try {
             if (tn){
-                if (podesavanja[0] == null && podesavanja[0].equals("d")){
+                if (podesavanja[0] == null || podesavanja[0].equals("d")){
                     mp = MediaPlayer.create(getActivity(), R.raw.cheer);
                 } else {
                     mp = new MediaPlayer();
@@ -703,7 +703,7 @@ public class RadLekcije extends Fragment {
                     mp.prepare();
                 }
             } else {
-                if (podesavanja[1] == null && podesavanja[1].equals("d")){
+                if (podesavanja[1] == null || podesavanja[1].equals("d")){
                     mp = MediaPlayer.create(getActivity(), R.raw.pain);
                 } else {
                     mp = new MediaPlayer();
@@ -716,7 +716,7 @@ public class RadLekcije extends Fragment {
             long duration = mp.getDuration();
             SystemClock.sleep(duration);
         } catch (IOException e) {
-            Toast.makeText(getActivity(), "Morate ponovo da dodate zvuk za pitanje!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Morate ponovo da dodate zvuk za odgovore!", Toast.LENGTH_SHORT).show();
         } finally {
             mp.release();
             mp = null;
